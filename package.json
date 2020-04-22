@@ -10,7 +10,7 @@
     "format": "prettier-standard --format",
     "test": "jest --coverage",
     "copy-files": "copyfiles -u 1 src/*.gif src/*.png dist",
-    "postcopy-files": "copyfiles -u 1 dist/* dist/utils/* example/dist",
+    "postcopy-files": "copyfiles -u 1 dist/* dist/utils/* example/src",
     "android": "cd example && npm run android",
     "ios": "cd example && npm run ios",
     "commit": "npx git-cz"

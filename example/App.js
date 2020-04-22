@@ -18,8 +18,8 @@ import {
   Alert,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {FlutterwaveButton} from './dist';
-import {colors} from './dist/configs';
+import {FlutterwaveButton} from './src';
+import {colors} from './src/configs';
 const TEST_OPTIONS = {
   txref: String(Date.now()),
   PBFPubKey: '[A Public Key]',
