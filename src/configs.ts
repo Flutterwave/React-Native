@@ -9,3 +9,19 @@ export const colors = {
   secondary: '#12122C',
   transparent: 'rgba(0,0,0,0)',
 };
+
+export const PAYMENT_OPTIONS = [
+  'card',
+  'account',
+  'ussd',
+  'qr',
+  'mpesa',
+  'mobilemoneyghana',
+  'mobilemoneyuganda',
+  'mobilemoneyrwanda',
+  'mobilemoneyzambia',
+  'mobilemoneytanzania',
+  'barter',
+  'bank transfer',
+  'wechat',
+];
