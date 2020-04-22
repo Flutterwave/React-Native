@@ -312,22 +312,20 @@ class FlutterwaveButton extends React.Component<
           hardwareAccelerated={false}
           visible={link ? true : false}
           onShow={() => this.animateBackdrop(1)}>
-          <View style={styles.modalContent}>
-            {this.renderBackdrop()}
-            <View style={styles.webviewContainer}>
-              {this.renderLoading()}
-              <WebView
-                ref={(ref) => (this.webviewRef = ref)}
-                source={{uri: link || ''}}
-                style={styles.webview}
-                startInLoadingState={true}
-                scalesPageToFit={true}
-                javaScriptEnabled={true}
-                onNavigationStateChange={this.handleNavigationStateChange}
-                renderError={this.renderError}
-                renderLoading={this.renderLoading}
-              />
-            </View>
+          {this.renderBackdrop()}
+          <View style={styles.webviewContainer}>
+            {this.renderLoading()}
+            <WebView
+              ref={(ref) => (this.webviewRef = ref)}
+              source={{uri: link || ''}}
+              style={styles.webview}
+              startInLoadingState={true}
+              scalesPageToFit={true}
+              javaScriptEnabled={true}
+              onNavigationStateChange={this.handleNavigationStateChange}
+              renderError={this.renderError}
+              renderLoading={this.renderLoading}
+            />
           </View>
         </Modal>
       </>
@@ -475,12 +473,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    flex: 1,
-    backgroundColor: colors.transparent,
-    paddingTop: Platform.select({ios: 96, android: 64}),
-  },
   webviewContainer: {
+    marginTop: Platform.select({ios: 96, android: 64}),
     flex: 1,
     backgroundColor: '#efefef',
     overflow: 'hidden',
