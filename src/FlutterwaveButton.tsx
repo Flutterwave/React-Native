@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
+import {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
 import FlutterwaveInit, {
   FlutterwaveInitOptions,
   FlutterwaveInitError,
@@ -39,8 +40,24 @@ interface CustomButtonParams {
   onPress: () => void;
 }
 
+type OnCompleteData = {
+  cancelled?: string;
+  flwref?: string;
+  txref?: string;
+  response?: string;
+  [k: string]: string | undefined;
+}
+
+interface RedirectParams {
+  cancelled: 'true' | 'false';
+  flwref?: string;
+  txref?: string;
+  response?: string;
+}
+
 export interface FlutterwaveButtonProps {
   style?: ViewStyle;
+  onComplete: (data: OnCompleteData) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onError?: (error: FlutterwaveInitError) => void;
@@ -69,6 +86,7 @@ class FlutterwaveButton extends React.Component<
     alt: PropTypes.bool,
     alignLeft: PropTypes.bool,
     onAbort: PropTypes.func,
+    onComplete: PropTypes.func.isRequired,
     onWillInitialize: PropTypes.func,
     onDidInitialize: PropTypes.func,
     onError: PropTypes.func,
@@ -135,6 +153,43 @@ class FlutterwaveButton extends React.Component<
     }, 200);
   };
 
+  handleNavigationStateChange = (ev: WebViewNavigation) => {
+    const {options} = this.props;
+    // check if has redirected to page
+    const {redirect_url} = options;
+    const rx = new RegExp(redirect_url);
+    // Don't end payment if not redirected back
+    if (!rx.test(ev.url)) {
+      return
+    }
+    // fire handle complete
+    this.handleComplete(this.getRedirectParams(ev.url));
+  };
+
+  handleComplete(response: any) {
+    const {onComplete} = this.props;
+    // reset payment link
+    this.setState(
+      {link: null},
+      () => {
+        // reset
+        this.reset();
+        // copy response
+        const data = {...response};
+        // format response if available
+        if (data.response) {
+          data.response = JSON.parse(data.response);
+        }
+        // format canclled if available
+        if (typeof data.cancelled === 'string') {
+          data.cancelled = /true|yes/i.test(data.cancelled)
+        }
+        // fire onComplete handler
+        onComplete(data);
+      }
+    );
+  }
+
   handleReload = () => {
     // fire if webview is set
     if (this.webviewRef) {
@@ -168,6 +223,24 @@ class FlutterwaveButton extends React.Component<
     if (JSON.stringify(buttonSize) !== JSON.stringify(size)) {
       this.setState({buttonSize: size});
     }
+  };
+
+  getRedirectParams = (url: string): RedirectParams => {
+    // initialize result container
+    const res: any = {};
+    // if url has params
+    if (url.split('?').length > 1) {
+      // get query params in an array
+      const params = url.split('?')[1].split('&');
+      // add url params to result
+      for (let i = 0; i < params.length; i++) {
+        const param: Array<string> = params[i].split('=');
+        const val = decodeURIComponent(param[1]).trim();
+        res[param[0]] = String(val);
+      }
+    }
+    // return result
+    return res;
   };
 
   animateBackdrop = (amount: number) => {
@@ -250,6 +323,7 @@ class FlutterwaveButton extends React.Component<
                 startInLoadingState={true}
                 scalesPageToFit={true}
                 javaScriptEnabled={true}
+                onNavigationStateChange={this.handleNavigationStateChange}
                 renderError={this.renderError}
                 renderLoading={this.renderLoading}
               />
