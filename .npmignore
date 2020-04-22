@@ -1,0 +1,4 @@
+example/
+dist
+coverage
+__tests__
