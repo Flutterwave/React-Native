@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Text,
   ViewStyle,
+  Alert,
   Image,
   Platform,
   Dimensions,
@@ -43,6 +44,7 @@ export interface FlutterwaveButtonProps {
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onError?: (error: FlutterwaveInitError) => void;
+  onAbort?: () => void;
   options: FlutterwaveInitOptions;
   customButton?: (params: CustomButtonParams) => React.ReactNode;
   alt?: 'alt' | boolean;
@@ -66,6 +68,7 @@ class FlutterwaveButton extends React.Component<
   static propTypes = {
     alt: PropTypes.bool,
     alignLeft: PropTypes.bool,
+    onAbort: PropTypes.func,
     onWillInitialize: PropTypes.func,
     onDidInitialize: PropTypes.func,
     onError: PropTypes.func,
@@ -137,6 +140,27 @@ class FlutterwaveButton extends React.Component<
     if (this.webviewRef) {
       this.webviewRef.reload();
     }
+  };
+
+  handleAbortConfirm = () => {
+    const {onAbort} = this.props;
+    // abort action
+    if (onAbort) {
+      onAbort();
+    }
+    // remove link
+    this.reset();
+  };
+
+  handleAbort = () => {
+    Alert.alert('', 'Are you sure you want to cancel this payment?', [
+      {text: 'No'},
+      {
+        text: 'Yes, Cancel',
+        style: 'destructive',
+        onPress: this.handleAbortConfirm,
+      },
+    ]);
   };
 
   handleButtonResize = (size: {width: number; height: number}) => {
@@ -292,7 +316,7 @@ class FlutterwaveButton extends React.Component<
       outputRange: [colors.transparent, 'rgba(0,0,0,0.3)'],
     });
     return (
-      <TouchableWithoutFeedback testID='flw-backdrop'>
+      <TouchableWithoutFeedback testID='flw-backdrop' onPress={this.handleAbort}>
         <Animated.View style={Object.assign({}, styles.backdrop, {backgroundColor})} />
       </TouchableWithoutFeedback>
     );
