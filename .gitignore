@@ -54,5 +54,4 @@ dist/
 .project
 .settings/
 
-example/
 coverage/
