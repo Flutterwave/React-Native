@@ -13,6 +13,7 @@ const contentMinHeight = contentMinWidth / contentSizeDimension;
 
 export interface FlutterwaveButtonProps {
   style?: ViewStyle;
+  customButton?: () => React.ReactNode;
   alt?: 'alt' | boolean;
   alignLeft?: 'alignLeft' | boolean;
 }
@@ -31,6 +32,7 @@ class FlutterwaveButton extends React.Component<
   static propTypes = {
     alt: PropTypes.bool,
     alignLeft: PropTypes.bool,
+    customButton: PropTypes.func,
   };
 
   state: FlutterwaveButtonState = {
@@ -57,7 +59,7 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderButton() {
-    const {style, alt, alignLeft} = this.props;
+    const {customButton, style, alt, alignLeft} = this.props;
     const {buttonSize} = this.state;
     const contentWidth = buttonSize.width * contentWidthPercentage;
     const contentHeight = contentWidth / contentSizeDimension;
@@ -75,6 +77,10 @@ class FlutterwaveButton extends React.Component<
           ? contentMinHeight
           : contentHeight,
     };
+    // render custom button
+    if (customButton) {
+      return customButton();
+    }
     // render primary button
     return (
       <DefaultButton
