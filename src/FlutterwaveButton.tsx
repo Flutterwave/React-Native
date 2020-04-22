@@ -1,9 +1,26 @@
 import React from 'react';
-import {StyleSheet, ViewStyle, Image} from 'react-native';
+import {
+  StyleSheet,
+  Modal,
+  View,
+  Animated,
+  TouchableWithoutFeedback,
+  Text,
+  ViewStyle,
+  Image,
+  Platform,
+  Dimensions,
+} from 'react-native';
+import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
-import FlutterwaveInit, {FlutterwaveInitOptions, FlutterwaveInitError} from './FlutterwaveInit';
+import FlutterwaveInit, {
+  FlutterwaveInitOptions,
+  FlutterwaveInitError,
+} from './FlutterwaveInit';
+import {colors} from './configs';
 import {PaymentOptionsPropRule} from './utils/CustomPropTypesRules';
 import DefaultButton from './DefaultButton';
+const loader = require('./loader.gif');
 const pryContent = require('./pry-button-content.png');
 const altContent = require('./alt-button-content.png');
 const contentWidthPercentage = 0.6549707602;
@@ -12,6 +29,8 @@ const contentMaxWidth = 187.3;
 const contentMaxHeight = contentMaxWidth / contentSizeDimension;
 const contentMinWidth = 187.3;
 const contentMinHeight = contentMinWidth / contentSizeDimension;
+const borderRadiusDimension = 24 / 896;
+const windowHeight = Dimensions.get('window').height;
 
 interface CustomButtonParams {
   disabled: boolean;
@@ -33,6 +52,7 @@ export interface FlutterwaveButtonProps {
 interface FlutterwaveButtonState {
   link: string | null;
   isPending: boolean;
+  backdropAnimation: Animated.Value;
   buttonSize: {
     width: number;
     height: number;
@@ -75,11 +95,14 @@ class FlutterwaveButton extends React.Component<
   state: FlutterwaveButtonState = {
     isPending: false,
     link: null,
+    backdropAnimation: new Animated.Value(0),
     buttonSize: {
       width: 0,
       height: 0,
     },
   };
+
+  webviewRef: WebView | null = null;
 
   canceller?: AbortController;
 
@@ -109,11 +132,27 @@ class FlutterwaveButton extends React.Component<
     }, 200);
   };
 
+  handleReload = () => {
+    // fire if webview is set
+    if (this.webviewRef) {
+      this.webviewRef.reload();
+    }
+  };
+
   handleButtonResize = (size: {width: number; height: number}) => {
     const {buttonSize} = this.state;
     if (JSON.stringify(buttonSize) !== JSON.stringify(size)) {
       this.setState({buttonSize: size});
     }
+  };
+
+  animateBackdrop = (amount: number) => {
+    const {backdropAnimation} = this.state;
+    Animated.timing(backdropAnimation, {
+      toValue: amount,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
   };
 
   handleInit = () => {
@@ -163,9 +202,37 @@ class FlutterwaveButton extends React.Component<
   };
 
   render() {
+    const {link} = this.state;
     // render UI
     return (
-      this.renderButton()
+      <>
+        {this.renderButton()}
+        <Modal
+          transparent={true}
+          animated
+          animationType="slide"
+          onDismiss={() => this.animateBackdrop(0)}
+          hardwareAccelerated={false}
+          visible={link ? true : false}
+          onShow={() => this.animateBackdrop(1)}>
+          <View style={styles.modalContent}>
+            {this.renderBackdrop()}
+            <View style={styles.webviewContainer}>
+              {this.renderLoading()}
+              <WebView
+                ref={(ref) => (this.webviewRef = ref)}
+                source={{uri: link || ''}}
+                style={styles.webview}
+                startInLoadingState={true}
+                scalesPageToFit={true}
+                javaScriptEnabled={true}
+                renderError={this.renderError}
+                renderLoading={this.renderLoading}
+              />
+            </View>
+          </View>
+        </Modal>
+      </>
     );
   }
 
@@ -216,9 +283,116 @@ class FlutterwaveButton extends React.Component<
       </DefaultButton>
     );
   }
+
+  renderBackdrop() {
+    const {backdropAnimation} = this.state;
+    // Interpolation backdrop animation
+    const backgroundColor = backdropAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [colors.transparent, 'rgba(0,0,0,0.3)'],
+    });
+    return (
+      <TouchableWithoutFeedback testID='flw-backdrop'>
+        <Animated.View style={Object.assign({}, styles.backdrop, {backgroundColor})} />
+      </TouchableWithoutFeedback>
+    );
+  }
+
+  renderLoading() {
+    return (
+      <View style={styles.loading}>
+        <Image
+          source={loader}
+          resizeMode="contain"
+          style={styles.loadingImage}
+        />
+      </View>
+    );
+  }
+
+  renderError = () => {
+    return (
+      <View style={styles.prompt}>
+        <Text style={styles.promptQuestion}>
+          The page failed to load, please try again.
+        </Text>
+        <View>
+          <TouchableWithoutFeedback onPress={this.handleReload}>
+            <Text style={styles.promptActionText}>Try Again</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+    );
+  };
 }
 
 const styles = StyleSheet.create({
+  promtActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  promptActionText: {
+    textAlign: 'center',
+    color: colors.primary,
+    fontSize: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  promptQuestion: {
+    color: colors.secondary,
+    textAlign: 'center',
+    marginBottom: 32,
+    fontSize: 18,
+  },
+  prompt: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 56,
+  },
+  backdrop: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+  loadingImage: {
+    width: 64,
+    height: 64,
+    resizeMode: 'contain',
+  },
+  loading: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    flex: 1,
+    backgroundColor: colors.transparent,
+    paddingTop: Platform.select({ios: 96, android: 64}),
+  },
+  webviewContainer: {
+    flex: 1,
+    backgroundColor: '#efefef',
+    overflow: 'hidden',
+    borderTopLeftRadius: windowHeight * borderRadiusDimension,
+    borderTopRightRadius: windowHeight * borderRadiusDimension,
+  },
+  webview: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
   buttonContent: {
     resizeMode: 'contain',
   },
