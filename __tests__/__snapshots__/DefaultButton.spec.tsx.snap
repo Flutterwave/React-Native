@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DefaultButton /> renders alt button correctly 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "borderColor": "#12122C",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 52,
+      "justifyContent": "center",
+      "minWidth": 100,
+      "overflow": "hidden",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="flw-default-button"
+>
+  <Text>
+    Hello, World
+  </Text>
+</View>
+`;
+
+exports[`<DefaultButton /> renders alt overlay if alt and busy 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "borderColor": "#D0D0D5",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 52,
+      "justifyContent": "center",
+      "minWidth": 100,
+      "overflow": "hidden",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="flw-default-button"
+>
+  <Text>
+    Hello, World
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0.8)",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`<DefaultButton /> renders overlay if busy 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#f5a623",
+      "borderColor": "#FBDBA7",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 52,
+      "justifyContent": "center",
+      "minWidth": 100,
+      "overflow": "hidden",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="flw-default-button"
+>
+  <Text>
+    Hello, World
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0.6)",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`<DefaultButton /> renders primary button correctly 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#f5a623",
+      "borderColor": "#f5a623",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 52,
+      "justifyContent": "center",
+      "minWidth": 100,
+      "overflow": "hidden",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="flw-default-button"
+>
+  <Text>
+    Hello, World
+  </Text>
+</View>
+`;
+
+exports[`<DefaultButton /> renders with align left style 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#f5a623",
+      "borderColor": "#f5a623",
+      "borderRadius": 6,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 52,
+      "justifyContent": "flex-start",
+      "minWidth": 100,
+      "overflow": "hidden",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="flw-default-button"
+>
+  <Text>
+    Hello, World
+  </Text>
+</View>
+`;
