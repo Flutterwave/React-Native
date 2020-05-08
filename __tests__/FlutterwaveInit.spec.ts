@@ -18,7 +18,7 @@ describe('<FlutterwaveInit />', () => {
     // payment information
     const paymentInfo: FlutterwaveInitOptions = {
       redirect_url: 'http://flutterwave.com',
-      PBFPubKey: 'FLWPUBK_TEST-c761fb7f0e443f5704a796781b621875-X44',
+      PBFPubKey: '[PUB Key]',
       amount: 50,
       currency: 'NGN',
       customer_email: 'email@example.com',
