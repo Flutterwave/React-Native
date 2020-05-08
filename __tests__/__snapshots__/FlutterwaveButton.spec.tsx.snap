@@ -1045,44 +1045,7 @@ exports[`<FlutterwaveButton /> renders webview error correctly 1`] = `
       "top": 0,
     }
   }
->
-  <Text
-    style={
-      Object {
-        "color": "#12122C",
-        "fontSize": 18,
-        "marginBottom": 32,
-        "textAlign": "center",
-      }
-    }
-  >
-    The page failed to load, please try again.
-  </Text>
-  <View>
-    <Text
-      accessible={true}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "color": "#f5a623",
-          "fontSize": 16,
-          "paddingHorizontal": 16,
-          "paddingVertical": 16,
-          "textAlign": "center",
-        }
-      }
-    >
-      Try Again
-    </Text>
-  </View>
-</View>
+/>
 `;
 
 exports[`<FlutterwaveButton /> renders webview loading correctly 1`] = `
