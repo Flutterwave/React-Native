@@ -62,7 +62,7 @@ export interface FlutterwaveButtonProps {
   onDidInitialize?: () => void;
   onError?: (error: FlutterwaveInitError) => void;
   onAbort?: () => void;
-  options: FlutterwaveInitOptions;
+  options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
   customButton?: (params: CustomButtonParams) => React.ReactNode;
   alt?: 'alt' | boolean;
   alignLeft?: 'alignLeft' | boolean;
@@ -96,7 +96,6 @@ class FlutterwaveButton extends React.Component<
       customer_email: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
       currency: PropTypes.oneOf(['NGN', 'USD']).isRequired,
-      redirect_url: PropTypes.string.isRequired,
       payment_options: PaymentOptionsPropRule,
       payment_plan: PropTypes.number,
       subaccounts: PropTypes.arrayOf(PropTypes.number),
@@ -154,10 +153,8 @@ class FlutterwaveButton extends React.Component<
   };
 
   handleNavigationStateChange = (ev: WebViewNavigation) => {
-    const {options} = this.props;
-    // check if has redirected to page
-    const {redirect_url} = options;
-    const rx = new RegExp(redirect_url);
+    // cregex to check if redirect has occured on completion/cancel
+    const rx = /\/hosted\/pay\/undefined|\/api\/hosted_pay\/undefined/;
     // Don't end payment if not redirected back
     if (!rx.test(ev.url)) {
       return

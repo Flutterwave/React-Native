@@ -14,7 +14,7 @@ export interface FlutterwaveInitOptions {
   customer_email: string;
   amount: number;
   currency: string;
-  redirect_url: string;
+  redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
   subaccounts?: Array<number>;
