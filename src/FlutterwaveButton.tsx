@@ -41,11 +41,9 @@ interface CustomButtonParams {
 }
 
 type OnCompleteData = {
-  cancelled?: string;
+  cancelled: boolean;
   flwref?: string;
-  txref?: string;
-  response?: string;
-  [k: string]: string | undefined;
+  txref: string;
 }
 
 interface RedirectParams {
@@ -165,7 +163,7 @@ class FlutterwaveButton extends React.Component<
     this.handleComplete(this.getRedirectParams(ev.url));
   };
 
-  handleComplete(response: any) {
+  handleComplete(data: any) {
     const {onComplete} = this.props;
     // reset payment link
     this.setState(
@@ -176,18 +174,12 @@ class FlutterwaveButton extends React.Component<
       () => {
         // reset
         this.reset();
-        // copy response
-        const data = {...response};
-        // format response if available
-        if (data.response) {
-          data.response = JSON.parse(data.response);
-        }
-        // format canclled if available
-        if (typeof data.cancelled === 'string') {
-          data.cancelled = /true|yes/i.test(data.cancelled)
-        }
         // fire onComplete handler
-        onComplete(data);
+        onComplete({
+          flwref: data.flwref,
+          txref: data.txref,
+          cancelled: /true/i.test(data.cancelled || '') ? true : false
+        });
       }
     );
   }
