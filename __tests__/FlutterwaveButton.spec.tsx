@@ -417,14 +417,14 @@ describe('<FlutterwaveButton />', () => {
     }
 
     // define url
-    const url = "http://redirect-url.com"
+    const url = "http://redirect-url.com/api/hosted_pay/undefined"
 
-    const urlWithParams = url + '?response=' + encodeURIComponent(JSON.stringify(response));
+    const urlWithParams = url + '?flwref=' + response.flwref + '&txref=' + response.txref;
 
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={{...PaymentOptions, redirect_url: url}}
+      options={PaymentOptions}
     />);
 
     // spy on getRedirectParams method
@@ -446,23 +446,15 @@ describe('<FlutterwaveButton />', () => {
       // run checks
       expect(getRedirectParams).toHaveBeenCalledTimes(1);
       expect(getRedirectParams).toHaveBeenCalledWith(urlWithParams);
-      expect(getRedirectParams).toHaveReturnedWith({
-        response: JSON.stringify(response),
-      });
+      expect(getRedirectParams).toHaveReturnedWith(response);
       // end test
       done();
     }, 50);
   });
 
   it("does not fire complete handle if redirect url does not match", (done) => {
-    // define response
-    const response = {
-      flwref: 'erinf930rnf09',
-      txref: 'nfeinr09erss',
-    }
-
     // define url
-    const url = "http://redirect-url.com?response="+ encodeURIComponent(JSON.stringify(response))
+    const url = "http://redirect-url.com";
 
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
