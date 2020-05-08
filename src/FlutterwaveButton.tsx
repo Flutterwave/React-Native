@@ -60,7 +60,7 @@ export interface FlutterwaveButtonProps {
   onComplete: (data: OnCompleteData) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
-  onError?: (error: FlutterwaveInitError) => void;
+  OnInitializeError?: (error: FlutterwaveInitError) => void;
   onAbort?: () => void;
   options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
   customButton?: (params: CustomButtonParams) => React.ReactNode;
@@ -89,7 +89,7 @@ class FlutterwaveButton extends React.Component<
     onComplete: PropTypes.func.isRequired,
     onWillInitialize: PropTypes.func,
     onDidInitialize: PropTypes.func,
-    onError: PropTypes.func,
+    OnInitializeError: PropTypes.func,
     options: PropTypes.shape({
       txref: PropTypes.string.isRequired,
       PBFPubKey: PropTypes.string.isRequired,
@@ -250,8 +250,8 @@ class FlutterwaveButton extends React.Component<
   };
 
   handleInit = () => {
-    const {options, onWillInitialize, onError, onDidInitialize} = this.props;
     const {isPending} = this.state;
+    const {options, onWillInitialize, OnInitializeError, onDidInitialize} = this.props;
 
     // initialize abort controller if not set
     this.canceller = new AbortController;
@@ -279,10 +279,10 @@ class FlutterwaveButton extends React.Component<
         if (result.error && /aborterror/i.test(result.error.code)) {
           return;
         }
-        // call onError handler if an error occured
+        // call OnInitializeError handler if an error occured
         if (!result.link) {
-          if (onError && result.error) {
-            onError(result.error);
+          if (OnInitializeError && result.error) {
+            OnInitializeError(result.error);
           }
           return this.reset();
         }

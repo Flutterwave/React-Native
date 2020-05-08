@@ -340,14 +340,14 @@ describe('<FlutterwaveButton />', () => {
     }, 50);
   });
 
-  it('fires onError if available', (done) => {
+  it('fires OnInitializeError if available', (done) => {
     const err = new Error('Error occurred.');
-    const onError = jest.fn();
+    const OnInitializeError = jest.fn();
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
       options={PaymentOptions}
-      onError={onError}
+      OnInitializeError={OnInitializeError}
     />);
     // mock next fetch request
     fetchMock.mockRejectOnce(err);
@@ -355,8 +355,8 @@ describe('<FlutterwaveButton />', () => {
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
     // wait for request to be made
     setTimeout(() => {
-      expect(onError).toHaveBeenCalledTimes(1);
-      expect(onError).toHaveBeenCalledWith({
+      expect(OnInitializeError).toHaveBeenCalledTimes(1);
+      expect(OnInitializeError).toHaveBeenCalledWith({
         code: err.name.toUpperCase(),
         message: err.message
       });
