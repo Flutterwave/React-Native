@@ -15,9 +15,8 @@ const SuccessResponse = {
     link: 'http://payment-link.com/checkout',
   },
 };
-const PaymentOptions: FlutterwaveInitOptions = {
+const PaymentOptions: Omit<FlutterwaveInitOptions, 'redirect_url'> = {
   txref: '34h093h09h034034',
-  redirect_url: 'http://redirect-url.com/flutterwave',
   customer_email: 'customer-email@example.com',
   PBFPubKey: '[Public Key]',
   amount: 50,
@@ -300,6 +299,30 @@ describe('<FlutterwaveButton />', () => {
     expect(setState).toHaveBeenCalledWith({buttonSize: onSizeChangeEv})
   });
 
+  it('initialized without a redirect url', () => {
+    // get create instance of flutterwave button
+    const FlwButton = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    const abortController = new AbortController
+    // default fetch header
+    const FetchHeader = new Headers();
+    FetchHeader.append('Content-Type', 'application/json');
+    // mock next fetch request
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+    // fire on press
+    FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+     // expect fetch to have been called
+     expect(global.fetch).toHaveBeenCalledTimes(1);
+     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+       body: JSON.stringify({...PaymentOptions, redirect_url: undefined}),
+       headers: FetchHeader,
+       method: 'POST',
+       signal: abortController.signal
+     });
+  });
+
   it('fires onDidInitialize if available', (done) => {
     const onDidInitialize = jest.fn();
     // get create instance of flutterwave button
@@ -467,6 +490,61 @@ describe('<FlutterwaveButton />', () => {
       // run checks
       expect(handleNavigationStateChange).toHaveBeenCalledTimes(1);
       expect(handleComplete).toHaveBeenCalledTimes(0);
+
+      // end test
+      done();
+    }, 50);
+  });
+
+  it("fires onComplete when redirected", (done) => {
+    // define response
+    const response = {
+      flwref: 'erinf930rnf09',
+      txref: 'nfeinr09erss',
+    }
+
+    const onComplete = jest.fn();
+
+    // define url
+    const url = "http://redirect-url.com/api/hosted_pay/undefined?flwref=" +
+      response.flwref +
+      "&txref=" +
+      response.txref
+
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={onComplete}
+      options={PaymentOptions}
+    />);
+
+    // spy on getRedirectParams method
+    const handleComplete = jest.spyOn(TestRenderer.root.instance, 'handleComplete');
+    const handleNavigationStateChange = jest.spyOn(
+      TestRenderer.root.instance,
+      'handleNavigationStateChange'
+    );
+
+    // mock next fetch request
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+
+    // press init button
+    TestRenderer.root.findByProps({testID: BtnTestID}).props.onPress();
+
+    // wait for fetch to complete
+    setTimeout(() => {
+      // find webview and fire webview onNavigationStateChange
+      const webView = TestRenderer.root.findByType(WebView);
+      webView.props.onNavigationStateChange({url: url});
+
+      // run checks
+      expect(handleNavigationStateChange).toHaveBeenCalledTimes(1);
+      expect(handleComplete).toHaveBeenCalledTimes(1);
+      expect(handleComplete).toHaveBeenCalledWith(response);
+      expect(onComplete).toHaveBeenCalledTimes(1);
+      expect(onComplete).toHaveBeenCalledWith({
+        ...response,
+        cancelled: false
+      });
 
       // end test
       done();
