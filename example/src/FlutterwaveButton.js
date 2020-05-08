@@ -11,17 +11,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -85,6 +74,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             isPending: false,
             link: null,
             backdropAnimation: new Animated.Value(0),
+            txref: null,
             buttonSize: {
                 width: 0,
                 height: 0
@@ -103,10 +93,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             }, 200);
         };
         _this.handleNavigationStateChange = function (ev) {
-            var options = _this.props.options;
-            // check if has redirected to page
-            var redirect_url = options.redirect_url;
-            var rx = new RegExp(redirect_url);
+            // cregex to check if redirect has occured on completion/cancel
+            var rx = /\/hosted\/pay\/undefined|\/api\/hosted_pay\/undefined/;
             // Don't end payment if not redirected back
             if (!rx.test(ev.url)) {
                 return;
@@ -171,8 +159,15 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             }).start();
         };
         _this.handleInit = function () {
-            var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, onError = _a.onError, onDidInitialize = _a.onDidInitialize;
-            var isPending = _this.state.isPending;
+            var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, OnInitializeError = _a.OnInitializeError, onDidInitialize = _a.onDidInitialize;
+            var _b = _this.state, isPending = _b.isPending, txref = _b.txref;
+            // throw error if transaction reference has not changed
+            if (txref === options.txref) {
+                return OnInitializeError ? OnInitializeError({
+                    message: 'Please generate new transaction reference.',
+                    code: 'SAME_TXREF'
+                }) : null;
+            }
             // initialize abort controller if not set
             _this.canceller = new AbortController;
             // stop if currently in pending mode
@@ -186,7 +181,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             // set pending state to true
             _this.setState({
                 isPending: true,
-                link: null
+                link: null,
+                txref: options.txref
             }, function () { return __awaiter(_this, void 0, void 0, function () {
                 var result;
                 return __generator(this, function (_a) {
@@ -198,10 +194,10 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                             if (result.error && /aborterror/i.test(result.error.code)) {
                                 return [2 /*return*/];
                             }
-                            // call onError handler if an error occured
+                            // call OnInitializeError handler if an error occured
                             if (!result.link) {
-                                if (onError && result.error) {
-                                    onError(result.error);
+                                if (OnInitializeError && result.error) {
+                                    OnInitializeError(result.error);
                                 }
                                 return [2 /*return*/, this.reset()];
                             }
@@ -216,15 +212,18 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             }); });
         };
         _this.renderError = function () {
+            var link = _this.state.link;
             return (<View style={styles.prompt}>
-        <Text style={styles.promptQuestion}>
-          The page failed to load, please try again.
-        </Text>
-        <View>
-          <TouchableWithoutFeedback onPress={_this.handleReload}>
-            <Text style={styles.promptActionText}>Try Again</Text>
-          </TouchableWithoutFeedback>
-        </View>
+        {link ? (<>
+            <Text style={styles.promptQuestion}>
+              The page failed to load, please try again.
+            </Text>
+            <View>
+              <TouchableWithoutFeedback onPress={_this.handleReload}>
+                <Text style={styles.promptActionText}>Try Again</Text>
+              </TouchableWithoutFeedback>
+            </View>
+          </>) : null}
       </View>);
         };
         return _this;
@@ -239,25 +238,22 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             this.canceller.abort();
         }
     };
-    FlutterwaveButton.prototype.handleComplete = function (response) {
+    FlutterwaveButton.prototype.handleComplete = function (data) {
         var _this = this;
         var onComplete = this.props.onComplete;
         // reset payment link
-        this.setState({ link: null }, function () {
+        this.setState({
+            link: null,
+            txref: null
+        }, function () {
             // reset
             _this.reset();
-            // copy response
-            var data = __assign({}, response);
-            // format response if available
-            if (data.response) {
-                data.response = JSON.parse(data.response);
-            }
-            // format canclled if available
-            if (typeof data.cancelled === 'string') {
-                data.cancelled = /true|yes/i.test(data.cancelled);
-            }
             // fire onComplete handler
-            onComplete(data);
+            onComplete({
+                flwref: data.flwref,
+                txref: data.txref,
+                cancelled: /true/i.test(data.cancelled || '') ? true : false
+            });
         });
     };
     FlutterwaveButton.prototype.render = function () {
@@ -328,14 +324,13 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         onComplete: PropTypes.func.isRequired,
         onWillInitialize: PropTypes.func,
         onDidInitialize: PropTypes.func,
-        onError: PropTypes.func,
+        OnInitializeError: PropTypes.func,
         options: PropTypes.shape({
             txref: PropTypes.string.isRequired,
             PBFPubKey: PropTypes.string.isRequired,
             customer_email: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
             currency: PropTypes.oneOf(['NGN', 'USD']).isRequired,
-            redirect_url: PropTypes.string.isRequired,
             payment_options: PaymentOptionsPropRule,
             payment_plan: PropTypes.number,
             subaccounts: PropTypes.arrayOf(PropTypes.number),

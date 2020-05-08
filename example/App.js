@@ -24,9 +24,8 @@ const TEST_OPTIONS = {
   txref: String(Date.now()),
   PBFPubKey: '[A Public Key]',
   customer_email: 'customer-email@example.com',
-  amount: 100,
+  amount: 10,
   currency: 'NGN',
-  redirect_url: 'https://example.com/flutterwave',
   payment_options: "card,ussd,account,barter",
 };
 
@@ -43,16 +42,8 @@ const App = () => {
   }
   const handleComplete = (data) => {
     optionsSetter();
-    if (data.txref) {
-      setTrxref(data.txref);
-    }
-    if (data.flref) {
-      setFlwref(data.flref);
-    }
-    if (data.response) {
-      setFlwref(data.response.flwRef);
-      setTrxref(data.response.txRef);
-    }
+    setTrxref(data.txref);
+    setFlwref(data.flwref);
     setCanclled(data.cancelled);
   };
   return (
@@ -77,7 +68,7 @@ const App = () => {
           <FlutterwaveButton
             style={styles.paymentButton}
             onComplete={handleComplete}
-            onError={(e) => Alert.alert(e.code, e.message)}
+            OnInitializeError={(e) => Alert.alert(e.code, e.message)}
             options={options}
           />
         </KeyboardAvoidingView>

@@ -10,11 +10,9 @@ interface CustomButtonParams {
     onPress: () => void;
 }
 declare type OnCompleteData = {
-    cancelled?: string;
+    cancelled: boolean;
     flwref?: string;
-    txref?: string;
-    response?: string;
-    [k: string]: string | undefined;
+    txref: string;
 };
 interface RedirectParams {
     cancelled: 'true' | 'false';
@@ -27,9 +25,9 @@ export interface FlutterwaveButtonProps {
     onComplete: (data: OnCompleteData) => void;
     onWillInitialize?: () => void;
     onDidInitialize?: () => void;
-    onError?: (error: FlutterwaveInitError) => void;
+    OnInitializeError?: (error: FlutterwaveInitError) => void;
     onAbort?: () => void;
-    options: FlutterwaveInitOptions;
+    options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
     customButton?: (params: CustomButtonParams) => React.ReactNode;
     alt?: 'alt' | boolean;
     alignLeft?: 'alignLeft' | boolean;
@@ -38,6 +36,7 @@ interface FlutterwaveButtonState {
     link: string | null;
     isPending: boolean;
     backdropAnimation: Animated.Value;
+    txref: string | null;
     buttonSize: {
         width: number;
         height: number;
@@ -51,14 +50,13 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
         onComplete: PropTypes.Validator<(...args: any[]) => any>;
         onWillInitialize: PropTypes.Requireable<(...args: any[]) => any>;
         onDidInitialize: PropTypes.Requireable<(...args: any[]) => any>;
-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+        OnInitializeError: PropTypes.Requireable<(...args: any[]) => any>;
         options: PropTypes.Validator<PropTypes.InferProps<{
             txref: PropTypes.Validator<string>;
             PBFPubKey: PropTypes.Validator<string>;
             customer_email: PropTypes.Validator<string>;
             amount: PropTypes.Validator<number>;
             currency: PropTypes.Validator<string>;
-            redirect_url: PropTypes.Validator<string>;
             payment_options: (props: {
                 [k: string]: any;
             }, propName: string) => Error | null;
@@ -83,7 +81,7 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
     componentWillUnmount(): void;
     reset: () => void;
     handleNavigationStateChange: (ev: WebViewNavigation) => void;
-    handleComplete(response: any): void;
+    handleComplete(data: any): void;
     handleReload: () => void;
     handleAbortConfirm: () => void;
     handleAbort: () => void;
@@ -93,7 +91,7 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
     }) => void;
     getRedirectParams: (url: string) => RedirectParams;
     animateBackdrop: (amount: number) => void;
-    handleInit: () => void;
+    handleInit: () => void | null;
     render(): JSX.Element;
     renderButton(): {} | null | undefined;
     renderBackdrop(): JSX.Element;
