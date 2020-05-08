@@ -72,6 +72,7 @@ interface FlutterwaveButtonState {
   link: string | null;
   isPending: boolean;
   backdropAnimation: Animated.Value;
+  txref: string | null;
   buttonSize: {
     width: number;
     height: number;
@@ -116,6 +117,7 @@ class FlutterwaveButton extends React.Component<
     isPending: false,
     link: null,
     backdropAnimation: new Animated.Value(0),
+    txref: null,
     buttonSize: {
       width: 0,
       height: 0,
@@ -167,7 +169,10 @@ class FlutterwaveButton extends React.Component<
     const {onComplete} = this.props;
     // reset payment link
     this.setState(
-      {link: null},
+      {
+        link: null,
+        txref: null,
+      },
       () => {
         // reset
         this.reset();
@@ -250,8 +255,16 @@ class FlutterwaveButton extends React.Component<
   };
 
   handleInit = () => {
-    const {isPending} = this.state;
     const {options, onWillInitialize, OnInitializeError, onDidInitialize} = this.props;
+    const {isPending, txref} = this.state;
+
+    // throw error if transaction reference has not changed
+    if (txref === options.txref) {
+      return OnInitializeError ? OnInitializeError({
+        message: 'Please generate new transaction reference.',
+        code: 'SAME_TXREF',
+      }) : null;
+    }
 
     // initialize abort controller if not set
     this.canceller = new AbortController;
@@ -271,6 +284,7 @@ class FlutterwaveButton extends React.Component<
       {
         isPending: true,
         link: null,
+        txref: options.txref,
       },
       async () => {
         // make init request
