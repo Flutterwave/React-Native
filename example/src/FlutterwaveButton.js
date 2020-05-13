@@ -178,6 +178,9 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             if (onWillInitialize) {
                 onWillInitialize();
             }
+            // @ts-ignore
+            // delete redirect url if set
+            delete options.redirect_url;
             // set pending state to true
             _this.setState({
                 isPending: true,
