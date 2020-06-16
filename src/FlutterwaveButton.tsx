@@ -297,7 +297,7 @@ class FlutterwaveButton extends React.Component<
           if (OnInitializeError && result.error) {
             OnInitializeError(result.error);
           }
-          return this.reset();
+          return this.dismiss();
         }
         this.setState({link: result.link, isPending: false}, this.show);
         // fire did initialize handler if available

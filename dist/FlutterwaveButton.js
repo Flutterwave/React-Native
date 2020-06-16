@@ -214,7 +214,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                                 if (OnInitializeError && result.error) {
                                     OnInitializeError(result.error);
                                 }
-                                return [2 /*return*/, this.reset()];
+                                return [2 /*return*/, this.dismiss()];
                             }
                             this.setState({ link: result.link, isPending: false }, this.show);
                             // fire did initialize handler if available
