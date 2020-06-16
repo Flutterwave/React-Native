@@ -48,7 +48,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import React from 'react';
-import { StyleSheet, Modal, View, Animated, TouchableWithoutFeedback, Text, Alert, Image, Platform, Dimensions, } from 'react-native';
+import { StyleSheet, Modal, View, Animated, TouchableWithoutFeedback, Text, Alert, Image, Platform, Dimensions, Easing, } from 'react-native';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
 import FlutterwaveInit from './FlutterwaveInit';
@@ -73,7 +73,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         _this.state = {
             isPending: false,
             link: null,
-            backdropAnimation: new Animated.Value(0),
+            showDialog: false,
+            animation: new Animated.Value(0),
             txref: null,
             buttonSize: {
                 width: 0,
@@ -85,12 +86,12 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             if (_this.canceller) {
                 _this.canceller.abort();
             }
-            setTimeout(function () {
-                _this.setState({
-                    isPending: false,
-                    link: null
-                });
-            }, 200);
+            // reset the necessaries
+            _this.setState({
+                isPending: false,
+                link: null,
+                showDialog: false
+            });
         };
         _this.handleNavigationStateChange = function (ev) {
             // cregex to check if redirect has occured on completion/cancel
@@ -114,8 +115,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             if (onAbort) {
                 onAbort();
             }
-            // remove link
-            _this.reset();
+            // remove txref and dismiss
+            _this.setState({ txref: null }, _this.dismiss);
         };
         _this.handleAbort = function () {
             Alert.alert('', 'Are you sure you want to cancel this payment?', [
@@ -150,13 +151,24 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             // return result
             return res;
         };
-        _this.animateBackdrop = function (amount) {
-            var backdropAnimation = _this.state.backdropAnimation;
-            Animated.timing(backdropAnimation, {
-                toValue: amount,
+        _this.show = function () {
+            var animation = _this.state.animation;
+            _this.setState({ showDialog: true }, function () {
+                Animated.timing(animation, {
+                    toValue: 1,
+                    duration: 700,
+                    easing: Easing["in"](Easing.elastic(0.65)),
+                    useNativeDriver: false
+                }).start();
+            });
+        };
+        _this.dismiss = function () {
+            var animation = _this.state.animation;
+            Animated.timing(animation, {
+                toValue: 0,
                 duration: 400,
                 useNativeDriver: false
-            }).start();
+            }).start(_this.reset);
         };
         _this.handleInit = function () {
             var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, OnInitializeError = _a.OnInitializeError, onDidInitialize = _a.onDidInitialize;
@@ -164,7 +176,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             // throw error if transaction reference has not changed
             if (txref === options.txref) {
                 return OnInitializeError ? OnInitializeError({
-                    message: 'Please generate new transaction reference.',
+                    message: 'Please generate a new transaction reference.',
                     code: 'SAME_TXREF'
                 }) : null;
             }
@@ -204,7 +216,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                                 }
                                 return [2 /*return*/, this.reset()];
                             }
-                            this.setState({ link: result.link, isPending: false });
+                            this.setState({ link: result.link, isPending: false }, this.show);
                             // fire did initialize handler if available
                             if (onDidInitialize) {
                                 onDidInitialize();
@@ -231,11 +243,6 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         };
         return _this;
     }
-    FlutterwaveButton.prototype.componentDidUpdate = function (prevProps) {
-        if (JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)) {
-            this.reset();
-        }
-    };
     FlutterwaveButton.prototype.componentWillUnmount = function () {
         if (this.canceller) {
             this.canceller.abort();
@@ -245,12 +252,9 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         var _this = this;
         var onComplete = this.props.onComplete;
         // reset payment link
-        this.setState({
-            link: null,
-            txref: null
-        }, function () {
+        this.setState({ txref: null }, function () {
             // reset
-            _this.reset();
+            _this.dismiss();
             // fire onComplete handler
             onComplete({
                 flwref: data.flwref,
@@ -261,16 +265,23 @@ var FlutterwaveButton = /** @class */ (function (_super) {
     };
     FlutterwaveButton.prototype.render = function () {
         var _this = this;
-        var link = this.state.link;
+        var _a = this.state, link = _a.link, animation = _a.animation, showDialog = _a.showDialog;
+        var marginTop = animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [windowHeight, Platform.OS === 'ios' ? 46 : 14]
+        });
+        var opacity = animation.interpolate({
+            inputRange: [0, 0.3, 1],
+            outputRange: [0, 1, 1]
+        });
         // render UI
         return (<>
         {this.renderButton()}
-        <Modal transparent={true} animated animationType="slide" onDismiss={function () { return _this.animateBackdrop(0); }} hardwareAccelerated={false} visible={link ? true : false} onShow={function () { return _this.animateBackdrop(1); }}>
+        <Modal transparent={true} animated={false} hardwareAccelerated={false} visible={showDialog}>
           {this.renderBackdrop()}
-          <View style={styles.webviewContainer}>
-            {this.renderLoading()}
+          <Animated.View style={[styles.webviewContainer, { marginTop: marginTop, opacity: opacity }]}>
             <WebView ref={function (ref) { return (_this.webviewRef = ref); }} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onNavigationStateChange={this.handleNavigationStateChange} renderError={this.renderError} renderLoading={this.renderLoading}/>
-          </View>
+          </Animated.View>
         </Modal>
       </>);
     };
@@ -305,11 +316,11 @@ var FlutterwaveButton = /** @class */ (function (_super) {
       </DefaultButton>);
     };
     FlutterwaveButton.prototype.renderBackdrop = function () {
-        var backdropAnimation = this.state.backdropAnimation;
+        var animation = this.state.animation;
         // Interpolation backdrop animation
-        var backgroundColor = backdropAnimation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [colors.transparent, 'rgba(0,0,0,0.3)']
+        var backgroundColor = animation.interpolate({
+            inputRange: [0, 0.3, 1],
+            outputRange: [colors.transparent, colors.transparent, 'rgba(0,0,0,0.5)']
         });
         return (<TouchableWithoutFeedback testID='flw-backdrop' onPress={this.handleAbort}>
         <Animated.View style={Object.assign({}, styles.backdrop, { backgroundColor: backgroundColor })}/>
@@ -403,9 +414,10 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     webviewContainer: {
-        marginTop: Platform.select({ ios: 96, android: 64 }),
+        top: 50,
         flex: 1,
         backgroundColor: '#efefef',
+        paddingBottom: 50,
         overflow: 'hidden',
         borderTopLeftRadius: windowHeight * borderRadiusDimension,
         borderTopRightRadius: windowHeight * borderRadiusDimension

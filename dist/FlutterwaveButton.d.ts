@@ -35,7 +35,8 @@ export interface FlutterwaveButtonProps {
 interface FlutterwaveButtonState {
     link: string | null;
     isPending: boolean;
-    backdropAnimation: Animated.Value;
+    showDialog: boolean;
+    animation: Animated.Value;
     txref: string | null;
     buttonSize: {
         width: number;
@@ -77,7 +78,6 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
     state: FlutterwaveButtonState;
     webviewRef: WebView | null;
     canceller?: AbortController;
-    componentDidUpdate(prevProps: FlutterwaveButtonProps): void;
     componentWillUnmount(): void;
     reset: () => void;
     handleNavigationStateChange: (ev: WebViewNavigation) => void;
@@ -90,7 +90,8 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
         height: number;
     }) => void;
     getRedirectParams: (url: string) => RedirectParams;
-    animateBackdrop: (amount: number) => void;
+    show: () => void;
+    dismiss: () => void;
     handleInit: () => void | null;
     render(): JSX.Element;
     renderButton(): {} | null | undefined;

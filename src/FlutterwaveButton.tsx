@@ -11,6 +11,7 @@ import {
   Image,
   Platform,
   Dimensions,
+  Easing,
 } from 'react-native';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
@@ -69,7 +70,8 @@ export interface FlutterwaveButtonProps {
 interface FlutterwaveButtonState {
   link: string | null;
   isPending: boolean;
-  backdropAnimation: Animated.Value;
+  showDialog: boolean;
+  animation: Animated.Value;
   txref: string | null;
   buttonSize: {
     width: number;
@@ -114,7 +116,8 @@ class FlutterwaveButton extends React.Component<
   state: FlutterwaveButtonState = {
     isPending: false,
     link: null,
-    backdropAnimation: new Animated.Value(0),
+    showDialog: false,
+    animation: new Animated.Value(0),
     txref: null,
     buttonSize: {
       width: 0,
@@ -126,14 +129,6 @@ class FlutterwaveButton extends React.Component<
 
   canceller?: AbortController;
 
-  componentDidUpdate(prevProps: FlutterwaveButtonProps) {
-    if (
-      JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)
-    ) {
-      this.reset();
-    }
-  }
-
   componentWillUnmount() {
     if (this.canceller) {
       this.canceller.abort();
@@ -144,12 +139,12 @@ class FlutterwaveButton extends React.Component<
     if (this.canceller) {
       this.canceller.abort();
     }
-    setTimeout(() => {
-      this.setState({
-        isPending: false,
-        link: null,
-      });
-    }, 200);
+    // reset the necessaries
+    this.setState({
+      isPending: false,
+      link: null,
+      showDialog: false,
+    });
   };
 
   handleNavigationStateChange = (ev: WebViewNavigation) => {
@@ -166,14 +161,10 @@ class FlutterwaveButton extends React.Component<
   handleComplete(data: any) {
     const {onComplete} = this.props;
     // reset payment link
-    this.setState(
-      {
-        link: null,
-        txref: null,
-      },
+    this.setState({txref: null},
       () => {
         // reset
-        this.reset();
+        this.dismiss();
         // fire onComplete handler
         onComplete({
           flwref: data.flwref,
@@ -197,8 +188,8 @@ class FlutterwaveButton extends React.Component<
     if (onAbort) {
       onAbort();
     }
-    // remove link
-    this.reset();
+    // remove txref and dismiss
+    this.setState({txref: null}, this.dismiss);
   };
 
   handleAbort = () => {
@@ -237,13 +228,25 @@ class FlutterwaveButton extends React.Component<
     return res;
   };
 
-  animateBackdrop = (amount: number) => {
-    const {backdropAnimation} = this.state;
-    Animated.timing(backdropAnimation, {
-      toValue: amount,
+  show = () => {
+    const {animation} = this.state;
+    this.setState({showDialog: true}, () => {
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 700,
+        easing: Easing.in(Easing.elastic(0.65)),
+        useNativeDriver: false,
+      }).start();
+    });
+  };
+
+  dismiss = () => {
+    const {animation} = this.state;
+    Animated.timing(animation, {
+      toValue: 0,
       duration: 400,
       useNativeDriver: false,
-    }).start();
+    }).start(this.reset);
   };
 
   handleInit = () => {
@@ -253,7 +256,7 @@ class FlutterwaveButton extends React.Component<
     // throw error if transaction reference has not changed
     if (txref === options.txref) {
       return OnInitializeError ? OnInitializeError({
-        message: 'Please generate new transaction reference.',
+        message: 'Please generate a new transaction reference.',
         code: 'SAME_TXREF',
       }) : null;
     }
@@ -296,7 +299,7 @@ class FlutterwaveButton extends React.Component<
           }
           return this.reset();
         }
-        this.setState({link: result.link, isPending: false});
+        this.setState({link: result.link, isPending: false}, this.show);
         // fire did initialize handler if available
         if (onDidInitialize) {
           onDidInitialize();
@@ -306,22 +309,26 @@ class FlutterwaveButton extends React.Component<
   };
 
   render() {
-    const {link} = this.state;
+    const {link, animation, showDialog} = this.state;
+    const marginTop = animation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [windowHeight, Platform.OS === 'ios' ? 46 : 14],
+    });
+    const opacity = animation.interpolate({
+      inputRange: [0, 0.3, 1],
+      outputRange: [0, 1, 1],
+    });
     // render UI
     return (
       <>
         {this.renderButton()}
         <Modal
           transparent={true}
-          animated
-          animationType="slide"
-          onDismiss={() => this.animateBackdrop(0)}
+          animated={false}
           hardwareAccelerated={false}
-          visible={link ? true : false}
-          onShow={() => this.animateBackdrop(1)}>
+          visible={showDialog}>
           {this.renderBackdrop()}
-          <View style={styles.webviewContainer}>
-            {this.renderLoading()}
+          <Animated.View style={[styles.webviewContainer, {marginTop, opacity}]}>
             <WebView
               ref={(ref) => (this.webviewRef = ref)}
               source={{uri: link || ''}}
@@ -333,7 +340,7 @@ class FlutterwaveButton extends React.Component<
               renderError={this.renderError}
               renderLoading={this.renderLoading}
             />
-          </View>
+          </Animated.View>
         </Modal>
       </>
     );
@@ -388,11 +395,11 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderBackdrop() {
-    const {backdropAnimation} = this.state;
+    const {animation} = this.state;
     // Interpolation backdrop animation
-    const backgroundColor = backdropAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [colors.transparent, 'rgba(0,0,0,0.3)'],
+    const backgroundColor = animation.interpolate({
+      inputRange: [0, 0.3, 1],
+      outputRange: [colors.transparent, colors.transparent, 'rgba(0,0,0,0.5)'],
     });
     return (
       <TouchableWithoutFeedback testID='flw-backdrop' onPress={this.handleAbort}>
@@ -486,9 +493,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   webviewContainer: {
-    marginTop: Platform.select({ios: 96, android: 64}),
+    top: 50,
     flex: 1,
     backgroundColor: '#efefef',
+    paddingBottom: 50,
     overflow: 'hidden',
     borderTopLeftRadius: windowHeight * borderRadiusDimension,
     borderTopRightRadius: windowHeight * borderRadiusDimension,
