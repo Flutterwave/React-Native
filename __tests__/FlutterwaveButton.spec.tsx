@@ -684,3 +684,17 @@ describe('<FlutterwaveButton />', () => {
     expect(split).toHaveBeenCalledTimes(2);
   });
 });
+
+it("updates state if reset is called.", () => {
+  // get create instance of flutterwave button
+  const TestRenderer = renderer.create(<FlutterwaveButton
+    onComplete={jest.fn()}
+    options={PaymentOptions}
+  />);
+  const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
+  // call component will unmount
+  TestRenderer.root.instance.reset();
+  // run checks
+  expect(setState).toHaveBeenCalledTimes(1);
+  expect(TestRenderer.root.instance.canceller).toBeUndefined();
+});
