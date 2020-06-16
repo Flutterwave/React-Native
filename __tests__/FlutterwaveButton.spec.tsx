@@ -52,7 +52,7 @@ describe('<FlutterwaveButton />', () => {
     expect(Renderer.toJSON()).toMatchSnapshot();
   });
 
-  it('renders modal with visibile property as true if payment link is available', (done) => {
+  it('renders modal with visibile property as true if show dialog state is true', (done) => {
     // get create instance of flutterwave button
     const Renderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
@@ -137,7 +137,7 @@ describe('<FlutterwaveButton />', () => {
     />);
     TestRenderer.root.instance.handleInit();
     setTimeout(() => {
-      expect(customButton).toHaveBeenCalledTimes(3);
+      expect(customButton).toHaveBeenCalledTimes(4);
       expect(customButton).toHaveBeenLastCalledWith({
         disabled: true,
         isInitializing: false,

@@ -65,11 +65,8 @@ Array [
     />
   </View>,
   <Modal
-    animated={true}
-    animationType="slide"
+    animated={false}
     hardwareAccelerated={false}
-    onDismiss={[Function]}
-    onShow={[Function]}
     transparent={true}
     visible={false}
   >
@@ -99,44 +96,17 @@ Array [
       style={
         Object {
           "backgroundColor": "#efefef",
-          "borderTopLeftRadius": 35.732142857142854,
-          "borderTopRightRadius": 35.732142857142854,
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
           "flex": 1,
-          "marginTop": 96,
+          "marginTop": 1305,
+          "opacity": 0,
           "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
         }
       }
     >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "bottom": 0,
-            "justifyContent": "center",
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/loader.gif",
-            }
-          }
-          style={
-            Object {
-              "height": 64,
-              "resizeMode": "contain",
-              "width": 64,
-            }
-          }
-        />
-      </View>
       <View
         style={
           Array [
@@ -276,11 +246,8 @@ Array [
     />
   </View>,
   <Modal
-    animated={true}
-    animationType="slide"
+    animated={false}
     hardwareAccelerated={false}
-    onDismiss={[Function]}
-    onShow={[Function]}
     transparent={true}
     visible={false}
   >
@@ -310,44 +277,17 @@ Array [
       style={
         Object {
           "backgroundColor": "#efefef",
-          "borderTopLeftRadius": 35.732142857142854,
-          "borderTopRightRadius": 35.732142857142854,
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
           "flex": 1,
-          "marginTop": 96,
+          "marginTop": 1305,
+          "opacity": 0,
           "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
         }
       }
     >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "bottom": 0,
-            "justifyContent": "center",
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/loader.gif",
-            }
-          }
-          style={
-            Object {
-              "height": 64,
-              "resizeMode": "contain",
-              "width": 64,
-            }
-          }
-        />
-      </View>
       <View
         style={
           Array [
@@ -487,11 +427,8 @@ Array [
     />
   </View>,
   <Modal
-    animated={true}
-    animationType="slide"
+    animated={false}
     hardwareAccelerated={false}
-    onDismiss={[Function]}
-    onShow={[Function]}
     transparent={true}
     visible={false}
   >
@@ -521,44 +458,17 @@ Array [
       style={
         Object {
           "backgroundColor": "#efefef",
-          "borderTopLeftRadius": 35.732142857142854,
-          "borderTopRightRadius": 35.732142857142854,
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
           "flex": 1,
-          "marginTop": 96,
+          "marginTop": 1305,
+          "opacity": 0,
           "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
         }
       }
     >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "bottom": 0,
-            "justifyContent": "center",
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/loader.gif",
-            }
-          }
-          style={
-            Object {
-              "height": 64,
-              "resizeMode": "contain",
-              "width": 64,
-            }
-          }
-        />
-      </View>
       <View
         style={
           Array [
@@ -661,11 +571,8 @@ Array [
     Pay
   </Text>,
   <Modal
-    animated={true}
-    animationType="slide"
+    animated={false}
     hardwareAccelerated={false}
-    onDismiss={[Function]}
-    onShow={[Function]}
     transparent={true}
     visible={false}
   >
@@ -695,44 +602,17 @@ Array [
       style={
         Object {
           "backgroundColor": "#efefef",
-          "borderTopLeftRadius": 35.732142857142854,
-          "borderTopRightRadius": 35.732142857142854,
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
           "flex": 1,
-          "marginTop": 96,
+          "marginTop": 1305,
+          "opacity": 0,
           "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
         }
       }
     >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "bottom": 0,
-            "justifyContent": "center",
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/loader.gif",
-            }
-          }
-          style={
-            Object {
-              "height": 64,
-              "resizeMode": "contain",
-              "width": 64,
-            }
-          }
-        />
-      </View>
       <View
         style={
           Array [
@@ -819,7 +699,7 @@ Array [
 ]
 `;
 
-exports[`<FlutterwaveButton /> renders modal with visibile property as true if payment link is available 1`] = `
+exports[`<FlutterwaveButton /> renders modal with visibile property as true if show dialog state is true 1`] = `
 Array [
   <View
     accessible={true}
@@ -872,11 +752,8 @@ Array [
     />
   </View>,
   <Modal
-    animated={true}
-    animationType="slide"
+    animated={false}
     hardwareAccelerated={false}
-    onDismiss={[Function]}
-    onShow={[Function]}
     transparent={true}
     visible={true}
   >
@@ -906,44 +783,17 @@ Array [
       style={
         Object {
           "backgroundColor": "#efefef",
-          "borderTopLeftRadius": 35.732142857142854,
-          "borderTopRightRadius": 35.732142857142854,
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
           "flex": 1,
-          "marginTop": 96,
+          "marginTop": 1305,
+          "opacity": 0,
           "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
         }
       }
     >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "backgroundColor": "rgba(255, 255, 255, 0.3)",
-            "bottom": 0,
-            "justifyContent": "center",
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <Image
-          resizeMode="contain"
-          source={
-            Object {
-              "testUri": "../../../src/loader.gif",
-            }
-          }
-          style={
-            Object {
-              "height": 64,
-              "resizeMode": "contain",
-              "width": 64,
-            }
-          }
-        />
-      </View>
       <View
         style={
           Array [
