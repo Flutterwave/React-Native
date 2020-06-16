@@ -5,3 +5,12 @@ jest.mock('react-native/Libraries/Alert/Alert', () => {
     alert: jest.fn()
   };
 });
+
+jest.mock('react-native/Libraries/Utilities/Dimensions', () => {
+  return {
+    get: () => ({
+      height: 1305,
+      width: 300,
+    })
+  };
+});
