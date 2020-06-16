@@ -261,13 +261,13 @@ class FlutterwaveButton extends React.Component<
       }) : null;
     }
 
-    // initialize abort controller if not set
-    this.canceller = new AbortController;
-
     // stop if currently in pending mode
     if (isPending) {
       return;
     }
+
+    // initialize abort controller if not set
+    this.canceller = new AbortController;
 
     // fire will initialize handler if available
     if (onWillInitialize) {

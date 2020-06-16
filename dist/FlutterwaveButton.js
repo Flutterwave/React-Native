@@ -180,12 +180,12 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                     code: 'SAME_TXREF'
                 }) : null;
             }
-            // initialize abort controller if not set
-            _this.canceller = new AbortController;
             // stop if currently in pending mode
             if (isPending) {
                 return;
             }
+            // initialize abort controller if not set
+            _this.canceller = new AbortController;
             // fire will initialize handler if available
             if (onWillInitialize) {
                 onWillInitialize();
