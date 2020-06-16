@@ -698,3 +698,24 @@ it("updates state if reset is called.", () => {
   expect(setState).toHaveBeenCalledTimes(1);
   expect(TestRenderer.root.instance.canceller).toBeUndefined();
 });
+
+it("cancels fetch if reset is called and abort controller is set.", () => {
+  // get create instance of flutterwave button
+  const TestRenderer = renderer.create(<FlutterwaveButton
+    onComplete={jest.fn()}
+    options={PaymentOptions}
+  />);
+  fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+  TestRenderer
+    .root
+    .findByProps({testID: BtnTestID})
+    .props
+    .onPress();
+  // spy on abort method
+  const abort = jest.spyOn(TestRenderer.root.instance.canceller, 'abort');
+  // call component will unmount
+  TestRenderer.root.instance.reset();
+  // run checks
+  expect(abort).toHaveBeenCalledTimes(1);
+  // end test
+});
