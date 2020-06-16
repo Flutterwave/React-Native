@@ -147,40 +147,6 @@ describe('<FlutterwaveButton />', () => {
     }, 50);
   });
 
-  it('resets when options prop changes', () => {
-    const FlwButton = renderer.create(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    const resetSpy = jest.spyOn(FlwButton.root.instance, 'reset');
-    FlwButton.update(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={{...PaymentOptions, txref: Date.now() + '-tr'}}
-    />);
-    expect(resetSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('aborts fetch call if options changed', () => {
-    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
-    const Renderer = renderer.create(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    const FlwButtonBtn = Renderer.root.findByProps({testID: BtnTestID});
-    
-    FlwButtonBtn.props.onPress();
-
-    const abortSpy = jest.spyOn(Renderer.root.instance.canceller, 'abort');
-
-    Renderer.update(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={{...PaymentOptions, txref: Date.now() + '-tr'}}
-    />);
-
-    expect(global.fetch).toBeCalledTimes(1);
-    expect(abortSpy).toHaveBeenCalledTimes(1);
-  });
-
   it('asks user to confirm abort when pressed backdrop', () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
@@ -576,40 +542,6 @@ describe('<FlutterwaveButton />', () => {
     // run checks
     expect(willUnmount).toHaveBeenCalledTimes(1);
     expect(TestRenderer.root.instance.canceller).toBeUndefined();
-  });
-
-  it('shows backdrop on modal show', () => {
-    // create renderer
-    const TestRender = renderer.create(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    // find modal
-    const Modals = TestRender.root.findByType(Modal);
-    // spy on backdrop animation function
-    const backdropAnimateSpy = jest.spyOn(TestRender.root.instance, 'animateBackdrop')
-    // fire modal on show prop
-    Modals.props.onShow();
-    // expect backdrop animate spy to have ran once with animation set to 0
-    expect(backdropAnimateSpy).toHaveBeenCalledTimes(1);
-    expect(backdropAnimateSpy).toHaveBeenCalledWith(1);
-  });
-
-  it('hides backdrop on modal dismiss', () => {
-    // create renderer
-    const TestRender = renderer.create(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    // find modal
-    const Modals = TestRender.root.findByType(Modal);
-    // spy on backdrop animation function
-    const backdropAnimateSpy = jest.spyOn(TestRender.root.instance, 'animateBackdrop')
-    // fire modal on dismiss prop
-    Modals.props.onDismiss();
-    // expect backdrop animate spy to have ran once with animation set to 0
-    expect(backdropAnimateSpy).toHaveBeenCalledTimes(1);
-    expect(backdropAnimateSpy).toHaveBeenCalledWith(0);
   });
 
   it('can reload webview if webview ref is set', (done) => {
