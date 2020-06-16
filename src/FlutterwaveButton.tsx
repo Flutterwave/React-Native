@@ -234,7 +234,7 @@ class FlutterwaveButton extends React.Component<
       Animated.timing(animation, {
         toValue: 1,
         duration: 700,
-        easing: Easing.in(Easing.elastic(0.65)),
+        easing: Easing.in(Easing.elastic(0.72)),
         useNativeDriver: false,
       }).start();
     });
