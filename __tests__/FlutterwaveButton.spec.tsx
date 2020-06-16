@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {Modal, TouchableWithoutFeedback, Text, Alert} from 'react-native';
+import {TouchableWithoutFeedback, Text, Alert} from 'react-native';
 import renderer from 'react-test-renderer';
 import FlutterwaveButton from '../src/FlutterwaveButton';
 import {FlutterwaveInitOptions} from '../src/FlutterwaveInit';
@@ -49,6 +49,10 @@ describe('<FlutterwaveButton />', () => {
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Renderer.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     expect(Renderer.toJSON()).toMatchSnapshot();
   });
 
@@ -60,6 +64,10 @@ describe('<FlutterwaveButton />', () => {
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Renderer.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     setTimeout(() => {
       expect(Renderer.toJSON()).toMatchSnapshot();
       done();
@@ -206,6 +214,11 @@ describe('<FlutterwaveButton />', () => {
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
 
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
+
     // ensure the button is disabled after beign pressed
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
@@ -222,6 +235,11 @@ describe('<FlutterwaveButton />', () => {
     headers.append('Content-Type', 'application/json');
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Button.props.onPress();
+
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
 
     expect(global.fetch).toBeCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
@@ -279,6 +297,10 @@ describe('<FlutterwaveButton />', () => {
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     // fire on press
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
      // expect fetch to have been called
      expect(global.fetch).toHaveBeenCalledTimes(1);
      expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
@@ -301,6 +323,10 @@ describe('<FlutterwaveButton />', () => {
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     // fire on press
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     // wait for request to be made
     setTimeout(() => {
       expect(onDidInitialize).toHaveBeenCalledTimes(1);
@@ -321,6 +347,10 @@ describe('<FlutterwaveButton />', () => {
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     // fire on press
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     // wait for request to be made
     setTimeout(() => {
       expect(onWillInitialize).toHaveBeenCalledTimes(1);
@@ -342,6 +372,10 @@ describe('<FlutterwaveButton />', () => {
     fetchMock.mockRejectOnce(err);
     // fire on press
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     // wait for request to be made
     setTimeout(() => {
       expect(OnInitializeError).toHaveBeenCalledTimes(1);
@@ -366,6 +400,10 @@ describe('<FlutterwaveButton />', () => {
     fetchMock.mockAbortOnce();
     // fire on press
     FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
     // wait for request to be made
     setTimeout(() => {
       expect(setState).toHaveBeenCalledTimes(1);
@@ -403,6 +441,11 @@ describe('<FlutterwaveButton />', () => {
     const Button = TestRenderer.root.findByProps({testID: BtnTestID});
     Button.props.onPress();
 
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
+
     // wait for fetch to complete
     setTimeout(() => {
       // find webview and fire webview onNavigationStateChange
@@ -438,6 +481,11 @@ describe('<FlutterwaveButton />', () => {
     // find button and 
     const Button = TestRenderer.root.findByProps({testID: BtnTestID});
     Button.props.onPress();
+
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
 
     // wait for fetch to complete
     setTimeout(() => {
@@ -487,6 +535,11 @@ describe('<FlutterwaveButton />', () => {
 
     // press init button
     TestRenderer.root.findByProps({testID: BtnTestID}).props.onPress();
+
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
 
     // wait for fetch to complete
     setTimeout(() => {
@@ -549,11 +602,16 @@ describe('<FlutterwaveButton />', () => {
     const TestRender = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
       options={PaymentOptions}
-    />);
+    />); 
     // mock next fetch request
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     // fire on press
     TestRender.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
+  
     // wait for standard call to occurr
     setTimeout(() => {
       const webviewReload = jest.spyOn(
