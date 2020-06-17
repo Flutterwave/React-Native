@@ -13,7 +13,8 @@
     "postcopy-files": "copyfiles -u 1 dist/* dist/utils/* example/src",
     "android": "cd example && npm run android",
     "ios": "cd example && npm run ios",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "release": "./node_modules/.bin/semantic-release"
   },
   "files": [
     "dist"
@@ -25,6 +26,7 @@
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.6.3",
     "@react-native-community/eslint-config": "^1.0.0",
+    "@semantic-release/git": "^9.0.0",
     "@types/jest": "^24.9.1",
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.62.2",
@@ -49,6 +51,7 @@
     "react": "^16.13.1",
     "react-native": "^0.62.2",
     "react-test-renderer": "16.8.6",
+    "semantic-release": "^17.0.8",
     "ts-jest": "^24.2.0",
     "typescript": "^3.8.3"
   },
