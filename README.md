@@ -20,7 +20,7 @@ In order to use the dialog pop up this library depends on [react-native-webview]
 Below are a few examples showcasing how you can use the library to implement payment in you React Native app.
 
 ## Flutterwave Button
-![preview](.github/images/pay-with-flutterwave)
+![preview](.github/images/pay-with-flutterwave.png)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
@@ -53,7 +53,7 @@ const MyComponent = (props) => {
 ````
 
 ## Flutterwave Button (with custom render)
-![preview](.github/images/pay-with-flutterwave-custom)
+![preview](.github/images/pay-with-flutterwave-custom.png)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
