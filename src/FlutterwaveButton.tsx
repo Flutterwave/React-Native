@@ -59,7 +59,7 @@ export interface FlutterwaveButtonProps {
   onComplete: (data: OnCompleteData) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
-  OnInitializeError?: (error: FlutterwaveInitError) => void;
+  onInitializeError?: (error: FlutterwaveInitError) => void;
   onAbort?: () => void;
   options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
   customButton?: (params: CustomButtonParams) => React.ReactNode;
@@ -90,7 +90,7 @@ class FlutterwaveButton extends React.Component<
     onComplete: PropTypes.func.isRequired,
     onWillInitialize: PropTypes.func,
     onDidInitialize: PropTypes.func,
-    OnInitializeError: PropTypes.func,
+    onInitializeError: PropTypes.func,
     options: PropTypes.shape({
       txref: PropTypes.string.isRequired,
       PBFPubKey: PropTypes.string.isRequired,
@@ -250,12 +250,12 @@ class FlutterwaveButton extends React.Component<
   };
 
   handleInit = () => {
-    const {options, onWillInitialize, OnInitializeError, onDidInitialize} = this.props;
+    const {options, onWillInitialize, onInitializeError, onDidInitialize} = this.props;
     const {isPending, txref} = this.state;
 
     // throw error if transaction reference has not changed
     if (txref === options.txref) {
-      return OnInitializeError ? OnInitializeError({
+      return onInitializeError ? onInitializeError({
         message: 'Please generate a new transaction reference.',
         code: 'SAME_TXREF',
       }) : null;
@@ -292,10 +292,10 @@ class FlutterwaveButton extends React.Component<
         if (result.error && /aborterror/i.test(result.error.code)) {
           return;
         }
-        // call OnInitializeError handler if an error occured
+        // call onInitializeError handler if an error occured
         if (!result.link) {
-          if (OnInitializeError && result.error) {
-            OnInitializeError(result.error);
+          if (onInitializeError && result.error) {
+            onInitializeError(result.error);
           }
           return this.dismiss();
         }

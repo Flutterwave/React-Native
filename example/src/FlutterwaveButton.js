@@ -171,11 +171,11 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             }).start(_this.reset);
         };
         _this.handleInit = function () {
-            var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, OnInitializeError = _a.OnInitializeError, onDidInitialize = _a.onDidInitialize;
+            var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, onInitializeError = _a.onInitializeError, onDidInitialize = _a.onDidInitialize;
             var _b = _this.state, isPending = _b.isPending, txref = _b.txref;
             // throw error if transaction reference has not changed
             if (txref === options.txref) {
-                return OnInitializeError ? OnInitializeError({
+                return onInitializeError ? onInitializeError({
                     message: 'Please generate a new transaction reference.',
                     code: 'SAME_TXREF'
                 }) : null;
@@ -209,10 +209,10 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                             if (result.error && /aborterror/i.test(result.error.code)) {
                                 return [2 /*return*/];
                             }
-                            // call OnInitializeError handler if an error occured
+                            // call onInitializeError handler if an error occured
                             if (!result.link) {
-                                if (OnInitializeError && result.error) {
-                                    OnInitializeError(result.error);
+                                if (onInitializeError && result.error) {
+                                    onInitializeError(result.error);
                                 }
                                 return [2 /*return*/, this.dismiss()];
                             }
@@ -338,7 +338,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         onComplete: PropTypes.func.isRequired,
         onWillInitialize: PropTypes.func,
         onDidInitialize: PropTypes.func,
-        OnInitializeError: PropTypes.func,
+        onInitializeError: PropTypes.func,
         options: PropTypes.shape({
             txref: PropTypes.string.isRequired,
             PBFPubKey: PropTypes.string.isRequired,

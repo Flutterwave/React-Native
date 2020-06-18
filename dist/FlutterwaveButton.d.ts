@@ -25,7 +25,7 @@ export interface FlutterwaveButtonProps {
     onComplete: (data: OnCompleteData) => void;
     onWillInitialize?: () => void;
     onDidInitialize?: () => void;
-    OnInitializeError?: (error: FlutterwaveInitError) => void;
+    onInitializeError?: (error: FlutterwaveInitError) => void;
     onAbort?: () => void;
     options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
     customButton?: (params: CustomButtonParams) => React.ReactNode;
@@ -51,7 +51,7 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
         onComplete: PropTypes.Validator<(...args: any[]) => any>;
         onWillInitialize: PropTypes.Requireable<(...args: any[]) => any>;
         onDidInitialize: PropTypes.Requireable<(...args: any[]) => any>;
-        OnInitializeError: PropTypes.Requireable<(...args: any[]) => any>;
+        onInitializeError: PropTypes.Requireable<(...args: any[]) => any>;
         options: PropTypes.Validator<PropTypes.InferProps<{
             txref: PropTypes.Validator<string>;
             PBFPubKey: PropTypes.Validator<string>;
