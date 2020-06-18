@@ -20,7 +20,7 @@ In order to use the dialog pop up this library depends on [react-native-webview]
 Below are a few examples showcasing how you can use the library to implement payment in you React Native app.
 
 ## Flutterwave Button
-![preview](.github/images/pay-with-flutterwave.png)
+![preview](.github/images/pay-with-flutterwave.png =200x)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
@@ -35,10 +35,8 @@ const MyComponent = (props) => {
     <View>
       ...
       <FlutterwaveButton
-        style={styles.paymentButton}
+        ...
         onComplete={handleOnComplete}
-        onAbort={handleOnInitializeError}
-        onInitializeError={handleOnInitializeError}
         options={{
           txref: txref,
           PBFPubKey: '[Your Flutterwave Public Key]',
@@ -53,7 +51,7 @@ const MyComponent = (props) => {
 ````
 
 ## Flutterwave Button (with custom render)
-![preview](.github/images/pay-with-flutterwave-custom.png)
+![preview](.github/images/pay-with-flutterwave-custom.png =200x)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
@@ -68,16 +66,9 @@ const MyComponent = (props) => {
     <View>
       ...
       <FlutterwaveButton
+        ...
         onComplete={handleOnComplete}
-        onAbort={handleOnInitializeError}
-        onInitializeError={handleOnInitializeError}
-        options={{
-          txref: txref,
-          PBFPubKey: '[Your Flutterwave Public Key]',
-          customer_email: 'customer-email@example.com',
-          amount: 2000,
-          currency: 'NGN',
-        }}
+        options={{...}}
         customButton={(props) => (
           <TouchableOpacity
             onPress={props.onPress}
