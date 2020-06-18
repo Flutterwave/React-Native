@@ -3,7 +3,9 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-![preview](.github/images/github-preview.gif)
+<div style="text-align: center; margin: 24px 0px 48px;">
+<img src=".github/images/github-preview.gif" alt="preview" style="max-width: 400px; display:inline-text;"/>
+</div>
 
 ## What's Inside?
 - Pay with Flutterwave button and checkout dialog.
@@ -20,7 +22,7 @@ In order to use the dialog pop up this library depends on [react-native-webview]
 Below are a few examples showcasing how you can use the library to implement payment in you React Native app.
 
 ## Flutterwave Button
-![preview](.github/images/pay-with-flutterwave.png =200x)
+<img src=".github/images/pay-with-flutterwave.png" alt="preview" style="max-width: 350px;"/>
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
@@ -51,7 +53,7 @@ const MyComponent = (props) => {
 ````
 
 ## Flutterwave Button (with custom render)
-![preview](.github/images/pay-with-flutterwave-custom.png =200x)
+<img src=".github/images/pay-with-flutterwave-custom.png" alt="preview" style="max-width: 350px;"/>
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````javascript
