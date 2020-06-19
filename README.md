@@ -152,7 +152,7 @@ handlePaymentError(
 | onPress | Yes | function | undefined | This |
 | disabled | No | boolean | undefined | This disables button, and causes onPress not to be fired.|
 | isBusy | No | boolean | undefined | This puts the button in a busy state, making the content look faded.|
-| onSizeChange | No | (props: {width: number; height: number}) => void | undefined | If provided this function is fired whenever the size(height or width) of the button changes |
+| onSizeChange | No | (ev: {width: number; height: number}) => void | undefined | If provided this function is fired whenever the size(height or width) of the button changes |
 | children | Yes | ReactElement | undefined | This will be the content rendered within the button, if string is to be direct decendant, remember to put string in the Text component. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
@@ -238,7 +238,7 @@ interface DefaultButtonProps {
   disabled?: boolean;
   children: React.ReactElement;
   isBusy?: boolean;
-  onSizeChange?: (props: {width: number; height: number}) => void;
+  onSizeChange?: (ev: {width: number; height: number}) => void;
   alignLeft?: 'alignLeft' | boolean,
 }
 ````
