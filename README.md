@@ -142,7 +142,7 @@ handlePaymentError(
 | onInitializeError | No | function | undefined | This is called if an error occurred while initializing a new pyment link. The function will receive [FlutterwaveInitError](#flutterwaveiniterror) |
 | onAbort | No | function | undefined | This is called if a user aborts a transaction, a user can abort a transaction when they click on the dialog's backdrop and choose cancel when prompted to cancel transaction. |
 | options | Yes | **[FlutterwaveInitOptions](#flutterwaveinitoptions)** | **REQUIRED** | The option passed here is used to initialize a payment. |
-| customButton | No | **(data: [CustomButtonProps](#custombuttonprops)) => (<Element/>)** | undefined | This is used to render a custom button. |
+| customButton | No | function | undefined | This is used to render a custom button. The function a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ### DefaultButtonProps
@@ -153,7 +153,7 @@ handlePaymentError(
 | disabled | No | boolean | undefined | This disables button, and causes onPress not to be fired.|
 | isBusy | No | boolean | undefined | This puts the button in a busy state, making the content look faded.|
 | onSizeChange | No | (props: {width: number; height: number}) => void | undefined | If provided this function is fired whenever the size(height or width) of the button changes |
-| children | Yes | <Element/> | undefined | This will be the content rendered within the button, if string is to be direct decendant, remember to put string in the Text component. |
+| children | Yes | ReactElement | undefined | This will be the content rendered within the button, if string is to be direct decendant, remember to put string in the Text component. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ## Types
