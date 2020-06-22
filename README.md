@@ -215,7 +215,7 @@ interface FlutterwavePaymentMeta {
 }
 ````
 
-#### FlutterwaveInitOptions
+#### FlutterwaveInitOptions Interface
 ````typescript
 export interface FlutterwaveInitOptions {
   txref: string;
@@ -225,7 +225,7 @@ export interface FlutterwaveInitOptions {
   customer_phone?: string;
   customer_email: string;
   amount: number;
-  currency: string;
+  currency?: string;
   redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
@@ -239,7 +239,7 @@ export interface FlutterwaveInitOptions {
 }
 ````
 
-#### FlutterwaveButtonProps
+#### FlutterwaveButtonProps Interface
 ````typescript
 interface FlutterwaveButtonProps {
   style?: ViewStyle;
@@ -254,7 +254,7 @@ interface FlutterwaveButtonProps {
 }
 ````
 
-#### DefaultButtonProps
+#### DefaultButtonProps Interface
 ````typescript
 interface DefaultButtonProps {
   style?: ViewStyle;
