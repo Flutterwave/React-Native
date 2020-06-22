@@ -132,6 +132,30 @@ handlePaymentError(
 ````
 
 ## Props
+
+### FlutterwaveInitOptions
+[See Interface](#flutterwaveinitoptions-interface)
+| Name     | Required | Type | Default | Description |
+| --------- | --------- | ---- | ------- | ----------- |
+| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v2.0/docs/api-keys)|
+| txref | Yes | string | **REQUIRED** | Your Unique transaction reference.|
+| customer_email | Yes | string | **REQUIRED** | The customer's email address. |
+| customer_phone | No | string | undefined | The customer's phone number. |
+| customer_firstname | No | string | undefined | The customer's first name. |
+| customer_lastname | No | string | undefined | The customer's last name. |
+| amount | Yes | number | undefined | Amount to charge the customer.|
+| currency | No | string | NGN | Currency to charge in. Defaults to NGN. Check our [International Payments](https://developer.flutterwave.com/v2.0/docs/multicurrency-payments) section for more on international currencies.|
+| redirect_url | No | string | undefined | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. |
+| payment_options | No | string | undefined | This allows you to select the payment option you want for your users, see [Choose Payment Methods](https://developer.flutterwave.com/v2.0/docs/splitting-payment-methods) for more info. |
+| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v2.0/docs/recurring-billing). |
+| subaccounts | No | array | undefined | This is an array of objects containing the subaccount IDs to split the payment into. |
+| country | No | string | NG | Route country. Defaults to NG |
+| pay_button_text | No | string | undefined | Text to be displayed on the Rave Checkout Button. |
+| custom_title | No | string | undefined | Text to be displayed as the title of the payment modal. |
+| custom_description | No | string | undefined | Text to be displayed as a short modal description. |
+| custom_logo | No | string | undefined | Link to the Logo image. |
+| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | Any other custom data you wish to pass. |
+
 ### FlutterwaveButtonProps
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
