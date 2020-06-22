@@ -295,4 +295,4 @@ interface DefaultButtonProps {
 ````
 
 ## Contributing
-For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.MD), all contributions are greatly appreciated..
+For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
