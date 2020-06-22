@@ -4,7 +4,8 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 <p align="center">
-  <img src=".github/images/github-preview.gif" alt="preview"/>
+    <img src=".github/images/github-preview-ios.gif" alt="ios-preview"/>
+    <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
 ## What's Inside?
