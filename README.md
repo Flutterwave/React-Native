@@ -269,3 +269,6 @@ interface DefaultButtonProps {
   alignLeft?: 'alignLeft' | boolean,
 }
 ````
+
+## Contributing
+For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.MD), all contributions are greatly appreciated..
