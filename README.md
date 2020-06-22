@@ -8,6 +8,30 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
     <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
+## Table Of Content
+- Getting Started
+  - [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
+- Usage
+  - [Flutterwave Button ](#flutterwave-button)
+  - [Flutterwave Button (with custom render)](#flutterwave-button-with-custom-render)
+  - [Default Button (Flutterwave styled button)](#defaultbutton-flutterwave-styled-button)
+  - [Flutterwave Standard Init](#flutterwave-standard-init)
+- Props
+  - [Flutterwave Button Props](#flutterwavebuttonprops)
+  - [Default Button Props](#defaultbuttonprops)
+  - [Flutterwave Init Options](#flutterwaveinitoptions)
+- Types
+  - [Flutterwave Button Props](#flutterwavebuttonprops-interface)
+  - [Default Button Props](#defaultbuttonprops-interface)
+  - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
+  - [Flutterwave Init Error](#flutterwaveiniterror)
+  - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
+  - [OnCompleteData](#oncompletedata)
+  - [CustomButtonProps](#custombuttonprops)
+- [Contributing](./CONTRIBUTING.md)
+
 ## What's Inside?
 - Pay with Flutterwave button and checkout dialog.
 - Standard payment initialization function.
