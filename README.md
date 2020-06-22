@@ -9,16 +9,16 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 
 ## What's Inside?
 - Pay with Flutterwave button and checkout dialog.
-- Standard payment initialisation function.
+- Standard payment initialization function.
 - Flutterwave designed button.
 
 ## Installation
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
 
-## Dependencies
+### Dependencies
 In order to use the dialog pop up this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
 
-## Activity Indicator (only needed for android)
+### Activity Indicator (only needed for android)
 To display Flutterwave styled the activity indicator when the checkout screen is being loaded on android you will need to add some modules in `android/app/build.gradle`.
 ***Skip this if you already have setup your app to support gif images.***
 ````javascript
@@ -157,9 +157,10 @@ handlePaymentError(
 | meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | Any other custom data you wish to pass. |
 
 ### FlutterwaveButtonProps
+[See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | Object | undefined | Used to apply styling to the button.|
+| style | No | object | undefined | Used to apply styling to the button.|
 | onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is cancelled. The function will receive [on complete data](#oncompletedata)|
 | onWillInitialize | No | function | undefined | This will be called before a payment link is generated.|
 | onDidInitialize | No | function | undefined | This is called when a new payment link has been successfully initialized.|
@@ -170,9 +171,10 @@ handlePaymentError(
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ### DefaultButtonProps
+[See Interface](#defaultbuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | Object | undefined | Used to apply styling to the button.|
+| style | No | object | undefined | Used to apply styling to the button.|
 | onPress | Yes | function | undefined | This |
 | disabled | No | boolean | undefined | This disables button, and causes onPress not to be fired.|
 | isBusy | No | boolean | undefined | This puts the button in a busy state, making the content look faded.|
