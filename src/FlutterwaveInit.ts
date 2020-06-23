@@ -1,6 +1,6 @@
 import {STANDARD_URL} from './configs';
 
-type FlutterwavePaymentMeta = {
+interface FlutterwavePaymentMeta {
   metaname: string;
   metavalue: string;
 }
@@ -13,7 +13,7 @@ export interface FlutterwaveInitOptions {
   customer_phone?: string;
   customer_email: string;
   amount: number;
-  currency: string;
+  currency?: string;
   redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
