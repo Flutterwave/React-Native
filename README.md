@@ -13,6 +13,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
+  - [Important Information](#fire-important-information-fire)
 - Usage
   - [Flutterwave Button ](#flutterwave-button)
   - [Flutterwave Button (with custom render)](#flutterwave-button-with-custom-render)
@@ -55,6 +56,11 @@ dependencies {
   implementation 'com.facebook.fresco:animated-gif:2.0.0'
 }
 ````
+
+### :fire: IMPORTANT INFORMATION :fire:
+If the `options` property on the [FlutterwaveButton](flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
+
+Remember you cannot use the same transaction reference for two different payments, remember to recreate the transaction reference before allowing the user initiate a new payment.
 
 
 ## Usage
@@ -296,3 +302,5 @@ interface DefaultButtonProps {
 
 ## Contributing
 For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
+
+Built with love. :heart:
