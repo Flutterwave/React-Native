@@ -10,38 +10,17 @@ import {colors} from './configs';
 
 interface DefaultButtonProps {
   style?: ViewStyle;
-  textStyle?: any;
-  overlayStyle?: any;
   onPress?: () => void;
   disabled?: boolean;
-  underlayColor?: string;
   children: React.ReactElement;
   isBusy?: boolean;
-  onSizeChange?: (props: {width: number; height: number}) => void;
-  alt?: 'alt' | boolean,
+  onSizeChange?: (ev: {width: number; height: number}) => void;
   alignLeft?: 'alignLeft' | boolean,
 }
 
-function getBaseStyle(alt?: 'alt' | boolean) {
-  if (alt) {
-    return {
-      ...styles.button,
-      ...styles.buttonAlt
-    };
-  }
-  return styles.button;
-}
-
-
-function getBusyStyle(isBusy?: 'isBusy' | boolean, alt?: 'alt' | boolean) {
+function getBusyStyle(isBusy?: 'isBusy' | boolean) {
   if (!isBusy) {
     return {};
-  }
-  if (alt) {
-    return {
-      ...styles.buttonBusy,
-      ...styles.buttonAltBusy
-    };
   }
   return styles.buttonBusy;
 }
@@ -51,16 +30,6 @@ function getAlginStyle(alignLeft?: 'alignLeft' | boolean) {
     return styles.buttonAlignLeft;
   }
   return {};
-}
-
-function getBusyOverlayStyle(alt?: 'alt' | boolean) {
-  if (alt) {
-    return{
-      ...styles.buttonBusyOvelay,
-      ...styles.buttonAltBusyOvelay
-    };
-  }
-  return styles.buttonBusyOvelay;
 }
 
 /**
@@ -73,9 +42,7 @@ const DefaultButton: React.FC<DefaultButtonProps> = function Button({
   disabled,
   children,
   isBusy,
-  overlayStyle,
   onSizeChange,
-  alt,
   alignLeft,
 }) {
   const handleOnLayout = (ev: LayoutChangeEvent) => {
@@ -87,12 +54,12 @@ const DefaultButton: React.FC<DefaultButtonProps> = function Button({
 
   return (
     <TouchableHighlight
-      underlayColor={alt ? '#fff' : colors.primary}
+      underlayColor={colors.primary}
       disabled={disabled}
       onPress={onPress}
       style={{
-        ...getBaseStyle(alt),
-        ...getBusyStyle(isBusy, alt),
+        ...styles.button,
+        ...getBusyStyle(isBusy),
         ...getAlginStyle(alignLeft),
         ...(style || {}
       )}}
@@ -102,21 +69,12 @@ const DefaultButton: React.FC<DefaultButtonProps> = function Button({
       <>
         {children}
         {isBusy
-          ? (<View
-              style={{
-                ...getBusyOverlayStyle(alt),
-                ...(overlayStyle || {})
-              }}
-            />)
+          ? (<View style={styles.buttonBusyOvelay} />)
           : null}
       </>
     </TouchableHighlight>
   );
 };
-
-DefaultButton.defaultProps = {
-  underlayColor: colors.primary,
-}
 
 const styles = StyleSheet.create({
   buttonBusyOvelay: {

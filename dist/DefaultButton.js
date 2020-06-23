@@ -12,18 +12,9 @@ var __assign = (this && this.__assign) || function () {
 import React from 'react';
 import { View, StyleSheet, TouchableHighlight, } from "react-native";
 import { colors } from './configs';
-function getBaseStyle(alt) {
-    if (alt) {
-        return __assign(__assign({}, styles.button), styles.buttonAlt);
-    }
-    return styles.button;
-}
-function getBusyStyle(isBusy, alt) {
+function getBusyStyle(isBusy) {
     if (!isBusy) {
         return {};
-    }
-    if (alt) {
-        return __assign(__assign({}, styles.buttonBusy), styles.buttonAltBusy);
     }
     return styles.buttonBusy;
 }
@@ -33,35 +24,26 @@ function getAlginStyle(alignLeft) {
     }
     return {};
 }
-function getBusyOverlayStyle(alt) {
-    if (alt) {
-        return __assign(__assign({}, styles.buttonBusyOvelay), styles.buttonAltBusyOvelay);
-    }
-    return styles.buttonBusyOvelay;
-}
 /**
  * Button base design.
  * @param param0
  */
 var DefaultButton = function Button(_a) {
-    var style = _a.style, onPress = _a.onPress, disabled = _a.disabled, children = _a.children, isBusy = _a.isBusy, overlayStyle = _a.overlayStyle, onSizeChange = _a.onSizeChange, alt = _a.alt, alignLeft = _a.alignLeft;
+    var style = _a.style, onPress = _a.onPress, disabled = _a.disabled, children = _a.children, isBusy = _a.isBusy, onSizeChange = _a.onSizeChange, alignLeft = _a.alignLeft;
     var handleOnLayout = function (ev) {
         var _a = ev.nativeEvent.layout, width = _a.width, height = _a.height;
         if (onSizeChange) {
             onSizeChange({ width: width, height: height });
         }
     };
-    return (<TouchableHighlight underlayColor={alt ? '#fff' : colors.primary} disabled={disabled} onPress={onPress} style={__assign(__assign(__assign(__assign({}, getBaseStyle(alt)), getBusyStyle(isBusy, alt)), getAlginStyle(alignLeft)), (style || {}))} activeOpacity={1} onLayout={handleOnLayout} testID='flw-default-button'>
+    return (<TouchableHighlight underlayColor={colors.primary} disabled={disabled} onPress={onPress} style={__assign(__assign(__assign(__assign({}, styles.button), getBusyStyle(isBusy)), getAlginStyle(alignLeft)), (style || {}))} activeOpacity={1} onLayout={handleOnLayout} testID='flw-default-button'>
       <>
         {children}
         {isBusy
-        ? (<View style={__assign(__assign({}, getBusyOverlayStyle(alt)), (overlayStyle || {}))}/>)
+        ? (<View style={styles.buttonBusyOvelay}/>)
         : null}
       </>
     </TouchableHighlight>);
-};
-DefaultButton.defaultProps = {
-    underlayColor: colors.primary
 };
 var styles = StyleSheet.create({
     buttonBusyOvelay: {

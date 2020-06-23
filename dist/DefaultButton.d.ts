@@ -2,18 +2,14 @@ import React from 'react';
 import { ViewStyle } from "react-native";
 interface DefaultButtonProps {
     style?: ViewStyle;
-    textStyle?: any;
-    overlayStyle?: any;
     onPress?: () => void;
     disabled?: boolean;
-    underlayColor?: string;
     children: React.ReactElement;
     isBusy?: boolean;
-    onSizeChange?: (props: {
+    onSizeChange?: (ev: {
         width: number;
         height: number;
     }) => void;
-    alt?: 'alt' | boolean;
     alignLeft?: 'alignLeft' | boolean;
 }
 /**
