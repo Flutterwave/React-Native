@@ -57,7 +57,6 @@ import { PaymentOptionsPropRule } from './utils/CustomPropTypesRules';
 import DefaultButton from './DefaultButton';
 var loader = require('./loader.gif');
 var pryContent = require('./pry-button-content.png');
-var altContent = require('./alt-button-content.png');
 var contentWidthPercentage = 0.6549707602;
 var contentSizeDimension = 8.2962962963;
 var contentMaxWidth = 187.3;
@@ -286,7 +285,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
       </>);
     };
     FlutterwaveButton.prototype.renderButton = function () {
-        var _a = this.props, customButton = _a.customButton, style = _a.style, alt = _a.alt, alignLeft = _a.alignLeft;
+        var _a = this.props, customButton = _a.customButton, style = _a.style, alignLeft = _a.alignLeft;
         var _b = this.state, isPending = _b.isPending, link = _b.link, buttonSize = _b.buttonSize;
         var contentWidth = buttonSize.width * contentWidthPercentage;
         var contentHeight = contentWidth / contentSizeDimension;
@@ -311,8 +310,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             });
         }
         // render primary button
-        return (<DefaultButton alt={alt} alignLeft={alignLeft} style={style} isBusy={isPending && !link} disabled={isPending || link ? true : false} onPress={this.handleInit} onSizeChange={this.handleButtonResize}>
-        <Image source={alt ? altContent : pryContent} resizeMode="contain" resizeMethod="resize" style={[styles.buttonContent, contentSizeStyle]} fadeDuration={0}/>
+        return (<DefaultButton alignLeft={alignLeft} style={style} isBusy={isPending && !link} disabled={isPending || link ? true : false} onPress={this.handleInit} onSizeChange={this.handleButtonResize}>
+        <Image source={pryContent} resizeMode="contain" resizeMethod="resize" style={[styles.buttonContent, contentSizeStyle]} fadeDuration={0}/>
       </DefaultButton>);
     };
     FlutterwaveButton.prototype.renderBackdrop = function () {
@@ -344,7 +343,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             PBFPubKey: PropTypes.string.isRequired,
             customer_email: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
-            currency: PropTypes.oneOf(['NGN', 'USD']).isRequired,
+            currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
             payment_options: PaymentOptionsPropRule,
             payment_plan: PropTypes.number,
             subaccounts: PropTypes.arrayOf(PropTypes.number),

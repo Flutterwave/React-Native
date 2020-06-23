@@ -25,7 +25,6 @@ import {PaymentOptionsPropRule} from './utils/CustomPropTypesRules';
 import DefaultButton from './DefaultButton';
 const loader = require('./loader.gif');
 const pryContent = require('./pry-button-content.png');
-const altContent = require('./alt-button-content.png');
 const contentWidthPercentage = 0.6549707602;
 const contentSizeDimension = 8.2962962963;
 const contentMaxWidth = 187.3;
@@ -35,13 +34,13 @@ const contentMinHeight = contentMinWidth / contentSizeDimension;
 const borderRadiusDimension = 24 / 896;
 const windowHeight = Dimensions.get('window').height;
 
-interface CustomButtonParams {
+interface CustomButtonProps {
   disabled: boolean;
   isInitializing: boolean;
   onPress: () => void;
 }
 
-type OnCompleteData = {
+interface OnCompleteData {
   cancelled: boolean;
   flwref?: string;
   txref: string;
@@ -62,8 +61,7 @@ export interface FlutterwaveButtonProps {
   onInitializeError?: (error: FlutterwaveInitError) => void;
   onAbort?: () => void;
   options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
-  customButton?: (params: CustomButtonParams) => React.ReactNode;
-  alt?: 'alt' | boolean;
+  customButton?: (params: CustomButtonProps) => React.ReactNode;
   alignLeft?: 'alignLeft' | boolean;
 }
 
@@ -96,7 +94,7 @@ class FlutterwaveButton extends React.Component<
       PBFPubKey: PropTypes.string.isRequired,
       customer_email: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
-      currency: PropTypes.oneOf(['NGN', 'USD']).isRequired,
+      currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
       payment_options: PaymentOptionsPropRule,
       payment_plan: PropTypes.number,
       subaccounts: PropTypes.arrayOf(PropTypes.number),
@@ -347,7 +345,7 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderButton() {
-    const {customButton, style, alt, alignLeft} = this.props;
+    const {customButton, style, alignLeft} = this.props;
     const {isPending, link, buttonSize} = this.state;
     const contentWidth = buttonSize.width * contentWidthPercentage;
     const contentHeight = contentWidth / contentSizeDimension;
@@ -376,7 +374,6 @@ class FlutterwaveButton extends React.Component<
     // render primary button
     return (
       <DefaultButton
-        alt={alt}
         alignLeft={alignLeft}
         style={style}
         isBusy={isPending && !link}
@@ -384,7 +381,7 @@ class FlutterwaveButton extends React.Component<
         onPress={this.handleInit}
         onSizeChange={this.handleButtonResize}>
         <Image
-          source={alt ? altContent : pryContent}
+          source={pryContent}
           resizeMode="contain"
           resizeMethod="resize"
           style={[styles.buttonContent, contentSizeStyle]}

@@ -4,16 +4,16 @@ import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
 import { WebViewNavigation } from 'react-native-webview/lib/WebViewTypes';
 import { FlutterwaveInitOptions, FlutterwaveInitError } from './FlutterwaveInit';
-interface CustomButtonParams {
+interface CustomButtonProps {
     disabled: boolean;
     isInitializing: boolean;
     onPress: () => void;
 }
-declare type OnCompleteData = {
+interface OnCompleteData {
     cancelled: boolean;
     flwref?: string;
     txref: string;
-};
+}
 interface RedirectParams {
     cancelled: 'true' | 'false';
     flwref?: string;
@@ -28,8 +28,7 @@ export interface FlutterwaveButtonProps {
     onInitializeError?: (error: FlutterwaveInitError) => void;
     onAbort?: () => void;
     options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
-    customButton?: (params: CustomButtonParams) => React.ReactNode;
-    alt?: 'alt' | boolean;
+    customButton?: (params: CustomButtonProps) => React.ReactNode;
     alignLeft?: 'alignLeft' | boolean;
 }
 interface FlutterwaveButtonState {
@@ -57,7 +56,7 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
             PBFPubKey: PropTypes.Validator<string>;
             customer_email: PropTypes.Validator<string>;
             amount: PropTypes.Validator<number>;
-            currency: PropTypes.Validator<string>;
+            currency: PropTypes.Requireable<string>;
             payment_options: (props: {
                 [k: string]: any;
             }, propName: string) => Error | null;
