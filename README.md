@@ -73,7 +73,7 @@ Below are a few examples showcasing how you can use the library to implement pay
 [View All Props](#flutterwavebuttonprops)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
-````javascript
+````jsx
 import {FlutterwaveButton} from 'react-native-flutterwave';
 // or import FlutterwaveButton from 'react-native-flutterwave';
 
@@ -96,7 +96,7 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
 [View All Props](#flutterwavebuttonprops)
 
 Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
-````javascript
+````jsx
 import {FlutterwaveButton} from 'react-native-flutterwave';
 // or import FlutterwaveButton from 'react-native-flutterwave';
 
@@ -122,7 +122,7 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
 [View All Props](#defaultbuttonprops)
 
 Import `DefaultButton` from `react-native-flutterwave` and use it like so.
-````javascript
+````jsx
 import {DefaultButton} from 'react-native-flutterwave';
 
 <DefaultButton
