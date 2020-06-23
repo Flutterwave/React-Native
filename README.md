@@ -163,7 +163,7 @@ handlePaymentError(
 );
 ````
 ### Aborting Payment Initialization
-Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way you can do this... [continue reading](./docs/AbortingPaymentInitialization.md)
+Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/AbortingPaymentInitialization.md)
 
 ## Props
 
