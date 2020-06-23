@@ -19,6 +19,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Flutterwave Button (with custom render)](#flutterwave-button-with-custom-render)
   - [Default Button (Flutterwave styled button)](#defaultbutton-flutterwave-styled-button)
   - [Flutterwave Standard Init](#flutterwave-standard-init)
+  - [Aborting Payment Initialization](#aborting-payment-initialization)
 - Props
   - [Flutterwave Button Props](#flutterwavebuttonprops)
   - [Default Button Props](#defaultbuttonprops)
@@ -161,6 +162,8 @@ handlePaymentError(
     : 'Kai, an unknown error occurred!'
 );
 ````
+### Aborting Payment Initialization
+Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way you can do this... [continue reading](./docs/AbortingPaymentInitialization.md)
 
 ## Props
 
