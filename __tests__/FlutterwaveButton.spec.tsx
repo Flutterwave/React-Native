@@ -31,16 +31,7 @@ describe('<FlutterwaveButton />', () => {
     />);
     expect(Renderer.toJSON()).toMatchSnapshot();
   });
-
-  it('renders component with alt button correctly', () => {
-    const Renderer = renderer.create(<FlutterwaveButton
-      alt
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    expect(Renderer.toJSON()).toMatchSnapshot();
-  });
-
+  
   it('renders busy button if isPending', () => {
     // get create instance of flutterwave button
     const Renderer = renderer.create(<FlutterwaveButton

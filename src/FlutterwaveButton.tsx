@@ -82,7 +82,6 @@ class FlutterwaveButton extends React.Component<
   FlutterwaveButtonState
 > {
   static propTypes = {
-    alt: PropTypes.bool,
     alignLeft: PropTypes.bool,
     onAbort: PropTypes.func,
     onComplete: PropTypes.func.isRequired,

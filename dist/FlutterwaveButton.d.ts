@@ -44,7 +44,6 @@ interface FlutterwaveButtonState {
 }
 declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, FlutterwaveButtonState> {
     static propTypes: {
-        alt: PropTypes.Requireable<boolean>;
         alignLeft: PropTypes.Requireable<boolean>;
         onAbort: PropTypes.Requireable<(...args: any[]) => any>;
         onComplete: PropTypes.Validator<(...args: any[]) => any>;

@@ -15,27 +15,9 @@ describe('<DefaultButton />', () => {
     expect(TestRender.toJSON()).toMatchSnapshot();
   });
 
-  it('renders alt button correctly', () => {
-    const TestRender = renderer.create(
-      <DefaultButton alt>
-        <Text>Hello, World</Text>
-      </DefaultButton>
-    );
-    expect(TestRender.toJSON()).toMatchSnapshot();
-  });
-
   it('renders overlay if busy', () => {
     const TestRender = renderer.create(
       <DefaultButton isBusy>
-        <Text>Hello, World</Text>
-      </DefaultButton>
-    );
-    expect(TestRender.toJSON()).toMatchSnapshot();
-  });
-
-  it('renders alt overlay if alt and busy', () => {
-    const TestRender = renderer.create(
-      <DefaultButton alt isBusy>
         <Text>Hello, World</Text>
       </DefaultButton>
     );
