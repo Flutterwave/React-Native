@@ -55,3 +55,4 @@ bundles/
 .settings/
 
 coverage/
+example/src
