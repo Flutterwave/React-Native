@@ -699,4 +699,132 @@ describe('<FlutterwaveButton />', () => {
     expect(abort).toHaveBeenCalledTimes(1);
     // end test
   });
+  
+  it("calls options change handler if options changed", () => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // spy on handleOptionsChanged method
+    const handleOptionsChanged = jest.spyOn(TestRenderer.root.instance, 'handleOptionsChanged');
+    // update component
+    TestRenderer.update(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={{...PaymentOptions, txref: 'Updated txref'}}
+    />)
+    // run checks
+    expect(handleOptionsChanged).toHaveBeenCalledTimes(1);
+    // end test
+  });
+
+  it("does not set state if link has not been set", () => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // spy on setState method
+    const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
+    // update component
+    TestRenderer.update(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={{...PaymentOptions, txref: 'Updated txref'}}
+    />)
+    // run checks
+    expect(setState).toHaveBeenCalledTimes(0);
+    // end test
+  });
+
+  it("resets link if dialog is not being show", (done) => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // mock next fetch
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+    // initialize payment
+    TestRenderer
+      .root
+      .findByProps({testID: BtnTestID})
+      .props
+      .onPress();
+    // wait for mocked fetch
+    setTimeout(() => {
+      // set dialog to hidden
+      TestRenderer.root.instance.setState({showDialog: false});
+      // spy on setState method
+      const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
+      // update component
+      TestRenderer.update(<FlutterwaveButton
+        onComplete={jest.fn()}
+        options={{...PaymentOptions, txref: 'Updated txref'}}
+      />)
+      // run checks
+      expect(setState).toHaveBeenCalledTimes(1);
+      expect(setState).toHaveBeenCalledWith({
+        link: null,
+        txref: null,
+      });
+      // end test
+      done();
+    }, 50);
+  });
+
+  it("schedules a link reset if dialog has already been shown", (done) => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // mock next fetch
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+    // initialize payment
+    TestRenderer
+      .root
+      .findByProps({testID: BtnTestID})
+      .props
+      .onPress();
+    // wait for mocked fetch
+    setTimeout(() => {
+      // spy on setState method
+      const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
+      // update component
+      TestRenderer.update(<FlutterwaveButton
+        onComplete={jest.fn()}
+        options={{...PaymentOptions, txref: 'Updated txref'}}
+      />)
+      // run checks
+      expect(setState).toHaveBeenCalledTimes(1);
+      expect(setState).toHaveBeenCalledWith({resetLink: true});
+      // end test
+      done();
+    }, 50);
+  });
+
+  it("renders checkout screen if link already exist when init is called", (done) => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // set a payment link
+    TestRenderer.root.instance.setState({link: 'http://payment-link.com'});
+    // spy on show method
+    const show = jest.spyOn(TestRenderer.root.instance, 'show');
+    // initialize payment
+    TestRenderer
+      .root
+      .findByProps({testID: BtnTestID})
+      .props
+      .onPress();
+    setTimeout(() => {
+      // run checks
+      expect(show).toHaveBeenCalledTimes(1);
+      expect(global.fetch).toHaveBeenCalledTimes(0);
+      // end test
+      done();
+    }, 20);
+  });
 });
