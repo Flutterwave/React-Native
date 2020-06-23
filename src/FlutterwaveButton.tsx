@@ -71,6 +71,7 @@ interface FlutterwaveButtonState {
   showDialog: boolean;
   animation: Animated.Value;
   txref: string | null;
+  resetLink: boolean;
   buttonSize: {
     width: number;
     height: number;
@@ -113,6 +114,7 @@ class FlutterwaveButton extends React.Component<
   state: FlutterwaveButtonState = {
     isPending: false,
     link: null,
+    resetLink: false,
     showDialog: false,
     animation: new Animated.Value(0),
     txref: null,
@@ -126,6 +128,12 @@ class FlutterwaveButton extends React.Component<
 
   canceller?: AbortController;
 
+  componentDidUpdate(prevProps: FlutterwaveButtonProps) {
+    if (JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)) {
+      this.handleOptionsChanged()
+    }
+  }
+
   componentWillUnmount() {
     if (this.canceller) {
       this.canceller.abort();
@@ -137,12 +145,27 @@ class FlutterwaveButton extends React.Component<
       this.canceller.abort();
     }
     // reset the necessaries
-    this.setState({
+    this.setState(({resetLink, link}) => ({
       isPending: false,
-      link: null,
+      link: resetLink ? null : link,
+      resetLink: false,
       showDialog: false,
-    });
+    }));
   };
+
+  handleOptionsChanged = () => {
+    const {showDialog, link} = this.state;
+    if (!link) {
+      return;
+    }
+    if (!showDialog) {
+      return this.setState({
+        link: null,
+        txref: null,
+      })
+    }
+    this.setState({resetLink: true})
+  }
 
   handleNavigationStateChange = (ev: WebViewNavigation) => {
     // cregex to check if redirect has occured on completion/cancel
@@ -158,7 +181,10 @@ class FlutterwaveButton extends React.Component<
   handleComplete(data: any) {
     const {onComplete} = this.props;
     // reset payment link
-    this.setState({txref: null},
+    this.setState(({resetLink, txref}) => ({
+      txref: data.flref && !data.cancelled ? null : txref,
+      resetLink: data.flwref && !data.cancelled ? true : resetLink
+    }),
       () => {
         // reset
         this.dismiss();
@@ -186,7 +212,7 @@ class FlutterwaveButton extends React.Component<
       onAbort();
     }
     // remove txref and dismiss
-    this.setState({txref: null}, this.dismiss);
+    this.dismiss();
   };
 
   handleAbort = () => {
@@ -248,7 +274,12 @@ class FlutterwaveButton extends React.Component<
 
   handleInit = () => {
     const {options, onWillInitialize, onInitializeError, onDidInitialize} = this.props;
-    const {isPending, txref} = this.state;
+    const {isPending, txref, link} = this.state;
+
+    // just show the dialod if the link is already set
+    if (link) {
+      return this.show();
+    }
 
     // throw error if transaction reference has not changed
     if (txref === options.txref) {
@@ -345,7 +376,7 @@ class FlutterwaveButton extends React.Component<
 
   renderButton() {
     const {customButton, style, alignLeft} = this.props;
-    const {isPending, link, buttonSize} = this.state;
+    const {isPending, link, showDialog, buttonSize} = this.state;
     const contentWidth = buttonSize.width * contentWidthPercentage;
     const contentHeight = contentWidth / contentSizeDimension;
     const contentSizeStyle = {
@@ -366,7 +397,7 @@ class FlutterwaveButton extends React.Component<
     if (customButton) {
       return customButton({
         isInitializing: isPending && !link ? true : false,
-        disabled: isPending || link ? true : false,
+        disabled: isPending || showDialog? true : false,
         onPress: this.handleInit,
       });
     }
@@ -376,7 +407,7 @@ class FlutterwaveButton extends React.Component<
         alignLeft={alignLeft}
         style={style}
         isBusy={isPending && !link}
-        disabled={isPending || link ? true : false}
+        disabled={isPending || showDialog ? true : false}
         onPress={this.handleInit}
         onSizeChange={this.handleButtonResize}>
         <Image

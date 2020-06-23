@@ -37,6 +37,7 @@ interface FlutterwaveButtonState {
     showDialog: boolean;
     animation: Animated.Value;
     txref: string | null;
+    resetLink: boolean;
     buttonSize: {
         width: number;
         height: number;
@@ -76,8 +77,10 @@ declare class FlutterwaveButton extends React.Component<FlutterwaveButtonProps, 
     state: FlutterwaveButtonState;
     webviewRef: WebView | null;
     canceller?: AbortController;
+    componentDidUpdate(prevProps: FlutterwaveButtonProps): void;
     componentWillUnmount(): void;
     reset: () => void;
+    handleOptionsChanged: () => void;
     handleNavigationStateChange: (ev: WebViewNavigation) => void;
     handleComplete(data: any): void;
     handleReload: () => void;

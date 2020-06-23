@@ -72,6 +72,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         _this.state = {
             isPending: false,
             link: null,
+            resetLink: false,
             showDialog: false,
             animation: new Animated.Value(0),
             txref: null,
@@ -86,11 +87,28 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                 _this.canceller.abort();
             }
             // reset the necessaries
-            _this.setState({
-                isPending: false,
-                link: null,
-                showDialog: false
+            _this.setState(function (_a) {
+                var resetLink = _a.resetLink, link = _a.link;
+                return ({
+                    isPending: false,
+                    link: resetLink ? null : link,
+                    resetLink: false,
+                    showDialog: false
+                });
             });
+        };
+        _this.handleOptionsChanged = function () {
+            var _a = _this.state, showDialog = _a.showDialog, link = _a.link;
+            if (!link) {
+                return;
+            }
+            if (!showDialog) {
+                return _this.setState({
+                    link: null,
+                    txref: null
+                });
+            }
+            _this.setState({ resetLink: true });
         };
         _this.handleNavigationStateChange = function (ev) {
             // cregex to check if redirect has occured on completion/cancel
@@ -115,7 +133,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                 onAbort();
             }
             // remove txref and dismiss
-            _this.setState({ txref: null }, _this.dismiss);
+            _this.dismiss();
         };
         _this.handleAbort = function () {
             Alert.alert('', 'Are you sure you want to cancel this payment?', [
@@ -171,7 +189,11 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         };
         _this.handleInit = function () {
             var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, onInitializeError = _a.onInitializeError, onDidInitialize = _a.onDidInitialize;
-            var _b = _this.state, isPending = _b.isPending, txref = _b.txref;
+            var _b = _this.state, isPending = _b.isPending, txref = _b.txref, link = _b.link;
+            // just show the dialod if the link is already set
+            if (link) {
+                return _this.show();
+            }
             // throw error if transaction reference has not changed
             if (txref === options.txref) {
                 return onInitializeError ? onInitializeError({
@@ -242,6 +264,11 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         };
         return _this;
     }
+    FlutterwaveButton.prototype.componentDidUpdate = function (prevProps) {
+        if (JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)) {
+            this.handleOptionsChanged();
+        }
+    };
     FlutterwaveButton.prototype.componentWillUnmount = function () {
         if (this.canceller) {
             this.canceller.abort();
@@ -251,7 +278,13 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         var _this = this;
         var onComplete = this.props.onComplete;
         // reset payment link
-        this.setState({ txref: null }, function () {
+        this.setState(function (_a) {
+            var resetLink = _a.resetLink, txref = _a.txref;
+            return ({
+                txref: data.flref && !data.cancelled ? null : txref,
+                resetLink: data.flwref && !data.cancelled ? true : resetLink
+            });
+        }, function () {
             // reset
             _this.dismiss();
             // fire onComplete handler
@@ -286,7 +319,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
     };
     FlutterwaveButton.prototype.renderButton = function () {
         var _a = this.props, customButton = _a.customButton, style = _a.style, alignLeft = _a.alignLeft;
-        var _b = this.state, isPending = _b.isPending, link = _b.link, buttonSize = _b.buttonSize;
+        var _b = this.state, isPending = _b.isPending, link = _b.link, showDialog = _b.showDialog, buttonSize = _b.buttonSize;
         var contentWidth = buttonSize.width * contentWidthPercentage;
         var contentHeight = contentWidth / contentSizeDimension;
         var contentSizeStyle = {
@@ -305,12 +338,12 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         if (customButton) {
             return customButton({
                 isInitializing: isPending && !link ? true : false,
-                disabled: isPending || link ? true : false,
+                disabled: isPending || showDialog ? true : false,
                 onPress: this.handleInit
             });
         }
         // render primary button
-        return (<DefaultButton alignLeft={alignLeft} style={style} isBusy={isPending && !link} disabled={isPending || link ? true : false} onPress={this.handleInit} onSizeChange={this.handleButtonResize}>
+        return (<DefaultButton alignLeft={alignLeft} style={style} isBusy={isPending && !link} disabled={isPending || showDialog ? true : false} onPress={this.handleInit} onSizeChange={this.handleButtonResize}>
         <Image source={pryContent} resizeMode="contain" resizeMethod="resize" style={[styles.buttonContent, contentSizeStyle]} fadeDuration={0}/>
       </DefaultButton>);
     };
@@ -331,7 +364,6 @@ var FlutterwaveButton = /** @class */ (function (_super) {
       </View>);
     };
     FlutterwaveButton.propTypes = {
-        alt: PropTypes.bool,
         alignLeft: PropTypes.bool,
         onAbort: PropTypes.func,
         onComplete: PropTypes.func.isRequired,
