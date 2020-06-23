@@ -1,4 +1,78 @@
-example/
-dist
-coverage
-__tests__
+# OSX
+#
+.DS_Store
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
+Pods/
+
+# Android/IJ
+#
+.idea
+*.iml
+.gradle
+local.properties
+lib/android/src/main/gen
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Rubygem bundles
+#
+bundles/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dist/
+.classpath
+.project
+.settings/
+
+
+# devevelopment and docs related files and folders
+__tests__/
+.github/
+coverage/
+docs/
+src/
+.editorconfig
+.eslintignore
+.eslintrc.js
+.gitignore
+.npmignore
+.prettierignore
+.prettierrc.js
+.releaserc
+.babel.config.js
+CONTRIBUTING.md
+golbal.d.ts
+jest.config.js
+README.md
+setupJest.js
+tsconfig.json
