@@ -827,4 +827,18 @@ describe('<FlutterwaveButton />', () => {
       done();
     }, 20);
   });
+
+  it("does not generate a new link if already generating one", () => {
+    // get create instance of flutterwave button
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PaymentOptions}
+    />);
+    // set a payment link
+    TestRenderer.root.instance.setState({isPending: true});
+    // set a payment link
+    TestRenderer.root.instance.handleInit();
+    // run checks
+    expect(global.fetch).toHaveBeenCalledTimes(0);
+  });
 });
