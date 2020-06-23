@@ -240,6 +240,16 @@ interface FlutterwaveInitError {
 }
 ````
 
+
+
+#### FlutterwaveInitResult
+````typescript
+interface FlutterwaveInitResult {
+  error?: FlutterwaveInitError | null;
+  link?: string | null;
+}
+````
+
 #### FlutterwavePaymentMeta
 ````typescript
 interface FlutterwavePaymentMeta {
