@@ -10,12 +10,12 @@ interface CustomButtonProps {
     onPress: () => void;
 }
 interface OnCompleteData {
-    cancelled: boolean;
+    canceled: boolean;
     flwref?: string;
     txref: string;
 }
 interface RedirectParams {
-    cancelled: 'true' | 'false';
+    canceled: 'true' | 'false';
     flwref?: string;
     txref?: string;
     response?: string;

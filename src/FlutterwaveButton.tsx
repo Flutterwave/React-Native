@@ -41,13 +41,13 @@ interface CustomButtonProps {
 }
 
 interface OnCompleteData {
-  cancelled: boolean;
+  canceled: boolean;
   flwref?: string;
   txref: string;
 }
 
 interface RedirectParams {
-  cancelled: 'true' | 'false';
+  canceled: 'true' | 'false';
   flwref?: string;
   txref?: string;
   response?: string;
@@ -182,8 +182,8 @@ class FlutterwaveButton extends React.Component<
     const {onComplete} = this.props;
     // reset payment link
     this.setState(({resetLink, txref}) => ({
-      txref: data.flref && !data.cancelled ? null : txref,
-      resetLink: data.flwref && !data.cancelled ? true : resetLink
+      txref: data.flref && !data.canceled ? null : txref,
+      resetLink: data.flwref && !data.canceled ? true : resetLink
     }),
       () => {
         // reset
@@ -192,7 +192,7 @@ class FlutterwaveButton extends React.Component<
         onComplete({
           flwref: data.flwref,
           txref: data.txref,
-          cancelled: /true/i.test(data.cancelled || '') ? true : false
+          canceled: /true/i.test(data.canceled || '') ? true : false
         });
       }
     );
@@ -316,7 +316,7 @@ class FlutterwaveButton extends React.Component<
       async () => {
         // make init request
         const result = await FlutterwaveInit(options, {canceller: this.canceller});
-        // stop if request was cancelled
+        // stop if request was canceled
         if (result.error && /aborterror/i.test(result.error.code)) {
           return;
         }

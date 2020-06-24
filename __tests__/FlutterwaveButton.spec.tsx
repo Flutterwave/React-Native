@@ -545,7 +545,7 @@ describe('<FlutterwaveButton />', () => {
       expect(onComplete).toHaveBeenCalledTimes(1);
       expect(onComplete).toHaveBeenCalledWith({
         ...response,
-        cancelled: false
+        canceled: false
       });
 
       // end test

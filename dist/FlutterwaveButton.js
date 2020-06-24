@@ -226,7 +226,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                         case 0: return [4 /*yield*/, FlutterwaveInit(options, { canceller: this.canceller })];
                         case 1:
                             result = _a.sent();
-                            // stop if request was cancelled
+                            // stop if request was canceled
                             if (result.error && /aborterror/i.test(result.error.code)) {
                                 return [2 /*return*/];
                             }
@@ -281,8 +281,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         this.setState(function (_a) {
             var resetLink = _a.resetLink, txref = _a.txref;
             return ({
-                txref: data.flref && !data.cancelled ? null : txref,
-                resetLink: data.flwref && !data.cancelled ? true : resetLink
+                txref: data.flref && !data.canceled ? null : txref,
+                resetLink: data.flwref && !data.canceled ? true : resetLink
             });
         }, function () {
             // reset
@@ -291,7 +291,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             onComplete({
                 flwref: data.flwref,
                 txref: data.txref,
-                cancelled: /true/i.test(data.cancelled || '') ? true : false
+                canceled: /true/i.test(data.canceled || '') ? true : false
             });
         });
     };
