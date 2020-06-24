@@ -35,6 +35,6 @@ To start a commit simply run the following cli command from within the project `
 1. Commit your changes with a message following the [Angular commit conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
 2. Push your branch to your fork
 3. Create a pull request from your branch on your fork to `master` on this repo
-4. Have your branch get merged in! :smile:
+4. Have your branch get merged in! :white_check_mark:
 
 If you experience a problem at any point, please don't hesitate to file an issue to get some assistance!
