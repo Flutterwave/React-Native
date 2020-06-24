@@ -69,4 +69,4 @@ In the above code we created a component called `MyCart` within that component w
 
 And that's all you need to abort an ongoing payment initialization.
 
-With love from Flutterwave. :heart:
+With love from Flutterwave. :yellow_heart:

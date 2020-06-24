@@ -316,4 +316,4 @@ interface DefaultButtonProps {
 ## Contributing
 For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
 
-Built with love. :heart:
+Built with love. :yellow_heart:
