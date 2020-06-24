@@ -43,7 +43,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
 
 ### Dependencies
-In order to use the dialog pop up this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
+In order to render the Flutterwave checkout screen this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
 
 ### Activity Indicator (only needed for android)
 To display Flutterwave styled the activity indicator when the checkout screen is being loaded on android you will need to add some modules in `android/app/build.gradle`.
