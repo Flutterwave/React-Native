@@ -46,7 +46,7 @@ This library is available on npm, you can install it by running `npm install --s
 In order to render the Flutterwave checkout screen this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
 
 ### Activity Indicator (only needed for android)
-To display Flutterwave styled the activity indicator when the checkout screen is being loaded on android you will need to add some modules in `android/app/build.gradle`.
+To display the Flutterwave styled activity indicator when the checkout screen is being loaded on Android you will need to add some modules in `android/app/build.gradle`.
 ***Skip this if you already have setup your app to support gif images.***
 ````javascript
 dependencies {
