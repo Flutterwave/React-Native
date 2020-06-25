@@ -65,7 +65,7 @@ Remember you cannot use the same transaction reference for two different payment
 
 
 ## Usage
-Below are a few examples showcasing how you can use the library to implement payment in you React Native app.
+Below are a few examples showcasing how you can use the library to implement payment in your React Native app.
 
 ### Flutterwave Button 
 <img src=".github/images/pay-with-flutterwave.png" alt="preview" width="350"/>
