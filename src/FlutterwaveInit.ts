@@ -1,4 +1,6 @@
 import {STANDARD_URL} from './configs';
+import ResponseParser from './utils/ResponseParser';
+import FlutterwaveInitError from './utils/FlutterwaveInitError';
 
 interface FlutterwavePaymentMeta {
   [k: string]: any;
@@ -34,29 +36,26 @@ export interface FlutterwaveInitOptions {
 interface FlutterwaveInitConfig {
   canceller?: AbortController;
 }
+export type FlutterwaveInitResult = FlutterwaveInitError | string | null;
 
-export interface FlutterwaveInitError {
-  code: string;
+export interface FieldError {
+  field: string;
   message: string;
 }
 
-interface FlutterwaveInitResult {
-  error?: FlutterwaveInitError | null;
-  link?: string | null;
-}
-
-interface ResponseJSON {
-  status: 'success' | 'error';
+export interface ResponseData {
+  status?: 'success' | 'error';
   message: string;
-  data: {
-    link?: string;
-    code?: string;
-    message?: string;
+  error_id?: string;
+  errors?: Array<FieldError>;
+  code?: string;
+  data?: {
+    link: string;
   };
 }
 
 interface FetchOptions {
-  method: 'POST' | 'GET' | 'PUT' | 'DELETE';
+  method: 'POST';
   body: string;
   headers: Headers;
   signal?: AbortSignal; 
@@ -66,13 +65,7 @@ interface FetchOptions {
  * This function is responsible for making the request to
  * initialize a Flutterwave payment.
  * @param options FlutterwaveInitOptions
- * @return Promise<{
- *  error: {
- *    code: string;
- *    message: string;
- *  } | null;
- *  link?: string | null;
- * }>
+ * @return Promise<FlutterwaveInitError | string | null>
  */
 export default async function FlutterwaveInit(
   options: FlutterwaveInitOptions,
@@ -99,62 +92,30 @@ export default async function FlutterwaveInit(
       fetchOptions.signal = config.canceller.signal
     };
 
-    // make http request
+    // initialize payment
     const response = await fetch(STANDARD_URL, fetchOptions);
 
+    // get response data
+    const responseData: ResponseData = await response.json();
+
     // get response json
-    const responseJSON: ResponseJSON = await response.json();
+    const parsedResponse = ResponseParser(responseData);
 
-    // check if data is missing from response
-    if (!responseJSON.data) {
-      throw new FlutterwaveInitException({
-        code: 'NODATA',
-        message: responseJSON.message || 'An unknown error occured!',
-      });
-    }
-
-    // check if the link is missing in data
-    if (!responseJSON.data.link) {
-      throw new FlutterwaveInitException({
-        code: responseJSON.data.code || 'UNKNOWN',
-        message: responseJSON.data.message || 'An unknown error occured!',
-      });
+    // thow error if parsed response is instance of Flutterwave Init Error
+    if (parsedResponse instanceof FlutterwaveInitError) {
+      throw parsedResponse;
     }
 
     // resolve with the payment link
-    return Promise.resolve({
-      link: responseJSON.data.link,
-    });
-  } catch (e) {
+    return Promise.resolve(parsedResponse);
+  } catch (error) {
+    // user error name as code if code is available
+    const code = error.code || error.name.toUpperCase();
+    // resolve to null if fetch was aborted
+    if (code === 'ABORTERROR') {
+      return Promise.resolve(null);
+    }
     // resolve with error
-    return Promise.resolve({
-      error: {
-        code:
-          e instanceof FlutterwaveInitException
-            ? e.code
-            : String(e.name).toUpperCase(),
-        message: e.message,
-      }
-    });
-  }
-}
-
-/**
- * Flutterwave Init Error
- */
-export class FlutterwaveInitException extends Error {
-  /**
-   * Error code
-   * @var string
-   */
-  code: string;
-
-  /**
-   * Constructor Method
-   * @param props {message?: string; code?: string}
-   */
-  constructor(props: {message: string; code: string}) {
-    super(props.message);
-    this.code = props.code;
+    return Promise.resolve({...error, code: code});
   }
 }
