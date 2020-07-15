@@ -33,9 +33,6 @@ export interface FlutterwaveInitOptions {
   customizations: InitCustomizations;
 }
 
-interface FlutterwaveInitConfig {
-  canceller?: AbortController;
-}
 export type FlutterwaveInitResult = FlutterwaveInitError | string | null;
 
 export interface FieldError {
@@ -65,11 +62,12 @@ interface FetchOptions {
  * This function is responsible for making the request to
  * initialize a Flutterwave payment.
  * @param options FlutterwaveInitOptions
+ * @param abortController AbortController
  * @return Promise<FlutterwaveInitError | string | null>
  */
 export default async function FlutterwaveInit(
   options: FlutterwaveInitOptions,
-  config: FlutterwaveInitConfig = {},
+  abortController?: AbortController,
 ): Promise<FlutterwaveInitResult> {
   try {
     // get request body and authorization
@@ -87,9 +85,9 @@ export default async function FlutterwaveInit(
       headers: headers,
     }
 
-    // add canceller if defined
-    if (config.canceller) {
-      fetchOptions.signal = config.canceller.signal
+    // add abortController if defined
+    if (abortController) {
+      fetchOptions.signal = abortController.signal
     };
 
     // initialize payment
