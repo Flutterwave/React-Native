@@ -80,11 +80,12 @@ export default async function FlutterwaveInit(
 ): Promise<FlutterwaveInitResult> {
   try {
     // make request body
-    const body = {...options};
+    const {public_key, ...body} = options;
 
     // make request headers
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
+    headers.append('Authorization',  `Bearer ${public_key}`)
 
     // make fetch options
     const fetchOptions: FetchOptions = {
