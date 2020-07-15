@@ -17,7 +17,7 @@ export interface InitCustomizations {
 }
 
 export interface FlutterwaveInitOptions {
-  public_key: string;
+  authorization: string;
   tx_ref: string;
   amount: number;
   currency?: string;
@@ -79,13 +79,13 @@ export default async function FlutterwaveInit(
   config: FlutterwaveInitConfig = {},
 ): Promise<FlutterwaveInitResult> {
   try {
-    // make request body
-    const {public_key, ...body} = options;
+    // get request body and authorization
+    const {authorization, ...body} = options;
 
     // make request headers
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    headers.append('Authorization',  `Bearer ${public_key}`)
+    headers.append('Authorization',  `Bearer ${authorization}`);
 
     // make fetch options
     const fetchOptions: FetchOptions = {
