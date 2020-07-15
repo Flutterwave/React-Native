@@ -33,8 +33,6 @@ export interface FlutterwaveInitOptions {
   customizations: InitCustomizations;
 }
 
-export type FlutterwaveInitResult = FlutterwaveInitError | string | null;
-
 export interface FieldError {
   field: string;
   message: string;
@@ -63,57 +61,45 @@ interface FetchOptions {
  * initialize a Flutterwave payment.
  * @param options FlutterwaveInitOptions
  * @param abortController AbortController
- * @return Promise<FlutterwaveInitError | string | null>
+ * @return Promise<string>
  */
 export default async function FlutterwaveInit(
   options: FlutterwaveInitOptions,
   abortController?: AbortController,
-): Promise<FlutterwaveInitResult> {
+): Promise<string> {
   try {
     // get request body and authorization
     const {authorization, ...body} = options;
-
     // make request headers
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization',  `Bearer ${authorization}`);
-
     // make fetch options
     const fetchOptions: FetchOptions = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: headers,
     }
-
     // add abortController if defined
     if (abortController) {
       fetchOptions.signal = abortController.signal
     };
-
     // initialize payment
     const response = await fetch(STANDARD_URL, fetchOptions);
-
     // get response data
     const responseData: ResponseData = await response.json();
-
     // get response json
     const parsedResponse = ResponseParser(responseData);
-
     // thow error if parsed response is instance of Flutterwave Init Error
     if (parsedResponse instanceof FlutterwaveInitError) {
       throw parsedResponse;
     }
-
     // resolve with the payment link
     return Promise.resolve(parsedResponse);
   } catch (error) {
     // user error name as code if code is available
-    const code = error.code || error.name.toUpperCase();
-    // resolve to null if fetch was aborted
-    if (code === 'ABORTERROR') {
-      return Promise.resolve(null);
-    }
+    error.code = error.code || error.name.toUpperCase();
     // resolve with error
-    return Promise.resolve({...error, code: code});
+    return Promise.reject(error);
   }
 }
