@@ -1,8 +1,7 @@
 /**
  * Flutterwaves standard init url.
  */
-export const STANDARD_URL: string =
-  'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay';
+export const STANDARD_URL = 'https://api.flutterwave.com/v3/payments';
 
 export const colors = {
   primary: '#f5a623',
