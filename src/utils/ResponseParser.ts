@@ -56,7 +56,7 @@ export default function ResponseParser(
   }
   // defaults to the initially passed message
   return new FlutterwaveInitError({
-    code: String(code || 'UNKNOWN').toUpperCase(),
+    code: String(code || 'STANDARD_INIT_ERROR').toUpperCase(),
     message,
     errorId: error_id
   });
