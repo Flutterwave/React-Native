@@ -1,29 +1,34 @@
 import {STANDARD_URL} from './configs';
 
 interface FlutterwavePaymentMeta {
-  metaname: string;
-  metavalue: string;
+  [k: string]: any;
+}
+
+export interface InitCustomer {
+  email: string;
+  phonenumber?: string;
+  name?: string;
+}
+
+export interface InitCustomizations {
+  title?: string;
+  logo?: string;
+  description?: string;
 }
 
 export interface FlutterwaveInitOptions {
-  txref: string;
-  PBFPubKey: string;
-  customer_firstname?: string;
-  customer_lastname?: string;
-  customer_phone?: string;
-  customer_email: string;
+  public_key: string;
+  tx_ref: string;
   amount: number;
   currency?: string;
-  redirect_url?: string;
-  payment_options?: string;
+  integrity_hash?: string;
+  payment_options: string;
   payment_plan?: number;
+  redirect_url: string;
+  customer: InitCustomer;
   subaccounts?: Array<number>;
-  country?: string;
-  pay_button_text?: string;
-  custom_title?: string;
-  custom_description?: string;
-  custom_logo?: string;
   meta?: Array<FlutterwavePaymentMeta>;
+  customizations: InitCustomizations;
 }
 
 interface FlutterwaveInitConfig {
