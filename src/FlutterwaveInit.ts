@@ -88,17 +88,13 @@ export default async function FlutterwaveInit(
     const response = await fetch(STANDARD_URL, fetchOptions);
     // get response data
     const responseData: ResponseData = await response.json();
-    // get response json
-    const parsedResponse = ResponseParser(responseData);
-    // thow error if parsed response is instance of Flutterwave Init Error
-    if (parsedResponse instanceof FlutterwaveInitError) {
-      throw parsedResponse;
-    }
     // resolve with the payment link
-    return Promise.resolve(parsedResponse);
-  } catch (error) {
-    // user error name as code if code is available
-    error.code = error.code || error.name.toUpperCase();
+    return Promise.resolve(await ResponseParser(responseData));
+  } catch (e) {
+    // always return a flutterwave init error
+    const error = e instanceof FlutterwaveInitError
+      ? e
+      : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
     // resolve with error
     return Promise.reject(error);
   }
