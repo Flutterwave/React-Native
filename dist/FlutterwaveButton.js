@@ -11,6 +11,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -52,9 +63,10 @@ import { StyleSheet, Modal, View, Animated, TouchableWithoutFeedback, Text, Aler
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
 import FlutterwaveInit from './FlutterwaveInit';
-import { colors } from './configs';
+import { colors, REDIRECT_URL } from './configs';
 import { PaymentOptionsPropRule } from './utils/CustomPropTypesRules';
 import DefaultButton from './DefaultButton';
+import FlutterwaveInitError from './utils/FlutterwaveInitError';
 var loader = require('./loader.gif');
 var pryContent = require('./pry-button-content.png');
 var contentWidthPercentage = 0.6549707602;
@@ -75,7 +87,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             resetLink: false,
             showDialog: false,
             animation: new Animated.Value(0),
-            txref: null,
+            tx_ref: null,
             buttonSize: {
                 width: 0,
                 height: 0
@@ -83,8 +95,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         };
         _this.webviewRef = null;
         _this.reset = function () {
-            if (_this.canceller) {
-                _this.canceller.abort();
+            if (_this.abortController) {
+                _this.abortController.abort();
             }
             // reset the necessaries
             _this.setState(function (_a) {
@@ -105,14 +117,14 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             if (!showDialog) {
                 return _this.setState({
                     link: null,
-                    txref: null
+                    tx_ref: null
                 });
             }
             _this.setState({ resetLink: true });
         };
         _this.handleNavigationStateChange = function (ev) {
             // cregex to check if redirect has occured on completion/cancel
-            var rx = /\/hosted\/pay\/undefined|\/api\/hosted_pay\/undefined/;
+            var rx = /\/flutterwave\.com\/rn-redirect/;
             // Don't end payment if not redirected back
             if (!rx.test(ev.url)) {
                 return;
@@ -132,7 +144,7 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             if (onAbort) {
                 onAbort();
             }
-            // remove txref and dismiss
+            // remove tx_ref and dismiss
             _this.dismiss();
         };
         _this.handleAbort = function () {
@@ -189,24 +201,24 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         };
         _this.handleInit = function () {
             var _a = _this.props, options = _a.options, onWillInitialize = _a.onWillInitialize, onInitializeError = _a.onInitializeError, onDidInitialize = _a.onDidInitialize;
-            var _b = _this.state, isPending = _b.isPending, txref = _b.txref, link = _b.link;
+            var _b = _this.state, isPending = _b.isPending, tx_ref = _b.tx_ref, link = _b.link;
             // just show the dialod if the link is already set
             if (link) {
                 return _this.show();
             }
             // throw error if transaction reference has not changed
-            if (txref === options.txref) {
-                return onInitializeError ? onInitializeError({
+            if (tx_ref === options.tx_ref) {
+                return onInitializeError ? onInitializeError(new FlutterwaveInitError({
                     message: 'Please generate a new transaction reference.',
                     code: 'SAME_TXREF'
-                }) : null;
+                })) : null;
             }
             // stop if currently in pending mode
             if (isPending) {
                 return;
             }
             // initialize abort controller if not set
-            _this.canceller = new AbortController;
+            _this.abortController = new AbortController;
             // fire will initialize handler if available
             if (onWillInitialize) {
                 onWillInitialize();
@@ -218,31 +230,34 @@ var FlutterwaveButton = /** @class */ (function (_super) {
             _this.setState({
                 isPending: true,
                 link: null,
-                txref: options.txref
+                tx_ref: options.tx_ref
             }, function () { return __awaiter(_this, void 0, void 0, function () {
-                var result;
+                var link_1, error_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, FlutterwaveInit(options, { canceller: this.canceller })];
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, FlutterwaveInit(__assign(__assign({}, options), { redirect_url: REDIRECT_URL }), this.abortController)];
                         case 1:
-                            result = _a.sent();
-                            // stop if request was canceled
-                            if (result.error && /aborterror/i.test(result.error.code)) {
-                                return [2 /*return*/];
-                            }
-                            // call onInitializeError handler if an error occured
-                            if (!result.link) {
-                                if (onInitializeError && result.error) {
-                                    onInitializeError(result.error);
-                                }
-                                return [2 /*return*/, this.dismiss()];
-                            }
-                            this.setState({ link: result.link, isPending: false }, this.show);
+                            link_1 = _a.sent();
+                            // resent pending mode
+                            this.setState({ link: link_1, isPending: false }, this.show);
                             // fire did initialize handler if available
                             if (onDidInitialize) {
                                 onDidInitialize();
                             }
-                            return [2 /*return*/];
+                            return [3 /*break*/, 3];
+                        case 2:
+                            error_1 = _a.sent();
+                            // stop if request was canceled
+                            if (/aborterror/i.test(error_1.code)) {
+                                return [2 /*return*/];
+                            }
+                            if (onInitializeError) {
+                                onInitializeError(error_1);
+                            }
+                            return [2 /*return*/, this.dismiss()];
+                        case 3: return [2 /*return*/];
                     }
                 });
             }); });
@@ -270,8 +285,8 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         }
     };
     FlutterwaveButton.prototype.componentWillUnmount = function () {
-        if (this.canceller) {
-            this.canceller.abort();
+        if (this.abortController) {
+            this.abortController.abort();
         }
     };
     FlutterwaveButton.prototype.handleComplete = function (data) {
@@ -279,20 +294,16 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         var onComplete = this.props.onComplete;
         // reset payment link
         this.setState(function (_a) {
-            var resetLink = _a.resetLink, txref = _a.txref;
+            var resetLink = _a.resetLink, tx_ref = _a.tx_ref;
             return ({
-                txref: data.flref && !data.canceled ? null : txref,
-                resetLink: data.flwref && !data.canceled ? true : resetLink
+                tx_ref: data.status === 'successful' ? null : tx_ref,
+                resetLink: data.status === 'successful' ? true : resetLink
             });
         }, function () {
             // reset
             _this.dismiss();
             // fire onComplete handler
-            onComplete({
-                flwref: data.flwref,
-                txref: data.txref,
-                canceled: /true/i.test(data.canceled || '') ? true : false
-            });
+            onComplete(data);
         });
     };
     FlutterwaveButton.prototype.render = function () {
@@ -371,23 +382,25 @@ var FlutterwaveButton = /** @class */ (function (_super) {
         onDidInitialize: PropTypes.func,
         onInitializeError: PropTypes.func,
         options: PropTypes.shape({
-            txref: PropTypes.string.isRequired,
-            PBFPubKey: PropTypes.string.isRequired,
-            customer_email: PropTypes.string.isRequired,
+            authorization: PropTypes.string.isRequired,
+            tx_ref: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
-            currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
+            currency: PropTypes.oneOf(['NGN', 'USD', 'GBP', 'GHS', 'KES', 'ZAR', 'TZS']).isRequired,
+            integrity_hash: PropTypes.string,
             payment_options: PaymentOptionsPropRule,
             payment_plan: PropTypes.number,
+            customer: PropTypes.shape({
+                name: PropTypes.string,
+                phonenumber: PropTypes.string,
+                email: PropTypes.string.isRequired
+            }).isRequired,
             subaccounts: PropTypes.arrayOf(PropTypes.number),
-            country: PropTypes.string,
-            pay_button_text: PropTypes.string,
-            custom_title: PropTypes.string,
-            custom_description: PropTypes.string,
-            custom_logo: PropTypes.string,
-            meta: PropTypes.arrayOf(PropTypes.shape({
-                metaname: PropTypes.string,
-                metavalue: PropTypes.string
-            }))
+            meta: PropTypes.arrayOf(PropTypes.object),
+            customizations: PropTypes.shape({
+                title: PropTypes.string,
+                logo: PropTypes.string,
+                description: PropTypes.string
+            })
         }).isRequired,
         customButton: PropTypes.func
     };

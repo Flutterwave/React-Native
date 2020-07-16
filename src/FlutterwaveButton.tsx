@@ -442,16 +442,21 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderError = () => {
+    const {link} = this.state;
     return (
       <View style={styles.prompt}>
-        <Text style={styles.promptQuestion}>
-          The page failed to load, please try again.
-        </Text>
-        <View>
-          <TouchableWithoutFeedback onPress={this.handleReload}>
-            <Text style={styles.promptActionText}>Try Again</Text>
-          </TouchableWithoutFeedback>
-        </View>
+        {link ? (
+          <>
+            <Text style={styles.promptQuestion}>
+              The page failed to load, please try again.
+            </Text>
+            <View>
+              <TouchableWithoutFeedback onPress={this.handleReload}>
+                <Text style={styles.promptActionText}>Try Again</Text>
+              </TouchableWithoutFeedback>
+            </View>
+          </>
+        ) : null}
       </View>
     );
   };

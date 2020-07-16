@@ -1,69 +1,52 @@
 /// <reference types="react-native" />
 interface FlutterwavePaymentMeta {
-    metaname: string;
-    metavalue: string;
+    [k: string]: any;
+}
+export interface InitCustomer {
+    email: string;
+    phonenumber?: string;
+    name?: string;
+}
+export interface InitCustomizations {
+    title?: string;
+    logo?: string;
+    description?: string;
 }
 export interface FlutterwaveInitOptions {
-    txref: string;
-    PBFPubKey: string;
-    customer_firstname?: string;
-    customer_lastname?: string;
-    customer_phone?: string;
-    customer_email: string;
+    authorization: string;
+    tx_ref: string;
     amount: number;
-    currency?: string;
-    redirect_url?: string;
+    currency: string;
+    integrity_hash?: string;
     payment_options?: string;
     payment_plan?: number;
+    redirect_url: string;
+    customer: InitCustomer;
     subaccounts?: Array<number>;
-    country?: string;
-    pay_button_text?: string;
-    custom_title?: string;
-    custom_description?: string;
-    custom_logo?: string;
     meta?: Array<FlutterwavePaymentMeta>;
+    customizations?: InitCustomizations;
 }
-interface FlutterwaveInitConfig {
-    canceller?: AbortController;
-}
-export interface FlutterwaveInitError {
-    code: string;
+export interface FieldError {
+    field: string;
     message: string;
 }
-interface FlutterwaveInitResult {
-    error?: FlutterwaveInitError | null;
-    link?: string | null;
+export interface ResponseData {
+    status?: 'success' | 'error';
+    message: string;
+    error_id?: string;
+    errors?: Array<FieldError>;
+    code?: string;
+    data?: {
+        link: string;
+    };
 }
 /**
  * This function is responsible for making the request to
  * initialize a Flutterwave payment.
  * @param options FlutterwaveInitOptions
- * @return Promise<{
- *  error: {
- *    code: string;
- *    message: string;
- *  } | null;
- *  link?: string | null;
- * }>
+ * @param abortController AbortController
+ * @return Promise<string>
  */
-export default function FlutterwaveInit(options: FlutterwaveInitOptions, config?: FlutterwaveInitConfig): Promise<FlutterwaveInitResult>;
-/**
- * Flutterwave Init Error
- */
-export declare class FlutterwaveInitException extends Error {
-    /**
-     * Error code
-     * @var string
-     */
-    code: string;
-    /**
-     * Constructor Method
-     * @param props {message?: string; code?: string}
-     */
-    constructor(props: {
-        message: string;
-        code: string;
-    });
-}
+export default function FlutterwaveInit(options: FlutterwaveInitOptions, abortController?: AbortController): Promise<string>;
 export {};
 //# sourceMappingURL=FlutterwaveInit.d.ts.map

@@ -1,24 +1,29 @@
 /**
  * Flutterwaves standard init url.
  */
-export var STANDARD_URL = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay';
+export var STANDARD_URL = 'https://api.flutterwave.com/v3/payments';
+export var REDIRECT_URL = 'https://flutterwave.com/rn-redirect';
 export var colors = {
     primary: '#f5a623',
     secondary: '#12122C',
     transparent: 'rgba(0,0,0,0)'
 };
 export var PAYMENT_OPTIONS = [
-    'card',
     'account',
-    'ussd',
-    'qr',
+    'card',
+    'banktransfer',
     'mpesa',
-    'mobilemoneyghana',
-    'mobilemoneyuganda',
     'mobilemoneyrwanda',
     'mobilemoneyzambia',
-    'mobilemoneytanzania',
+    'qr',
+    'mobilemoneyuganda',
+    'ussd',
+    'credit',
     'barter',
-    'bank transfer',
-    'wechat',
+    'mobilemoneyghana',
+    'payattitude',
+    'mobilemoneyfranco',
+    'paga',
+    '1voucher',
+    'mobilemoneytanzania',
 ];
