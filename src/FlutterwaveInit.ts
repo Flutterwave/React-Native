@@ -22,15 +22,15 @@ export interface FlutterwaveInitOptions {
   authorization: string;
   tx_ref: string;
   amount: number;
-  currency?: string;
+  currency: string;
   integrity_hash?: string;
-  payment_options: string;
+  payment_options?: string;
   payment_plan?: number;
   redirect_url: string;
   customer: InitCustomer;
   subaccounts?: Array<number>;
   meta?: Array<FlutterwavePaymentMeta>;
-  customizations: InitCustomizations;
+  customizations?: InitCustomizations;
 }
 
 export interface FieldError {
