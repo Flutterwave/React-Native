@@ -16,13 +16,11 @@ import {
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
 import {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
-import FlutterwaveInit, {
-  FlutterwaveInitOptions,
-  FlutterwaveInitError,
-} from './FlutterwaveInit';
-import {colors} from './configs';
+import FlutterwaveInit, {FlutterwaveInitOptions} from './FlutterwaveInit';
+import {colors, REDIRECT_URL} from './configs';
 import {PaymentOptionsPropRule} from './utils/CustomPropTypesRules';
 import DefaultButton from './DefaultButton';
+import FlutterwaveInitError from './utils/FlutterwaveInitError';
 const loader = require('./loader.gif');
 const pryContent = require('./pry-button-content.png');
 const contentWidthPercentage = 0.6549707602;
@@ -40,22 +38,15 @@ interface CustomButtonProps {
   onPress: () => void;
 }
 
-interface OnCompleteData {
-  canceled: boolean;
-  flwref?: string;
-  txref: string;
-}
-
 interface RedirectParams {
-  canceled: 'true' | 'false';
-  flwref?: string;
-  txref?: string;
-  response?: string;
+  status: 'successful' | 'cancelled',
+  transaction_id?: string;
+  tx_ref?: string;
 }
 
 export interface FlutterwaveButtonProps {
   style?: ViewStyle;
-  onComplete: (data: OnCompleteData) => void;
+  onComplete: (data: RedirectParams) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onInitializeError?: (error: FlutterwaveInitError) => void;
@@ -70,7 +61,7 @@ interface FlutterwaveButtonState {
   isPending: boolean;
   showDialog: boolean;
   animation: Animated.Value;
-  txref: string | null;
+  tx_ref: string | null;
   resetLink: boolean;
   buttonSize: {
     width: number;
@@ -90,23 +81,25 @@ class FlutterwaveButton extends React.Component<
     onDidInitialize: PropTypes.func,
     onInitializeError: PropTypes.func,
     options: PropTypes.shape({
-      txref: PropTypes.string.isRequired,
-      PBFPubKey: PropTypes.string.isRequired,
-      customer_email: PropTypes.string.isRequired,
+      authorization: PropTypes.string.isRequired,
+      tx_ref: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
-      currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
+      currency: PropTypes.oneOf(['NGN', 'USD', 'GBP', 'GHS', 'KES', 'ZAR', 'TZS']).isRequired,
+      integrity_hash: PropTypes.string,
       payment_options: PaymentOptionsPropRule,
       payment_plan: PropTypes.number,
+      customer: PropTypes.shape({
+        name: PropTypes.string,
+        phonenumber: PropTypes.string,
+        email: PropTypes.string.isRequired,
+      }).isRequired,
       subaccounts: PropTypes.arrayOf(PropTypes.number),
-      country: PropTypes.string,
-      pay_button_text: PropTypes.string,
-      custom_title: PropTypes.string,
-      custom_description: PropTypes.string,
-      custom_logo: PropTypes.string,
-      meta: PropTypes.arrayOf(PropTypes.shape({
-        metaname: PropTypes.string,
-        metavalue: PropTypes.string,
-      })),
+      meta: PropTypes.arrayOf(PropTypes.object),
+      customizations: PropTypes.shape({
+        title: PropTypes.string,
+        logo: PropTypes.string,
+        description: PropTypes.string,
+      }),
     }).isRequired,
     customButton: PropTypes.func,
   };
@@ -117,7 +110,7 @@ class FlutterwaveButton extends React.Component<
     resetLink: false,
     showDialog: false,
     animation: new Animated.Value(0),
-    txref: null,
+    tx_ref: null,
     buttonSize: {
       width: 0,
       height: 0,
@@ -126,7 +119,7 @@ class FlutterwaveButton extends React.Component<
 
   webviewRef: WebView | null = null;
 
-  canceller?: AbortController;
+  abortController?: AbortController;
 
   componentDidUpdate(prevProps: FlutterwaveButtonProps) {
     if (JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)) {
@@ -135,14 +128,14 @@ class FlutterwaveButton extends React.Component<
   }
 
   componentWillUnmount() {
-    if (this.canceller) {
-      this.canceller.abort();
+    if (this.abortController) {
+      this.abortController.abort();
     }
   }
 
   reset = () => {
-    if (this.canceller) {
-      this.canceller.abort();
+    if (this.abortController) {
+      this.abortController.abort();
     }
     // reset the necessaries
     this.setState(({resetLink, link}) => ({
@@ -161,7 +154,7 @@ class FlutterwaveButton extends React.Component<
     if (!showDialog) {
       return this.setState({
         link: null,
-        txref: null,
+        tx_ref: null,
       })
     }
     this.setState({resetLink: true})
@@ -169,7 +162,7 @@ class FlutterwaveButton extends React.Component<
 
   handleNavigationStateChange = (ev: WebViewNavigation) => {
     // cregex to check if redirect has occured on completion/cancel
-    const rx = /\/hosted\/pay\/undefined|\/api\/hosted_pay\/undefined/;
+    const rx = /\/flutterwave\.com\/rn-redirect/;
     // Don't end payment if not redirected back
     if (!rx.test(ev.url)) {
       return
@@ -178,22 +171,18 @@ class FlutterwaveButton extends React.Component<
     this.handleComplete(this.getRedirectParams(ev.url));
   };
 
-  handleComplete(data: any) {
+  handleComplete(data: RedirectParams) {
     const {onComplete} = this.props;
     // reset payment link
-    this.setState(({resetLink, txref}) => ({
-      txref: data.flref && !data.canceled ? null : txref,
-      resetLink: data.flwref && !data.canceled ? true : resetLink
+    this.setState(({resetLink, tx_ref}) => ({
+      tx_ref: data.status === 'successful' ? null : tx_ref,
+      resetLink: data.status === 'successful' ? true : resetLink
     }),
       () => {
         // reset
         this.dismiss();
         // fire onComplete handler
-        onComplete({
-          flwref: data.flwref,
-          txref: data.txref,
-          canceled: /true/i.test(data.canceled || '') ? true : false
-        });
+        onComplete(data);
       }
     );
   }
@@ -211,7 +200,7 @@ class FlutterwaveButton extends React.Component<
     if (onAbort) {
       onAbort();
     }
-    // remove txref and dismiss
+    // remove tx_ref and dismiss
     this.dismiss();
   };
 
@@ -274,7 +263,7 @@ class FlutterwaveButton extends React.Component<
 
   handleInit = () => {
     const {options, onWillInitialize, onInitializeError, onDidInitialize} = this.props;
-    const {isPending, txref, link} = this.state;
+    const {isPending, tx_ref, link} = this.state;
 
     // just show the dialod if the link is already set
     if (link) {
@@ -282,11 +271,11 @@ class FlutterwaveButton extends React.Component<
     }
 
     // throw error if transaction reference has not changed
-    if (txref === options.txref) {
-      return onInitializeError ? onInitializeError({
+    if (tx_ref === options.tx_ref) {
+      return onInitializeError ? onInitializeError(new FlutterwaveInitError({
         message: 'Please generate a new transaction reference.',
         code: 'SAME_TXREF',
-      }) : null;
+      })) : null;
     }
 
     // stop if currently in pending mode
@@ -295,7 +284,7 @@ class FlutterwaveButton extends React.Component<
     }
 
     // initialize abort controller if not set
-    this.canceller = new AbortController;
+    this.abortController = new AbortController;
 
     // fire will initialize handler if available
     if (onWillInitialize) {
@@ -311,26 +300,31 @@ class FlutterwaveButton extends React.Component<
       {
         isPending: true,
         link: null,
-        txref: options.txref,
+        tx_ref: options.tx_ref,
       },
       async () => {
-        // make init request
-        const result = await FlutterwaveInit(options, {canceller: this.canceller});
-        // stop if request was canceled
-        if (result.error && /aborterror/i.test(result.error.code)) {
-          return;
-        }
-        // call onInitializeError handler if an error occured
-        if (!result.link) {
-          if (onInitializeError && result.error) {
-            onInitializeError(result.error);
+        try {
+          // initialis payment
+          const link = await FlutterwaveInit(
+            {...options, redirect_url: REDIRECT_URL},
+            this.abortController
+          );
+          // resent pending mode
+          this.setState({link, isPending: false}, this.show);
+          // fire did initialize handler if available
+          if (onDidInitialize) {
+            onDidInitialize();
+          }
+        } catch (error) {
+          // stop if request was canceled
+          if (/aborterror/i.test(error.code)) {
+            return;
+          }
+          if (onInitializeError) {
+            onInitializeError(error);
           }
           return this.dismiss();
-        }
-        this.setState({link: result.link, isPending: false}, this.show);
-        // fire did initialize handler if available
-        if (onDidInitialize) {
-          onDidInitialize();
+
         }
       },
     );
@@ -448,21 +442,16 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderError = () => {
-    const {link} = this.state;
     return (
       <View style={styles.prompt}>
-        {link ? (
-          <>
-            <Text style={styles.promptQuestion}>
-              The page failed to load, please try again.
-            </Text>
-            <View>
-              <TouchableWithoutFeedback onPress={this.handleReload}>
-                <Text style={styles.promptActionText}>Try Again</Text>
-              </TouchableWithoutFeedback>
-            </View>
-          </>
-        ) : null}
+        <Text style={styles.promptQuestion}>
+          The page failed to load, please try again.
+        </Text>
+        <View>
+          <TouchableWithoutFeedback onPress={this.handleReload}>
+            <Text style={styles.promptActionText}>Try Again</Text>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
   };
