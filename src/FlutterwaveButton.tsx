@@ -323,8 +323,10 @@ class FlutterwaveButton extends React.Component<
           if (onInitializeError) {
             onInitializeError(error);
           }
-          return this.dismiss();
-
+          return this.setState({
+            resetLink: true,
+            tx_ref: null
+          }, this.dismiss);
         }
       },
     );

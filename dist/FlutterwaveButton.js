@@ -256,7 +256,10 @@ var FlutterwaveButton = /** @class */ (function (_super) {
                             if (onInitializeError) {
                                 onInitializeError(error_1);
                             }
-                            return [2 /*return*/, this.dismiss()];
+                            return [2 /*return*/, this.setState({
+                                    resetLink: true,
+                                    tx_ref: null
+                                }, this.dismiss)];
                         case 3: return [2 /*return*/];
                     }
                 });
