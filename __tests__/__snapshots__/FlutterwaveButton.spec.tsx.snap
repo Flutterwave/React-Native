@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<FlutterwaveButton /> does not render webview error if there is no link 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#ffffff",
+      "bottom": 0,
+      "justifyContent": "center",
+      "left": 0,
+      "paddingHorizontal": 56,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+/>
+`;
+
 exports[`<FlutterwaveButton /> renders busy button if isPending 1`] = `
 Array [
   <View

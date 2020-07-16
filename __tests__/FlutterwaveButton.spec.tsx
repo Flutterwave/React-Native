@@ -108,7 +108,31 @@ describe('<FlutterwaveButton />', () => {
     expect(LoadingRenderer).toMatchSnapshot();
   });
 
-  it('renders webview error correctly', () => {
+  it('renders webview error correctly', (done) => {
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PAYMENT_INFO}
+    />);
+    // mock next fetch request
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+    // press button
+    TestRenderer.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
+    // checks
+    setTimeout(() => {
+      // get webview
+      const webView = TestRenderer.root.findByType(WebView);
+      // create error renderer
+      const ErrorRenderer = renderer.create(webView.props.renderError());
+      expect(ErrorRenderer).toMatchSnapshot();
+      done();
+    }, 50);
+  });
+
+  it('does not render webview error if there is no link', () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
       options={PAYMENT_INFO}
