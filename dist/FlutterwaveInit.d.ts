@@ -2,15 +2,21 @@
 interface FlutterwavePaymentMeta {
     [k: string]: any;
 }
-export interface InitCustomer {
+export interface FlutterwaveInitCustomer {
     email: string;
     phonenumber?: string;
     name?: string;
 }
-export interface InitCustomizations {
+export interface FlutterwaveInitCustomizations {
     title?: string;
     logo?: string;
     description?: string;
+}
+export interface FlutterwaveInitSubAccount {
+    id: string;
+    transaction_split_ratio?: number;
+    transaction_charge_type?: string;
+    transaction_charge?: number;
 }
 export interface FlutterwaveInitOptions {
     authorization: string;
@@ -21,10 +27,10 @@ export interface FlutterwaveInitOptions {
     payment_options?: string;
     payment_plan?: number;
     redirect_url: string;
-    customer: InitCustomer;
-    subaccounts?: Array<number>;
+    customer: FlutterwaveInitCustomer;
+    subaccounts?: Array<FlutterwaveInitSubAccount>;
     meta?: Array<FlutterwavePaymentMeta>;
-    customizations?: InitCustomizations;
+    customizations?: FlutterwaveInitCustomizations;
 }
 export interface FieldError {
     field: string;
