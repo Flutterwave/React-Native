@@ -86,11 +86,14 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
   ...
   onComplete={handleOnComplete}
   options={{
-    txref: txref,
-    PBFPubKey: '[Your Flutterwave Public Key]',
-    customer_email: 'customer-email@example.com',
+    tx_ref: transactionReference,
+    authorization: '[merchant secret key]',
+    customer: {
+      email: 'customer-email@example.com'
+    },
     amount: 2000,
     currency: 'NGN',
+    payment_options: 'card'
   }}
 />
 ````
