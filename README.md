@@ -245,6 +245,8 @@ interface RedirectParams {
 interface FlutterwaveInitError {
   code: string;
   message: string;
+  errorId?: string;
+  errors?: Array<string>;
 }
 ````
 
@@ -286,26 +288,18 @@ interface InitCustomizations {
 #### FlutterwaveInitOptions Interface
 ````typescript
 export interface FlutterwaveInitOptions {
-  txref: string;
-  PBFPubKey: string;
-  customer: InitCustomer;
-  customizations: InitCustomizations;
-  customer_firstname?: string;
-  customer_lastname?: string;
-  customer_phone?: string;
-  customer_email: string;
+  authorization: string;
+  tx_ref: string;
   amount: number;
-  currency?: string;
-  redirect_url?: string;
+  currency: string;
+  integrity_hash?: string;
   payment_options?: string;
   payment_plan?: number;
+  redirect_url: string;
+  customer: InitCustomer;
   subaccounts?: Array<number>;
-  country?: string;
-  pay_button_text?: string;
-  custom_title?: string;
-  custom_description?: string;
-  custom_logo?: string;
   meta?: Array<FlutterwavePaymentMeta>;
+  customizations?: InitCustomizations;
 }
 ````
 
