@@ -39,6 +39,9 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Standard payment initialization function.
 - Flutterwave designed button.
 
+## :warning: If Using Version 2 API :warning:
+This version of the library uses Version 3 of Flutterwave's API, if you are still using the Version 2 API please use [this documentation](/README.md) instead.
+
 ## Installation
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
 
