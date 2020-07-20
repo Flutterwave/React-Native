@@ -11,7 +11,8 @@
     "test": "jest --coverage",
     "copy-files": "copyfiles -u 1 src/*.gif src/*.png dist",
     "commit": "npx git-cz",
-    "release": "./node_modules/.bin/semantic-release"
+    "release": "./node_modules/.bin/semantic-release",
+    "set-example": "npm run build && node setExample.js"
   },
   "files": [
     "dist"
@@ -38,11 +39,14 @@
     "commitizen": "^4.0.4",
     "copyfiles": "^2.2.0",
     "cz-conventional-changelog": "^3.1.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "jest": "^24.9.0",
     "jest-fetch-mock": "^3.0.3",
+    "log-symbols": "^4.0.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "mockdate": "^3.0.2",
+    "ncp": "^2.0.0",
     "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1",
     "react": "^16.13.1",
