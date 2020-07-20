@@ -1,5 +1,5 @@
 # Aborting Payment Initialization
-Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this, we use `fetch` underneath the hood to make the request to the standard payment endpoint and `fetch` allows you to pass an [abort controller](https://github.com/mo/abortcontroller-polyfill) which you can use to cancel ongoing requests, if your version of React Native does not have the abort functionality for fetch in the Javascript runtime, you will need to [install the polyfill](https://github.com/mo/abortcontroller-polyfill) before moving on. Below is a code snippet showcasing how you can go about cancelling an ongoing payment initialization.
+:wave: Hi, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this, we use `fetch` underneath the hood to make the request to the standard payment endpoint and `fetch` allows you to pass an [abort controller](https://github.com/mo/abortcontroller-polyfill) which you can use to cancel ongoing requests, if your version of React Native does not have the abort functionality for fetch in the Javascript runtime, you will need to [install the polyfill](https://github.com/mo/abortcontroller-polyfill) before moving on. Below is a code snippet showcasing how you can go about cancelling an ongoing payment initialization.
 
 **:point_right:`If you have already installed the polyfill or have it already available in the Javascript runtime, this action happens automatically within FlutterwaveButton.`**
 
@@ -23,26 +23,32 @@ class MyCart extends React.Component {
     }, () => {
       // set abort controller
       this.abortController = new AbortController;
-      // initialize a new payment
-      const payment = await FlutterwaveInit({
-        txref: generateTransactionRef(),
-        PBFPubKey: '[Your Flutterwave Public Key]',
-        amount: 100,
-        currency: 'USD',
-      }, {
-        canceller: this.abortController,
-      });
-        // do nothing if our payment initialization was aborted
-      if (payment.error && payment.error.code === 'ABORTERROR') {
-        return;
-      }
-      // link is available if payment initialized successfully
-      if (payment.link) {
+      try {
+        // initialize payment
+        const paymentLink = await FlutterwaveInit(
+          {
+            tx_ref: generateTransactionRef(),
+            authorization: '[merchant secret key]',
+            amount: 100,
+            currency: 'USD',
+            customer: {
+              email: 'customer-email@example.com',
+            },
+            payment_options: 'card',
+          },
+          this.abortController
+        );
         // use payment link
-        return;
+        return this.usePaymentLink(paymentLink);
+      } catch (error) {
+        // do nothing if our payment initialization was aborted
+        if (error && error.code === 'ABORTERROR') {
+          return;
+        }
+        // handle other errors
+        this.displayErrorMessage(error.message);
       }
-      // handle other errors
-    })
+    });
   }
 
   render() {
