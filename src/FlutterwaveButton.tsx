@@ -41,7 +41,7 @@ interface CustomButtonProps {
 interface RedirectParams {
   status: 'successful' | 'cancelled',
   transaction_id?: string;
-  tx_ref?: string;
+  tx_ref: string;
 }
 
 export interface FlutterwaveButtonProps {
