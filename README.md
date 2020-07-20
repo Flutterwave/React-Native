@@ -140,32 +140,30 @@ import {DefaultButton} from 'react-native-flutterwave';
 ````
 
 ### Flutterwave Standard Init
-[View All Options](#flutterwaveinitioptions) | [Returned Value](#flutterwaveinitresult)
+When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitioptions)
 
 Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
 ````javascript
-import {FlutterwaveInit} from 'react-native-flutterwave';;
+import {FlutterwaveInit} from 'react-native-flutterwave';
 
-// initialize a new payment
-const payment = await FlutterwaveInit({
-  txref: generateTransactionRef(),
-  PBFPubKey: '[Your Flutterwave Public Key]',
-  amount: 100,
-  currency: 'USD',
-});
-
-// link is available if payment initialized successfully
-if (payment.link) {
+try {
+  // initialize payment
+  const paymentLink = await FlutterwaveInit({
+    tx_ref: generateTransactionRef(),
+    authorization: '[your merchant secret Key]',
+    amount: 100,
+    currency: 'USD',
+    customer: {
+      email: 'customer-email@example.com'
+    },
+    payment_options: 'card'
+  });
   // use payment link
-  return usePaymentLink(payment.link);
+  usePaymentLink(paymentLink);
+} catch (error) {
+  // handle payment error
+  displayError(error.message);
 }
-
-// handle payment error
-handlePaymentError(
-  payment.error
-    ? paymet.error.message
-    : 'Kai, an unknown error occurred!'
-);
 ````
 ### Aborting Payment Initialization
 Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/AbortingPaymentInitialization.md)
@@ -241,16 +239,6 @@ interface FlutterwaveInitError {
   message: string;
   errorId?: string;
   errors?: Array<string>;
-}
-````
-
-
-
-#### FlutterwaveInitResult
-````typescript
-interface FlutterwaveInitResult {
-  error?: FlutterwaveInitError | null;
-  link?: string | null;
 }
 ````
 
