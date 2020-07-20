@@ -176,24 +176,18 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 [See Interface](#flutterwaveinitoptions-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v2.0/docs/api-keys)|
-| txref | Yes | string | **REQUIRED** | Your Unique transaction reference.|
-| customer_email | Yes | string | **REQUIRED** | The customer's email address. |
-| customer_phone | No | string | undefined | The customer's phone number. |
-| customer_firstname | No | string | undefined | The customer's first name. |
-| customer_lastname | No | string | undefined | The customer's last name. |
-| amount | Yes | number | undefined | Amount to charge the customer.|
-| currency | No | string | NGN | Currency to charge in. Defaults to NGN. Check our [International Payments](https://developer.flutterwave.com/v2.0/docs/multicurrency-payments) section for more on international currencies.|
-| redirect_url | No | string | undefined | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. |
-| payment_options | No | string | undefined | This allows you to select the payment option you want for your users, see [Choose Payment Methods](https://developer.flutterwave.com/v2.0/docs/splitting-payment-methods) for more info. |
-| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v2.0/docs/recurring-billing). |
-| subaccounts | No | array | undefined | This is an array of objects containing the subaccount IDs to split the payment into. |
-| country | No | string | NG | Route country. Defaults to NG |
-| pay_button_text | No | string | undefined | Text to be displayed on the Rave Checkout Button. |
-| custom_title | No | string | undefined | Text to be displayed as the title of the payment modal. |
-| custom_description | No | string | undefined | Text to be displayed as a short modal description. |
-| custom_logo | No | string | undefined | Link to the Logo image. |
-| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | Any other custom data you wish to pass. |
+| authorization | Yes | string | **REQUIRED** | Your merchant secret key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
+| tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This MUST be unique for every transaction.|
+| amount | Yes | string | **REQUIRED** | Amount to charge the customer. |
+| currency | No | string | NGN | Currency to charge in. Defaults to NGN. |
+| integrity_hash | No | string | undefined | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
+| payment_options | Yes | string | **REQUIRED** | This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on. |
+| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v3.0/docs/recurring-billing). |
+| redirect_url | Yes | string | **REQUIRED** | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. **IMPORTANT** This only required when you are directly using [FlutterwaveInit](#flutterwave-standard-init) |
+| customer | Yes | [FlutterwaveInitCustomer](#flutterwaveinitcustomer) | **REQUIRED** | This is an object that can contains your customer details. `E.g.'customer': { 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs' }.` |
+| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to split the payment into. Check out the [Split Payment page](https://developer.flutterwave.com/docs/split-payment) for more info |
+| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This is an object that helps you include additional payment information to your request. `E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
+| customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This is an object that contains title, logo, and description you want to display on the modal `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
 
 ### FlutterwaveButtonProps
 [See Interface](#flutterwavebuttonprops-interface)
