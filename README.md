@@ -44,7 +44,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Flutterwave designed button.
 
 ## :warning: If Using Version 2 API :warning:
-This version of the library uses Version 3 of Flutterwave's API, if you are still using the Version 2 API please use [this documentation](/README.md) instead.
+This version of the library uses Version 3 of Flutterwave's API, if you are still using the Version 2 API please use [this documentation](https://github.com/thecodecafe/react-native-flutterwave) instead.
 
 ## Installation
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
@@ -66,7 +66,7 @@ dependencies {
 ````
 
 ### :fire: IMPORTANT INFORMATION :fire:
-If the `options` property on the [FlutterwaveButton](flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
+If the `options` property on the [FlutterwaveButton](#flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
 
 Remember you cannot use the same transaction reference for two different payments, remember to recreate the transaction reference before allowing the user initiate a new payment.
 
