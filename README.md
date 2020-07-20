@@ -29,6 +29,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Flutterwave Button Props](#flutterwavebuttonprops-interface)
   - [Default Button Props](#defaultbuttonprops-interface)
   - [Flutterwave Init Customer](#flutterwaveinitcustomer)
+  - [Flutterwave Init Customization](#flutterwaveinitcustomization)
   - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
   - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
@@ -261,9 +262,9 @@ interface FlutterwaveInitCustomer {
 }
 ```
 
-### InitCustomizations
+### FlutterwaveInitCustomizations
 ```typescript
-interface InitCustomizations {
+interface FlutterwaveInitCustomizations {
   title?: string;
   logo?: string;
   description?: string;
@@ -294,7 +295,7 @@ export interface FlutterwaveInitOptions {
   customer: FlutterwaveInitCustomer;
   subaccounts?: Array<FlutterwaveInitSubAccount>;
   meta?: Array<FlutterwavePaymentMeta>;
-  customizations?: InitCustomizations;
+  customizations?: FlutterwaveInitCustomizations;
 }
 ````
 
