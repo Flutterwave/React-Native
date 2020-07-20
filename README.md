@@ -28,6 +28,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Types
   - [Flutterwave Button Props](#flutterwavebuttonprops-interface)
   - [Default Button Props](#defaultbuttonprops-interface)
+  - [Init Customer](#initcustomer)
   - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
   - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
@@ -264,11 +265,21 @@ interface FlutterwavePaymentMeta {
 }
 ````
 
+### InitCustomer
+```typescript
+interface InitCustomer {
+  email: string;
+  phonenumber?: string;
+  name?: string;
+}
+```
+
 #### FlutterwaveInitOptions Interface
 ````typescript
 export interface FlutterwaveInitOptions {
   txref: string;
   PBFPubKey: string;
+  customer: InitCustomer;
   customer_firstname?: string;
   customer_lastname?: string;
   customer_phone?: string;
