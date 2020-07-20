@@ -42,7 +42,7 @@ class MyCart extends React.Component {
         return this.usePaymentLink(paymentLink);
       } catch (error) {
         // do nothing if our payment initialization was aborted
-        if (error && error.code === 'ABORTERROR') {
+        if (error.code === 'ABORTERROR') {
           return;
         }
         // handle other errors
