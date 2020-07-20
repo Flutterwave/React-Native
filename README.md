@@ -274,12 +274,22 @@ interface InitCustomer {
 }
 ```
 
+### InitCustomizations
+```typescript
+interface InitCustomizations {
+  title?: string;
+  logo?: string;
+  description?: string;
+}
+```
+
 #### FlutterwaveInitOptions Interface
 ````typescript
 export interface FlutterwaveInitOptions {
   txref: string;
   PBFPubKey: string;
   customer: InitCustomer;
+  customizations: InitCustomizations;
   customer_firstname?: string;
   customer_lastname?: string;
   customer_phone?: string;
