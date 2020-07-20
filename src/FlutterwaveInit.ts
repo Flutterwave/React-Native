@@ -18,6 +18,13 @@ export interface InitCustomizations {
   description?: string;
 }
 
+export interface FlutterwaveInitSubAccount {
+  id: string;
+  transaction_split_ratio?: number;
+  transaction_charge_type?: string;
+  transaction_charge?: number;
+}
+
 export interface FlutterwaveInitOptions {
   authorization: string;
   tx_ref: string;
@@ -28,7 +35,7 @@ export interface FlutterwaveInitOptions {
   payment_plan?: number;
   redirect_url: string;
   customer: InitCustomer;
-  subaccounts?: Array<number>;
+  subaccounts?: Array<FlutterwaveInitSubAccount>;
   meta?: Array<FlutterwavePaymentMeta>;
   customizations?: InitCustomizations;
 }
