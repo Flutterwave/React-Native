@@ -76,3 +76,6 @@ jest.config.js
 README.md
 setupJest.js
 tsconfig.json
+
+.env
+.env.example
