@@ -10,6 +10,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 
 ## Table Of Content
 - Getting Started
+  - [V2 API](#if-using-version-2-api)
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
@@ -30,7 +31,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
   - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
-  - [OnCompleteData](#oncompletedata)
+  - [RedirectParams](#redirectparams)
   - [CustomButtonProps](#custombuttonprops)
 - [Contributing](./CONTRIBUTING.md)
 
@@ -198,7 +199,7 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | object | undefined | Used to apply styling to the button.|
-| onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [on complete data](#oncompletedata)|
+| onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [redirect params](#redirectparams) as an argument.|
 | onWillInitialize | No | function | undefined | This will be called before a payment link is generated.|
 | onDidInitialize | No | function | undefined | This is called when a new payment link has been successfully initialized.|
 | onInitializeError | No | function | undefined | This is called if an error occurred while initializing a new pyment link. The function will receive [FlutterwaveInitError](#flutterwaveiniterror) |
@@ -229,12 +230,12 @@ interface CustomButtonProps {
 }
 ````
 
-#### OnCompleteData
+#### RedirectParams
 ````typescript
-interface OnCompleteData {
-  canceled: boolean;
-  flwref?: string;
-  txref: string;
+interface RedirectParams {
+  status: 'successful' | 'cancelled',
+  transaction_id?: string;
+  tx_ref: string;
 }
 ````
 
@@ -291,7 +292,7 @@ export interface FlutterwaveInitOptions {
 ````typescript
 interface FlutterwaveButtonProps {
   style?: ViewStyle;
-  onComplete: (data: OnCompleteData) => void;
+  onComplete: (data: RedirectParams) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onInitializeError?: (error: FlutterwaveInitError) => void;
