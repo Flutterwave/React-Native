@@ -259,8 +259,7 @@ interface FlutterwaveInitResult {
 #### FlutterwavePaymentMeta
 ````typescript
 interface FlutterwavePaymentMeta {
-  metaname: string;
-  metavalue: string;
+  [k: string]: any;
 }
 ````
 
