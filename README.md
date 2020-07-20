@@ -10,7 +10,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 
 ## Table Of Content
 - Getting Started
-  - [V2 API](#if-using-version-2-api)
+  - [V2 API](#warning-if-using-version-2-api-warning)
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
