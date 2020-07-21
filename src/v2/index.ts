@@ -5,5 +5,5 @@ import DefaultButton from '../DefaultButton';
 // export modules
 export {FlutterwaveInit, FlutterwaveButton, DefaultButton};
 
-// export init as default
+// export button as default
 export default FlutterwaveButton;
