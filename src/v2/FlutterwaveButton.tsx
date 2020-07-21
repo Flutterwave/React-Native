@@ -274,10 +274,6 @@ class FlutterwaveButton extends React.Component<
       onWillInitialize();
     }
 
-    // @ts-ignore
-    // delete redirect url if set
-    delete options.redirect_url;
-
     // set pending state to true
     this.setState(
       {
@@ -286,23 +282,31 @@ class FlutterwaveButton extends React.Component<
         txref: options.txref,
       },
       async () => {
-        // make init request
-        const result = await FlutterwaveInit(options, {canceller: this.canceller});
-        // stop if request was canceled
-        if (result.error && /aborterror/i.test(result.error.code)) {
-          return;
-        }
-        // call onInitializeError handler if an error occured
-        if (!result.link) {
-          if (onInitializeError && result.error) {
-            onInitializeError(result.error);
+        try {
+          // make init request
+          const paymentLink = await FlutterwaveInit(
+            {...options, redirect_url: REDIRECT_URL},
+            this.abortController
+          );
+          // set payment link
+          this.setState({
+            link: paymentLink,
+            isPending: false
+          }, this.show);
+          // fire did initialize handler if available
+          if (onDidInitialize) {
+            onDidInitialize();
+          }
+        } catch (error) {
+          // stop if request was canceled
+          if (error && /aborterror/i.test(error.code)) {
+            return;
+          }
+          // call onInitializeError handler if an error occured
+          if (onInitializeError) {
+            onInitializeError(error);
           }
           return this.dismiss();
-        }
-        this.setState({link: result.link, isPending: false}, this.show);
-        // fire did initialize handler if available
-        if (onDidInitialize) {
-          onDidInitialize();
         }
       },
     );
