@@ -5,14 +5,15 @@ import {
   ViewStyle,
   LayoutChangeEvent,
   TouchableHighlight,
+  StyleProp,
 } from "react-native";
 import {colors} from './configs';
 
 interface DefaultButtonProps {
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   disabled?: boolean;
-  children: React.ReactElement;
+  children: React.ReactNode;
   isBusy?: boolean;
   onSizeChange?: (ev: {width: number; height: number}) => void;
   alignLeft?: 'alignLeft' | boolean,
@@ -57,12 +58,12 @@ const DefaultButton: React.FC<DefaultButtonProps> = function Button({
       underlayColor={colors.primary}
       disabled={disabled}
       onPress={onPress}
-      style={{
-        ...styles.button,
-        ...getBusyStyle(isBusy),
-        ...getAlginStyle(alignLeft),
-        ...(style || {}
-      )}}
+      style={[
+        styles.button,
+        getBusyStyle(isBusy),
+        getAlginStyle(alignLeft),
+        style
+      ]}
       activeOpacity={1}
       onLayout={handleOnLayout}
       testID='flw-default-button'>
