@@ -18,6 +18,7 @@ import {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
 import {FlutterwaveButtonPropsBase, RedirectParamsV2, OptionsPropTypeBase} from '../FlutterwaveButton';
 import FlutterwaveInit, {FlutterwaveInitOptions} from './FlutterwaveInit';
 import DefaultButton from '../DefaultButton';
+import {PaymentOptionsPropRule} from '../utils/CustomPropTypesRules';
 const loader = require('../assets/loader.gif');
 const pryContent = require('../assets/pry-button-content.png');
 const contentWidthPercentage = 0.6549707602;
@@ -59,19 +60,14 @@ class FlutterwaveButton extends React.Component<
     onDidInitialize: PropTypes.func,
     onInitializeError: PropTypes.func,
     options: PropTypes.shape({
+      ...OptionsPropTypeBase,
+      payment_options: PaymentOptionsPropRule(PAYMENT_OPTIONS_V2),
       txref: PropTypes.string.isRequired,
       PBFPubKey: PropTypes.string.isRequired,
+      customer_firstname: PropTypes.string,
+      customer_lastname: PropTypes.string,
       customer_email: PropTypes.string.isRequired,
-      amount: PropTypes.number.isRequired,
-      currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
-      payment_options: PaymentOptionsPropRule(PAYMENT_OPTIONS),
-      payment_plan: PropTypes.number,
-      subaccounts: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        transaction_split_ratio: PropTypes.number,
-        transaction_charge_type: PropTypes.string,
-        transaction_charge: PropTypes.number,
-      })),
+      customer_phone: PropTypes.string,
       country: PropTypes.string,
       pay_button_text: PropTypes.string,
       custom_title: PropTypes.string,
