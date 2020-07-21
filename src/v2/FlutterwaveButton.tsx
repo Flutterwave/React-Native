@@ -381,7 +381,7 @@ class FlutterwaveButton extends React.Component<
   }
 
   renderButton() {
-    const {customButton, style, alignLeft} = this.props;
+    const {customButton, style, alignLeft, children} = this.props;
     const {isPending, link, showDialog, buttonSize} = this.state;
     const contentWidth = buttonSize.width * contentWidthPercentage;
     const contentHeight = contentWidth / contentSizeDimension;
@@ -416,13 +416,15 @@ class FlutterwaveButton extends React.Component<
         disabled={isPending || showDialog ? true : false}
         onPress={this.handleInit}
         onSizeChange={this.handleButtonResize}>
-        <Image
-          source={pryContent}
-          resizeMode="contain"
-          resizeMethod="resize"
-          style={[styles.buttonContent, contentSizeStyle]}
-          fadeDuration={0}
-        />
+          {children ? children : (
+            <Image
+              source={pryContent}
+              resizeMode="contain"
+              resizeMethod="resize"
+              style={[styles.buttonContent, contentSizeStyle]}
+              fadeDuration={0}
+            />
+          )}
       </DefaultButton>
     );
   }
