@@ -98,7 +98,7 @@ class FlutterwaveButton extends React.Component<
 
   webviewRef: WebView | null = null;
 
-  canceller?: AbortController;
+  abortController?: AbortController;
 
   componentDidUpdate(prevProps: FlutterwaveButtonProps) {
     if (JSON.stringify(prevProps.options) !== JSON.stringify(this.props.options)) {
@@ -107,14 +107,14 @@ class FlutterwaveButton extends React.Component<
   }
 
   componentWillUnmount() {
-    if (this.canceller) {
-      this.canceller.abort();
+    if (this.abortController) {
+      this.abortController.abort();
     }
   }
 
   reset = () => {
-    if (this.canceller) {
-      this.canceller.abort();
+    if (this.abortController) {
+      this.abortController.abort();
     }
     // reset the necessaries
     this.setState(({resetLink, link}) => ({
@@ -267,7 +267,7 @@ class FlutterwaveButton extends React.Component<
     }
 
     // initialize abort controller if not set
-    this.canceller = new AbortController;
+    this.abortController = new AbortController;
 
     // fire will initialize handler if available
     if (onWillInitialize) {
