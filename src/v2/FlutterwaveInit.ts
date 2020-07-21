@@ -78,14 +78,14 @@ export default async function FlutterwaveInit(
     // check if data is missing from response
     if (!responseJSON.data) {
       throw new FlutterwaveInitError({
-        code: 'NODATA',
+        code: 'STANDARD_INIT_ERROR',
         message: responseJSON.message || 'An unknown error occured!',
       });
     }
     // check if the link is missing in data
     if (!responseJSON.data.link) {
       throw new FlutterwaveInitError({
-        code: responseJSON.data.code || 'UNKNOWN',
+        code: responseJSON.data.code || 'MALFORMED_RESPONSE',
         message: responseJSON.data.message || 'An unknown error occured!',
       });
     }
