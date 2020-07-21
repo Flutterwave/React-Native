@@ -1,6 +1,6 @@
 import 'react-native';
-import {PaymentOptionsPropRule} from '../src/utils/CustomPropTypesRules';
-import {PAYMENT_OPTIONS} from '../src/configs';
+import {PaymentOptionsPropRule} from '../../src/utils/CustomPropTypesRules';
+import {PAYMENT_OPTIONS} from '../../src/v2/configs.v2';
 const PropName = 'payment_options';
 
 describe('CustomPropTypes.PaymentOptionsPropRule', () => {

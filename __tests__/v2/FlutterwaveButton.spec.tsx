@@ -2,11 +2,11 @@ import 'react-native';
 import React from 'react';
 import {TouchableWithoutFeedback, Text, Alert} from 'react-native';
 import renderer from 'react-test-renderer';
-import FlutterwaveButton from '../src/v2/FlutterwaveButton';
-import {FlutterwaveInitOptions} from '../src/v2/FlutterwaveInit';
-import {STANDARD_URL} from '../src/v2/configs.v2';
+import FlutterwaveButton from '../../src/v2/FlutterwaveButton';
+import {FlutterwaveInitOptions} from '../../src/v2/FlutterwaveInit';
+import {STANDARD_URL} from '../../src/v2/configs.v2';
 import WebView from 'react-native-webview';
-import DefaultButton from '../src/DefaultButton';
+import DefaultButton from '../../src/DefaultButton';
 const BtnTestID = 'flw-default-button';
 const SuccessResponse = {
   status: 'success',
