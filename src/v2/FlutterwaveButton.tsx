@@ -150,11 +150,11 @@ class FlutterwaveButton extends React.Component<
     this.handleComplete(this.getRedirectParams(ev.url));
   };
 
-  handleComplete(data: any) {
+  handleComplete(data: RedirectParamsV2) {
     const {onComplete} = this.props;
     // reset payment link
     this.setState(({resetLink, txref}) => ({
-      txref: data.flref && !data.canceled ? null : txref,
+      txref: data.flwref && !data.canceled ? null : txref,
       resetLink: data.flwref && !data.canceled ? true : resetLink
     }),
       () => {
@@ -164,7 +164,7 @@ class FlutterwaveButton extends React.Component<
         onComplete({
           flwref: data.flwref,
           txref: data.txref,
-          canceled: /true/i.test(data.canceled || '') ? true : false
+          canceled: data.canceled,
         });
       }
     );
@@ -205,7 +205,7 @@ class FlutterwaveButton extends React.Component<
     }
   };
 
-  getRedirectParams = (url: string): RedirectParams => {
+  getRedirectParams = (url: string): RedirectParamsV2 => {
     // initialize result container
     const res: any = {};
     // if url has params
