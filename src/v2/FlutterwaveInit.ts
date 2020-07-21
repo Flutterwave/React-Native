@@ -1,50 +1,25 @@
-import {STANDARD_URL} from './configs.v2';
+import {STANDARD_URL_V2} from '../configs';
+import {FlutterwaveInitOptionsBase} from '../FlutterwaveInit';
+import FlutterwaveInitError from '../utils/FlutterwaveInitError';
 
-interface FlutterwavePaymentMeta {
+interface FlutterwavePaymentMetaV2 {
   metaname: string;
   metavalue: string;
 }
 
-export interface FlutterwaveInitSubAccount {
-  id: string;
-  transaction_split_ratio?: number;
-  transaction_charge_type?: string;
-  transaction_charge?: number;
-}
-
-export interface FlutterwaveInitOptions {
+export type FlutterwaveInitOptions = FlutterwaveInitOptionsBase & {
   txref: string;
   PBFPubKey: string;
   customer_firstname?: string;
   customer_lastname?: string;
   customer_phone?: string;
   customer_email: string;
-  amount: number;
-  currency?: string;
-  redirect_url?: string;
-  payment_options?: string;
-  payment_plan?: number;
-  subaccounts?: Array<FlutterwaveInitSubAccount>;
   country?: string;
   pay_button_text?: string;
   custom_title?: string;
   custom_description?: string;
   custom_logo?: string;
-  meta?: Array<FlutterwavePaymentMeta>;
-}
-
-interface FlutterwaveInitConfig {
-  canceller?: AbortController;
-}
-
-export interface FlutterwaveInitError {
-  code: string;
-  message: string;
-}
-
-interface FlutterwaveInitResult {
-  error?: FlutterwaveInitError | null;
-  link?: string | null;
+  meta?: Array<FlutterwavePaymentMetaV2>;
 }
 
 interface ResponseJSON {
@@ -78,84 +53,50 @@ interface FetchOptions {
  */
 export default async function FlutterwaveInit(
   options: FlutterwaveInitOptions,
-  config: FlutterwaveInitConfig = {},
-): Promise<FlutterwaveInitResult> {
+  abortController?: AbortController,
+): Promise<string> {
   try {
     // make request body
     const body = {...options};
-
     // make request headers
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-
     // make fetch options
     const fetchOptions: FetchOptions = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: headers,
     }
-
-    // add canceller if defined
-    if (config.canceller) {
-      fetchOptions.signal = config.canceller.signal
+    // add abort controller if defined
+    if (abortController) {
+      fetchOptions.signal = abortController.signal
     };
-
     // make http request
-    const response = await fetch(STANDARD_URL, fetchOptions);
-
+    const response = await fetch(STANDARD_URL_V2, fetchOptions);
     // get response json
     const responseJSON: ResponseJSON = await response.json();
-
     // check if data is missing from response
     if (!responseJSON.data) {
-      throw new FlutterwaveInitException({
+      throw new FlutterwaveInitError({
         code: 'NODATA',
         message: responseJSON.message || 'An unknown error occured!',
       });
     }
-
     // check if the link is missing in data
     if (!responseJSON.data.link) {
-      throw new FlutterwaveInitException({
+      throw new FlutterwaveInitError({
         code: responseJSON.data.code || 'UNKNOWN',
         message: responseJSON.data.message || 'An unknown error occured!',
       });
     }
-
     // resolve with the payment link
-    return Promise.resolve({
-      link: responseJSON.data.link,
-    });
+    return Promise.resolve(responseJSON.data.link);
   } catch (e) {
+    // always return a flutterwave init error
+    const error = e instanceof FlutterwaveInitError
+     ? e
+     : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
     // resolve with error
-    return Promise.resolve({
-      error: {
-        code:
-          e instanceof FlutterwaveInitException
-            ? e.code
-            : String(e.name).toUpperCase(),
-        message: e.message,
-      }
-    });
-  }
-}
-
-/**
- * Flutterwave Init Error
- */
-export class FlutterwaveInitException extends Error {
-  /**
-   * Error code
-   * @var string
-   */
-  code: string;
-
-  /**
-   * Constructor Method
-   * @param props {message?: string; code?: string}
-   */
-  constructor(props: {message: string; code: string}) {
-    super(props.message);
-    this.code = props.code;
+    return Promise.reject(error);
   }
 }
