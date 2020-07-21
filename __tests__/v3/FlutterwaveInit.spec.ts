@@ -1,6 +1,6 @@
-import FlutterwaveInit, {FlutterwaveInitOptions} from '../src/FlutterwaveInit';
-import {STANDARD_URL} from '../src/configs';
-import FlutterwaveInitError from '../src/utils/FlutterwaveInitError';
+import FlutterwaveInit, {FlutterwaveInitOptions} from '../../src/v3/FlutterwaveInit';
+import {STANDARD_URL} from '../../src/configs';
+import FlutterwaveInitError from '../../src/utils/FlutterwaveInitError';
 
 const AUTHORIZATION = '[AUTHORIZATION]';
 
