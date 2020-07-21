@@ -20,6 +20,7 @@ import FlutterwaveInit, {FlutterwaveInitOptions} from './FlutterwaveInit';
 import DefaultButton from '../DefaultButton';
 import {PAYMENT_OPTIONS_V2, colors, REDIRECT_URL} from '../configs';
 import {PaymentOptionsPropRule} from '../utils/CustomPropTypesRules';
+import FlutterwaveInitError from '../utils/FlutterwaveInitError';
 const loader = require('../assets/loader.gif');
 const pryContent = require('../assets/pry-button-content.png');
 const contentWidthPercentage = 0.6549707602;
@@ -254,10 +255,10 @@ class FlutterwaveButton extends React.Component<
 
     // throw error if transaction reference has not changed
     if (txref === options.txref) {
-      return onInitializeError ? onInitializeError({
+      return onInitializeError ? onInitializeError(new FlutterwaveInitError({
         message: 'Please generate a new transaction reference.',
         code: 'SAME_TXREF',
-      }) : null;
+      })) : null;
     }
 
     // stop if currently in pending mode
