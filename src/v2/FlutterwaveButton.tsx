@@ -18,6 +18,7 @@ import {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
 import {FlutterwaveButtonPropsBase, RedirectParamsV2, OptionsPropTypeBase} from '../FlutterwaveButton';
 import FlutterwaveInit, {FlutterwaveInitOptions} from './FlutterwaveInit';
 import DefaultButton from '../DefaultButton';
+import {PAYMENT_OPTIONS_V2, colors, REDIRECT_URL} from '../configs';
 import {PaymentOptionsPropRule} from '../utils/CustomPropTypesRules';
 const loader = require('../assets/loader.gif');
 const pryContent = require('../assets/pry-button-content.png');
