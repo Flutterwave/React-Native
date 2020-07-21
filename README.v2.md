@@ -10,7 +10,6 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 
 ## Table Of Content
 - Getting Started
-  - [V2 API](#warning-if-using-version-2-api-warning)
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
@@ -28,13 +27,10 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Types
   - [Flutterwave Button Props](#flutterwavebuttonprops-interface)
   - [Default Button Props](#defaultbuttonprops-interface)
-  - [Flutterwave Init Customer](#flutterwaveinitcustomer)
-  - [Flutterwave Init Customization](#flutterwaveinitcustomization)
-  - [Flutterwave Init Sub Account](#flutterwaveinitsubaccount)
   - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
   - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
-  - [RedirectParams](#redirectparams)
+  - [OnCompleteData](#oncompletedata)
   - [CustomButtonProps](#custombuttonprops)
 - [Contributing](./CONTRIBUTING.md)
 
@@ -42,9 +38,6 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Pay with Flutterwave button and checkout dialog.
 - Standard payment initialization function.
 - Flutterwave designed button.
-
-## :warning: If Using Version 2 API :warning:
-This version of the library uses Version 3 of Flutterwave's API, if you are still using the Version 2 API please use [this documentation](https://github.com/thecodecafe/react-native-flutterwave) instead.
 
 ## Installation
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
@@ -66,7 +59,7 @@ dependencies {
 ````
 
 ### :fire: IMPORTANT INFORMATION :fire:
-If the `options` property on the [FlutterwaveButton](#flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
+If the `options` property on the [FlutterwaveButton](flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
 
 Remember you cannot use the same transaction reference for two different payments, remember to recreate the transaction reference before allowing the user initiate a new payment.
 
@@ -88,14 +81,11 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
   ...
   onComplete={handleOnComplete}
   options={{
-    tx_ref: transactionReference,
-    authorization: '[merchant secret key]',
-    customer: {
-      email: 'customer-email@example.com'
-    },
+    txref: txref,
+    PBFPubKey: '[Your Flutterwave Public Key]',
+    customer_email: 'customer-email@example.com',
     amount: 2000,
     currency: 'NGN',
-    payment_options: 'card'
   }}
 />
 ````
@@ -145,33 +135,35 @@ import {DefaultButton} from 'react-native-flutterwave';
 ````
 
 ### Flutterwave Standard Init
-When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitioptions)
+[View All Options](#flutterwaveinitioptions) | [Returned Value](#flutterwaveinitresult)
 
 Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
 ````javascript
-import {FlutterwaveInit} from 'react-native-flutterwave';
+import {FlutterwaveInit} from 'react-native-flutterwave';;
 
-try {
-  // initialize payment
-  const paymentLink = await FlutterwaveInit({
-    tx_ref: generateTransactionRef(),
-    authorization: '[your merchant secret Key]',
-    amount: 100,
-    currency: 'USD',
-    customer: {
-      email: 'customer-email@example.com'
-    },
-    payment_options: 'card'
-  });
+// initialize a new payment
+const payment = await FlutterwaveInit({
+  txref: generateTransactionRef(),
+  PBFPubKey: '[Your Flutterwave Public Key]',
+  amount: 100,
+  currency: 'USD',
+});
+
+// link is available if payment initialized successfully
+if (payment.link) {
   // use payment link
-  usePaymentLink(paymentLink);
-} catch (error) {
-  // handle payment error
-  displayError(error.message);
+  return usePaymentLink(payment.link);
 }
+
+// handle payment error
+handlePaymentError(
+  payment.error
+    ? paymet.error.message
+    : 'Kai, an unknown error occurred!'
+);
 ````
 ### Aborting Payment Initialization
-:wave:Hi, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/AbortingPaymentInitialization.md)
+Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/v2/AbortingPaymentInitialization.md)
 
 ## Props
 
@@ -179,30 +171,36 @@ try {
 [See Interface](#flutterwaveinitoptions-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| authorization | Yes | string | **REQUIRED** | Your merchant secret key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
-| tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This MUST be unique for every transaction.|
-| amount | Yes | string | **REQUIRED** | Amount to charge the customer. |
-| currency | No | string | NGN | Currency to charge in. Defaults to NGN. |
-| integrity_hash | No | string | undefined | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
-| payment_options | Yes | string | **REQUIRED** | This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on. |
-| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v3.0/docs/recurring-billing). |
-| redirect_url | Yes | string | **REQUIRED** | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. **IMPORTANT** This only required when you are directly using [FlutterwaveInit](#flutterwave-standard-init) |
-| customer | Yes | [FlutterwaveInitCustomer](#flutterwaveinitcustomer) | **REQUIRED** | This is an object that can contains your customer details. `E.g.'customer': { 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs' }.` |
-| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to split the payment into. Check out the [Split Payment page](https://developer.flutterwave.com/docs/split-payment) for more info |
-| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This is an object that helps you include additional payment information to your request. `E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
-| customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This is an object that contains title, logo, and description you want to display on the modal `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
+| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v2.0/docs/api-keys)|
+| txref | Yes | string | **REQUIRED** | Your Unique transaction reference.|
+| customer_email | Yes | string | **REQUIRED** | The customer's email address. |
+| customer_phone | No | string | undefined | The customer's phone number. |
+| customer_firstname | No | string | undefined | The customer's first name. |
+| customer_lastname | No | string | undefined | The customer's last name. |
+| amount | Yes | number | undefined | Amount to charge the customer.|
+| currency | No | string | NGN | Currency to charge in. Defaults to NGN. Check our [International Payments](https://developer.flutterwave.com/v2.0/docs/multicurrency-payments) section for more on international currencies.|
+| redirect_url | No | string | undefined | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. |
+| payment_options | No | string | undefined | This allows you to select the payment option you want for your users, see [Choose Payment Methods](https://developer.flutterwave.com/v2.0/docs/splitting-payment-methods) for more info. |
+| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v2.0/docs/recurring-billing). |
+| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to [split the payment](https://developer.flutterwave.com/v2.0/docs/split-payment) into. |
+| country | No | string | NG | Route country. Defaults to NG |
+| pay_button_text | No | string | undefined | Text to be displayed on the Rave Checkout Button. |
+| custom_title | No | string | undefined | Text to be displayed as the title of the payment modal. |
+| custom_description | No | string | undefined | Text to be displayed as a short modal description. |
+| custom_logo | No | string | undefined | Link to the Logo image. |
+| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | Any other custom data you wish to pass. |
 
 ### FlutterwaveButtonProps
 [See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | object | undefined | Used to apply styling to the button.|
-| onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [redirect params](#redirectparams) as an argument.|
+| onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [on complete data](#oncompletedata)|
 | onWillInitialize | No | function | undefined | This will be called before a payment link is generated.|
 | onDidInitialize | No | function | undefined | This is called when a new payment link has been successfully initialized.|
 | onInitializeError | No | function | undefined | This is called if an error occurred while initializing a new pyment link. The function will receive [FlutterwaveInitError](#flutterwaveiniterror) |
 | onAbort | No | function | undefined | This is called if a user aborts a transaction, a user can abort a transaction when they click on the dialog's backdrop and choose cancel when prompted to cancel transaction. |
-| options | Yes | [FlutterwaveInitOptions](#flutterwaveinitoptions) | **REQUIRED** | The option passed here is used to initialize a payment. |
+| options | Yes | **[FlutterwaveInitOptions](#flutterwaveinitoptions)** | **REQUIRED** | The option passed here is used to initialize a payment. |
 | customButton | No | function | undefined | This is used to render a custom button. The function a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
@@ -228,12 +226,12 @@ interface CustomButtonProps {
 }
 ````
 
-#### RedirectParams
+#### OnCompleteData
 ````typescript
-interface RedirectParams {
-  status: 'successful' | 'cancelled',
-  transaction_id?: string;
-  tx_ref: string;
+interface OnCompleteData {
+  canceled: boolean;
+  flwref?: string;
+  txref: string;
 }
 ````
 
@@ -242,8 +240,16 @@ interface RedirectParams {
 interface FlutterwaveInitError {
   code: string;
   message: string;
-  errorId?: string;
-  errors?: Array<string>;
+}
+````
+
+
+
+#### FlutterwaveInitResult
+````typescript
+interface FlutterwaveInitResult {
+  error?: FlutterwaveInitError | null;
+  link?: string | null;
 }
 ````
 
@@ -260,53 +266,32 @@ interface FlutterwaveInitSubAccount {
 #### FlutterwavePaymentMeta
 ````typescript
 interface FlutterwavePaymentMeta {
-  [k: string]: any;
+  metaname: string;
+  metavalue: string;
 }
 ````
-
-### FlutterwaveInitCustomer
-```typescript
-interface FlutterwaveInitCustomer {
-  email: string;
-  phonenumber?: string;
-  name?: string;
-}
-```
-
-### FlutterwaveInitCustomizations
-```typescript
-interface FlutterwaveInitCustomizations {
-  title?: string;
-  logo?: string;
-  description?: string;
-}
-```
-
-### FlutterwaveInitSubAccount
-```typescript
-interface FlutterwaveInitSubAccount {
-  id: string;
-  transaction_split_ratio?: number;
-  transaction_charge_type?: string;
-  transaction_charge?: number;
-}
-```
 
 #### FlutterwaveInitOptions Interface
 ````typescript
 export interface FlutterwaveInitOptions {
-  authorization: string;
-  tx_ref: string;
+  txref: string;
+  PBFPubKey: string;
+  customer_firstname?: string;
+  customer_lastname?: string;
+  customer_phone?: string;
+  customer_email: string;
   amount: number;
-  currency: string;
-  integrity_hash?: string;
+  currency?: string;
+  redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
-  redirect_url: string;
-  customer: FlutterwaveInitCustomer;
   subaccounts?: Array<FlutterwaveInitSubAccount>;
+  country?: string;
+  pay_button_text?: string;
+  custom_title?: string;
+  custom_description?: string;
+  custom_logo?: string;
   meta?: Array<FlutterwavePaymentMeta>;
-  customizations?: FlutterwaveInitCustomizations;
 }
 ````
 
@@ -314,7 +299,7 @@ export interface FlutterwaveInitOptions {
 ````typescript
 interface FlutterwaveButtonProps {
   style?: ViewStyle;
-  onComplete: (data: RedirectParams) => void;
+  onComplete: (data: OnCompleteData) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onInitializeError?: (error: FlutterwaveInitError) => void;

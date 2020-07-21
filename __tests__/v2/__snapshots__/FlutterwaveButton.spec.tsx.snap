@@ -1,0 +1,751 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FlutterwaveButton /> renders busy button if isPending 1`] = `
+Array [
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#FBDBA7",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      }
+    }
+    testID="flw-default-button"
+  >
+    <Image
+      fadeDuration={0}
+      resizeMethod="resize"
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/pry-button-content.png",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "resizeMode": "contain",
+          },
+          Object {
+            "height": 22.57633928570421,
+            "width": 187.3,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0.6)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+  </View>,
+  <Modal
+    animated={false}
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="flw-backdrop"
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#efefef",
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
+          "flex": 1,
+          "marginTop": 1305,
+          "opacity": 0,
+          "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <RNCWebView
+          cacheEnabled={true}
+          injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+          injectedJavaScriptForMainFrameOnly={true}
+          javaScriptEnabled={true}
+          messagingEnabled={false}
+          onContentProcessDidTerminate={[Function]}
+          onHttpError={[Function]}
+          onLoadingError={[Function]}
+          onLoadingFinish={[Function]}
+          onLoadingProgress={[Function]}
+          onLoadingStart={[Function]}
+          onMessage={[Function]}
+          onNavigationStateChange={[Function]}
+          onShouldStartLoadWithRequest={[Function]}
+          scalesPageToFit={true}
+          source={
+            Object {
+              "uri": "",
+            }
+          }
+          startInLoadingState={true}
+          style={
+            Array [
+              Object {
+                "flex": 1,
+                "overflow": "hidden",
+              },
+              Object {
+                "backgroundColor": "#ffffff",
+              },
+              Object {
+                "backgroundColor": "rgba(0,0,0,0)",
+                "flex": 1,
+              },
+            ]
+          }
+          useSharedProcessPool={true}
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(255, 255, 255, 0.3)",
+              "bottom": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        >
+          <Image
+            resizeMode="contain"
+            source={
+              Object {
+                "testUri": "../../../src/loader.gif",
+              }
+            }
+            style={
+              Object {
+                "height": 64,
+                "resizeMode": "contain",
+                "width": 64,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;
+
+exports[`<FlutterwaveButton /> renders component correctly 1`] = `
+Array [
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#f5a623",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      }
+    }
+    testID="flw-default-button"
+  >
+    <Image
+      fadeDuration={0}
+      resizeMethod="resize"
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/pry-button-content.png",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "resizeMode": "contain",
+          },
+          Object {
+            "height": 22.57633928570421,
+            "width": 187.3,
+          },
+        ]
+      }
+    />
+  </View>,
+  <Modal
+    animated={false}
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="flw-backdrop"
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#efefef",
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
+          "flex": 1,
+          "marginTop": 1305,
+          "opacity": 0,
+          "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <RNCWebView
+          cacheEnabled={true}
+          injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+          injectedJavaScriptForMainFrameOnly={true}
+          javaScriptEnabled={true}
+          messagingEnabled={false}
+          onContentProcessDidTerminate={[Function]}
+          onHttpError={[Function]}
+          onLoadingError={[Function]}
+          onLoadingFinish={[Function]}
+          onLoadingProgress={[Function]}
+          onLoadingStart={[Function]}
+          onMessage={[Function]}
+          onNavigationStateChange={[Function]}
+          onShouldStartLoadWithRequest={[Function]}
+          scalesPageToFit={true}
+          source={
+            Object {
+              "uri": "",
+            }
+          }
+          startInLoadingState={true}
+          style={
+            Array [
+              Object {
+                "flex": 1,
+                "overflow": "hidden",
+              },
+              Object {
+                "backgroundColor": "#ffffff",
+              },
+              Object {
+                "backgroundColor": "rgba(0,0,0,0)",
+                "flex": 1,
+              },
+            ]
+          }
+          useSharedProcessPool={true}
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(255, 255, 255, 0.3)",
+              "bottom": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        >
+          <Image
+            resizeMode="contain"
+            source={
+              Object {
+                "testUri": "../../../src/loader.gif",
+              }
+            }
+            style={
+              Object {
+                "height": 64,
+                "resizeMode": "contain",
+                "width": 64,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;
+
+exports[`<FlutterwaveButton /> renders custom button correctly 1`] = `
+Array [
+  <Text
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+  >
+    Pay
+  </Text>,
+  <Modal
+    animated={false}
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="flw-backdrop"
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#efefef",
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
+          "flex": 1,
+          "marginTop": 1305,
+          "opacity": 0,
+          "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <RNCWebView
+          cacheEnabled={true}
+          injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+          injectedJavaScriptForMainFrameOnly={true}
+          javaScriptEnabled={true}
+          messagingEnabled={false}
+          onContentProcessDidTerminate={[Function]}
+          onHttpError={[Function]}
+          onLoadingError={[Function]}
+          onLoadingFinish={[Function]}
+          onLoadingProgress={[Function]}
+          onLoadingStart={[Function]}
+          onMessage={[Function]}
+          onNavigationStateChange={[Function]}
+          onShouldStartLoadWithRequest={[Function]}
+          scalesPageToFit={true}
+          source={
+            Object {
+              "uri": "",
+            }
+          }
+          startInLoadingState={true}
+          style={
+            Array [
+              Object {
+                "flex": 1,
+                "overflow": "hidden",
+              },
+              Object {
+                "backgroundColor": "#ffffff",
+              },
+              Object {
+                "backgroundColor": "rgba(0,0,0,0)",
+                "flex": 1,
+              },
+            ]
+          }
+          useSharedProcessPool={true}
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(255, 255, 255, 0.3)",
+              "bottom": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        >
+          <Image
+            resizeMode="contain"
+            source={
+              Object {
+                "testUri": "../../../src/loader.gif",
+              }
+            }
+            style={
+              Object {
+                "height": 64,
+                "resizeMode": "contain",
+                "width": 64,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;
+
+exports[`<FlutterwaveButton /> renders modal with visibile property as true if show dialog state is true 1`] = `
+Array [
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#f5a623",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      }
+    }
+    testID="flw-default-button"
+  >
+    <Image
+      fadeDuration={0}
+      resizeMethod="resize"
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../src/pry-button-content.png",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "resizeMode": "contain",
+          },
+          Object {
+            "height": 22.57633928570421,
+            "width": 187.3,
+          },
+        ]
+      }
+    />
+  </View>,
+  <Modal
+    animated={false}
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="flw-backdrop"
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#efefef",
+          "borderTopLeftRadius": 34.95535714285714,
+          "borderTopRightRadius": 34.95535714285714,
+          "flex": 1,
+          "marginTop": 1305,
+          "opacity": 0,
+          "overflow": "hidden",
+          "paddingBottom": 50,
+          "top": 50,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <RNCWebView
+          cacheEnabled={true}
+          injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+          injectedJavaScriptForMainFrameOnly={true}
+          javaScriptEnabled={true}
+          messagingEnabled={false}
+          onContentProcessDidTerminate={[Function]}
+          onHttpError={[Function]}
+          onLoadingError={[Function]}
+          onLoadingFinish={[Function]}
+          onLoadingProgress={[Function]}
+          onLoadingStart={[Function]}
+          onMessage={[Function]}
+          onNavigationStateChange={[Function]}
+          onShouldStartLoadWithRequest={[Function]}
+          scalesPageToFit={true}
+          source={
+            Object {
+              "uri": "http://payment-link.com/checkout",
+            }
+          }
+          startInLoadingState={true}
+          style={
+            Array [
+              Object {
+                "flex": 1,
+                "overflow": "hidden",
+              },
+              Object {
+                "backgroundColor": "#ffffff",
+              },
+              Object {
+                "backgroundColor": "rgba(0,0,0,0)",
+                "flex": 1,
+              },
+            ]
+          }
+          useSharedProcessPool={true}
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(255, 255, 255, 0.3)",
+              "bottom": 0,
+              "justifyContent": "center",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+        >
+          <Image
+            resizeMode="contain"
+            source={
+              Object {
+                "testUri": "../../../src/loader.gif",
+              }
+            }
+            style={
+              Object {
+                "height": 64,
+                "resizeMode": "contain",
+                "width": 64,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </Modal>,
+]
+`;
+
+exports[`<FlutterwaveButton /> renders webview error correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#ffffff",
+      "bottom": 0,
+      "justifyContent": "center",
+      "left": 0,
+      "paddingHorizontal": 56,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+/>
+`;
+
+exports[`<FlutterwaveButton /> renders webview loading correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "rgba(255, 255, 255, 0.3)",
+      "bottom": 0,
+      "justifyContent": "center",
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+>
+  <Image
+    resizeMode="contain"
+    source={
+      Object {
+        "testUri": "../../../src/loader.gif",
+      }
+    }
+    style={
+      Object {
+        "height": 64,
+        "resizeMode": "contain",
+        "width": 64,
+      }
+    }
+  />
+</View>
+`;

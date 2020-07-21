@@ -25,6 +25,13 @@ export interface FlutterwaveInitSubAccount {
   transaction_charge?: number;
 }
 
+export interface FlutterwaveInitSubAccount {
+  id: string;
+  transaction_split_ratio?: number;
+  transaction_charge_type?: string;
+  transaction_charge?: number;
+}
+
 export interface FlutterwaveInitOptions {
   authorization: string;
   tx_ref: string;
