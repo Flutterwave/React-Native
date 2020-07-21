@@ -34,7 +34,7 @@ export interface FlutterwaveButtonPropsBase {
 
 export const OptionsPropTypeBase = {
   amount: PropTypes.number.isRequired,
-  currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
+  currency: PropTypes.oneOf(['GBP', 'NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
   payment_plan: PropTypes.number,
   subaccounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
