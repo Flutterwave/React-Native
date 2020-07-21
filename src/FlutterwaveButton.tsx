@@ -12,7 +12,7 @@ export interface RedirectParams {
 export interface RedirectParamsV2 {
   cancelled?: 'true' | 'false';
   flwref?: string;
-  txref?: string;
+  txref: string;
 }
 
 export interface CustomButtonProps {
