@@ -1,4 +1,4 @@
-import { ResponseData } from "../FlutterwaveInit";
+import {ResponseData} from "../v3/FlutterwaveInit";
 import FlutterwaveInitError from "./FlutterwaveInitError";
 
 /**
