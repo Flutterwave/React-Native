@@ -182,7 +182,7 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 | redirect_url | No | string | undefined | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. |
 | payment_options | No | string | undefined | This allows you to select the payment option you want for your users, see [Choose Payment Methods](https://developer.flutterwave.com/v2.0/docs/splitting-payment-methods) for more info. |
 | payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v2.0/docs/recurring-billing). |
-| subaccounts | No | array | undefined | This is an array of objects containing the subaccount IDs to split the payment into. |
+| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to [split the payment](https://developer.flutterwave.com/v2.0/docs/split-payment) into. |
 | country | No | string | NG | Route country. Defaults to NG |
 | pay_button_text | No | string | undefined | Text to be displayed on the Rave Checkout Button. |
 | custom_title | No | string | undefined | Text to be displayed as the title of the payment modal. |
@@ -253,6 +253,16 @@ interface FlutterwaveInitResult {
 }
 ````
 
+### FlutterwaveInitSubAccount
+```typescript
+interface FlutterwaveInitSubAccount {
+  id: string;
+  transaction_split_ratio?: number;
+  transaction_charge_type?: string;
+  transaction_charge?: number;
+}
+```
+
 #### FlutterwavePaymentMeta
 ````typescript
 interface FlutterwavePaymentMeta {
@@ -275,7 +285,7 @@ export interface FlutterwaveInitOptions {
   redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
-  subaccounts?: Array<number>;
+  subaccounts?: Array<FlutterwaveInitSubAccount>;
   country?: string;
   pay_button_text?: string;
   custom_title?: string;
