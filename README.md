@@ -247,16 +247,6 @@ interface FlutterwaveInitError {
 }
 ````
 
-### FlutterwaveInitSubAccount
-```typescript
-interface FlutterwaveInitSubAccount {
-  id: string;
-  transaction_split_ratio?: number;
-  transaction_charge_type?: string;
-  transaction_charge?: number;
-}
-```
-
 #### FlutterwavePaymentMeta
 ````typescript
 interface FlutterwavePaymentMeta {
