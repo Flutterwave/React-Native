@@ -31,7 +31,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
   - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
-  - [OnCompleteData](#oncompletedata)
+  - [RedirectParamsV2](#redirectparamsv2)
   - [CustomButtonProps](#custombuttonprops)
 - [Contributing](./CONTRIBUTING.md)
 
@@ -230,10 +230,10 @@ interface CustomButtonProps {
 }
 ````
 
-#### OnCompleteData
+#### RedirectParamsV2
 ````typescript
-interface OnCompleteData {
-  canceled: boolean;
+interface RedirectParamsV2 {
+  canceled?: 'true' | 'false';
   flwref?: string;
   txref: string;
 }
@@ -303,7 +303,7 @@ export interface FlutterwaveInitOptions {
 ````typescript
 interface FlutterwaveButtonProps {
   style?: ViewStyle;
-  onComplete: (data: OnCompleteData) => void;
+  onComplete: (data: RedirectParamsV2) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onInitializeError?: (error: FlutterwaveInitError) => void;
