@@ -97,7 +97,12 @@ class FlutterwaveButton extends React.Component<
       currency: PropTypes.oneOf(['NGN', 'USD', 'GHS', 'KES', 'ZAR', 'TZS']),
       payment_options: PaymentOptionsPropRule,
       payment_plan: PropTypes.number,
-      subaccounts: PropTypes.arrayOf(PropTypes.number),
+      subaccounts: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        transaction_split_ratio: PropTypes.number,
+        transaction_charge_type: PropTypes.string,
+        transaction_charge: PropTypes.number,
+      })),
       country: PropTypes.string,
       pay_button_text: PropTypes.string,
       custom_title: PropTypes.string,
