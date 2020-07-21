@@ -44,7 +44,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Flutterwave designed button.
 
 ## :warning: If Using Version 2 API :warning:
-This version of the library uses Version 3 of Flutterwave's API, if you are still using the Version 2 API please use [this documentation](https://github.com/thecodecafe/react-native-flutterwave) instead.
+This version of the library's docs focuses on use cases with the Version 3 of Flutterwaves API, if you are still using the Version 2 API please use [this documentation](./README.v2.md) instead.
 
 ## Installation
 This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
@@ -145,7 +145,7 @@ import {DefaultButton} from 'react-native-flutterwave';
 ````
 
 ### Flutterwave Standard Init
-When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitioptions)
+When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitoptions)
 
 Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
 ````javascript
@@ -341,4 +341,4 @@ interface DefaultButtonProps {
 ## Contributing
 For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
 
-Built with love. :yellow_heart:
+With love from Flutterwave. :yellow_heart:
