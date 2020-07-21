@@ -1,7 +1,7 @@
 import 'react-native';
 import {PaymentOptionsPropRule} from '../src/utils/CustomPropTypesRules';
-import {PAYMENT_OPTIONS} from '../src/configs';
 const PropName = 'payment_options';
+const PAYMENT_OPTIONS = ['barter', 'card', 'banktransfer']
 
 describe('CustomPropTypes.PaymentOptionsPropRule', () => {
   it ('returns null if prop is not defined in props', () => {
