@@ -4,7 +4,7 @@ import {TouchableWithoutFeedback, Text, Alert} from 'react-native';
 import renderer from 'react-test-renderer';
 import FlutterwaveButton from '../../src/v2/FlutterwaveButton';
 import {FlutterwaveInitOptions} from '../../src/v2/FlutterwaveInit';
-import {STANDARD_URL} from '../../src/v2/configs.v2';
+import {STANDARD_URL_V2} from '../../src/configs';
 import WebView from 'react-native-webview';
 import DefaultButton from '../../src/DefaultButton';
 const BtnTestID = 'flw-default-button';
@@ -233,7 +233,7 @@ describe('<FlutterwaveButton />', () => {
     jest.useRealTimers();
 
     expect(global.fetch).toBeCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
       body: JSON.stringify(PaymentOptions),
       headers: headers,
       method: 'POST',
@@ -294,7 +294,7 @@ describe('<FlutterwaveButton />', () => {
     jest.useRealTimers();
      // expect fetch to have been called
      expect(global.fetch).toHaveBeenCalledTimes(1);
-     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
        body: JSON.stringify({...PaymentOptions, redirect_url: undefined}),
        headers: FetchHeader,
        method: 'POST',

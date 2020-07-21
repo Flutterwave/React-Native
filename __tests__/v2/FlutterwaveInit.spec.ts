@@ -1,5 +1,5 @@
 import FlutterwaveInit, {FlutterwaveInitOptions} from '../../src/v2/FlutterwaveInit';
-import {STANDARD_URL} from '../../src/v2/configs.v2';
+import {STANDARD_URL_V2} from '../../src/configs';
 
 // default fetch header
 const DefaultFetchHeader = new Headers();
@@ -30,7 +30,7 @@ describe('<FlutterwaveInit />', () => {
     // expect fetch to have been called once
     expect(global.fetch).toHaveBeenCalledTimes(1);
     // expect fetch to have been called to the standard init url
-    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
       body: JSON.stringify(paymentInfo),
       headers: DefaultFetchHeader,
       method: 'POST',
@@ -54,7 +54,7 @@ describe('<FlutterwaveInit />', () => {
     const response = await FlutterwaveInit(paymentInfo);
     // expect fetch to have been called
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
       body: JSON.stringify(paymentInfo),
       headers: DefaultFetchHeader,
       method: 'POST',
@@ -80,7 +80,7 @@ describe('<FlutterwaveInit />', () => {
     const response = await FlutterwaveInit(paymentInfo);
     // expect fetch to have been called
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
       body: JSON.stringify(paymentInfo),
       headers: DefaultFetchHeader,
       method: 'POST',
@@ -105,7 +105,7 @@ describe('<FlutterwaveInit />', () => {
     const response = await FlutterwaveInit(paymentInfo);
     // expect fetch to have been called
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL, {
+    expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
       body: JSON.stringify(paymentInfo),
       headers: DefaultFetchHeader,
       method: 'POST',
