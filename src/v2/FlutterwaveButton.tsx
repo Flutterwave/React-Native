@@ -141,7 +141,7 @@ class FlutterwaveButton extends React.Component<
 
   handleNavigationStateChange = (ev: WebViewNavigation) => {
     // cregex to check if redirect has occured on completion/cancel
-    const rx = /\/hosted\/pay\/undefined|\/api\/hosted_pay\/undefined/;
+    const rx = /\/flutterwave\.com\/rn-redirect/;
     // Don't end payment if not redirected back
     if (!rx.test(ev.url)) {
       return
