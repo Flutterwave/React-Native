@@ -1,4 +1,4 @@
-import { ResponseData } from "../FlutterwaveInit";
+import { ResponseData } from "../v3/FlutterwaveInit";
 /**
  * The purpose of this function is to parse the response message gotten from a
  * payment initialization error.

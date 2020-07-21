@@ -1,10 +1,10 @@
 import React from 'react';
-import { ViewStyle } from "react-native";
+import { ViewStyle, StyleProp } from "react-native";
 interface DefaultButtonProps {
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle>;
     onPress?: () => void;
     disabled?: boolean;
-    children: React.ReactElement;
+    children: React.ReactNode;
     isBusy?: boolean;
     onSizeChange?: (ev: {
         width: number;

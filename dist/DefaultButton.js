@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import React from 'react';
 import { View, StyleSheet, TouchableHighlight, } from "react-native";
 import { colors } from './configs';
@@ -36,7 +25,12 @@ var DefaultButton = function Button(_a) {
             onSizeChange({ width: width, height: height });
         }
     };
-    return (<TouchableHighlight underlayColor={colors.primary} disabled={disabled} onPress={onPress} style={__assign(__assign(__assign(__assign({}, styles.button), getBusyStyle(isBusy)), getAlginStyle(alignLeft)), (style || {}))} activeOpacity={1} onLayout={handleOnLayout} testID='flw-default-button'>
+    return (<TouchableHighlight underlayColor={colors.primary} disabled={disabled} onPress={onPress} style={[
+        styles.button,
+        getBusyStyle(isBusy),
+        getAlginStyle(alignLeft),
+        style
+    ]} activeOpacity={1} onLayout={handleOnLayout} testID='flw-default-button'>
       <>
         {children}
         {isBusy
