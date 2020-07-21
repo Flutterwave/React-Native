@@ -76,12 +76,12 @@ Below are a few examples showcasing how you can use the library to implement pay
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButtonV2` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {FlutterwaveButton} from 'react-native-flutterwave';
-// or import FlutterwaveButton from 'react-native-flutterwave';
+import {FlutterwaveButtonV2} from 'react-native-flutterwave';
+// or import FlutterwaveButtonV2 from 'react-native-flutterwave/v2';
 
-<FlutterwaveButton
+<FlutterwaveButtonV2
   ...
   onComplete={handleOnComplete}
   options={{
@@ -99,12 +99,12 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButtonV2` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {FlutterwaveButton} from 'react-native-flutterwave';
-// or import FlutterwaveButton from 'react-native-flutterwave';
+import {FlutterwaveButtonV2} from 'react-native-flutterwave';
+// or import FlutterwaveButtonV2 from 'react-native-flutterwave/v2';
 
-<FlutterwaveButton
+<FlutterwaveButtonV2
   ...
   onComplete={handleOnComplete}
   options={{...}}
@@ -139,14 +139,15 @@ import {DefaultButton} from 'react-native-flutterwave';
 ````
 
 ### Flutterwave Standard Init
-[View All Options](#flutterwaveinitioptions) | [Returned Value](#flutterwaveinitresult)
+When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitoptions)
 
-Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveInitV2` from `react-native-flutterwave` and use it like so.
 ````javascript
-import {FlutterwaveInit} from 'react-native-flutterwave';;
+import {FlutterwaveInitV2} from 'react-native-flutterwave';;
+// or import FlutterwaveInitV2 from 'react-native-flutterwave/v2';
 
 // initialize a new payment
-const payment = await FlutterwaveInit({
+const payment = await FlutterwaveInitV2({
   txref: generateTransactionRef(),
   PBFPubKey: '[Your Flutterwave Public Key]',
   amount: 100,
