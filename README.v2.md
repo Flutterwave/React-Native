@@ -248,16 +248,6 @@ interface FlutterwaveInitError {
 }
 ````
 
-
-
-#### FlutterwaveInitResult
-````typescript
-interface FlutterwaveInitResult {
-  error?: FlutterwaveInitError | null;
-  link?: string | null;
-}
-````
-
 ### FlutterwaveInitSubAccount
 ```typescript
 interface FlutterwaveInitSubAccount {
@@ -331,4 +321,4 @@ interface DefaultButtonProps {
 ## Contributing
 For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
 
-Built with love. :yellow_heart:
+With love from Flutterwave. :yellow_heart:
