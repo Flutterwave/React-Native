@@ -43,3 +43,5 @@ To start a commit simply run the following cli command from within the project `
 4. Have your branch get merged in! :white_check_mark:
 
 If you experience a problem at any point, please don't hesitate to file an issue to get some assistance!
+
+With love from Flutterwave. :yellow_heart:
