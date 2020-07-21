@@ -5,6 +5,13 @@ interface FlutterwavePaymentMeta {
   metavalue: string;
 }
 
+export interface FlutterwaveInitSubAccount {
+  id: string;
+  transaction_split_ratio?: number;
+  transaction_charge_type?: string;
+  transaction_charge?: number;
+}
+
 export interface FlutterwaveInitOptions {
   txref: string;
   PBFPubKey: string;
@@ -17,7 +24,7 @@ export interface FlutterwaveInitOptions {
   redirect_url?: string;
   payment_options?: string;
   payment_plan?: number;
-  subaccounts?: Array<number>;
+  subaccounts?: Array<FlutterwaveInitSubAccount>;
   country?: string;
   pay_button_text?: string;
   custom_title?: string;
