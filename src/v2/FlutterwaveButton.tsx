@@ -6,7 +6,6 @@ import {
   Animated,
   TouchableWithoutFeedback,
   Text,
-  ViewStyle,
   Alert,
   Image,
   Platform,
@@ -16,13 +15,8 @@ import {
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
 import {WebViewNavigation} from 'react-native-webview/lib/WebViewTypes';
-import FlutterwaveInit, {
-  FlutterwaveInitOptions,
-  FlutterwaveInitError,
-} from './FlutterwaveInit';
-import {PAYMENT_OPTIONS} from './configs.v2';
-import {colors} from '../configs';
-import {PaymentOptionsPropRule} from '../utils/CustomPropTypesRules';
+import {FlutterwaveButtonPropsBase, RedirectParamsV2, OptionsPropTypeBase} from '../FlutterwaveButton';
+import FlutterwaveInit, {FlutterwaveInitOptions} from './FlutterwaveInit';
 import DefaultButton from '../DefaultButton';
 const loader = require('../loader.gif');
 const pryContent = require('../pry-button-content.png');
@@ -35,35 +29,9 @@ const contentMinHeight = contentMinWidth / contentSizeDimension;
 const borderRadiusDimension = 24 / 896;
 const windowHeight = Dimensions.get('window').height;
 
-interface CustomButtonProps {
-  disabled: boolean;
-  isInitializing: boolean;
-  onPress: () => void;
-}
-
-interface OnCompleteData {
-  canceled: boolean;
-  flwref?: string;
-  txref: string;
-}
-
-interface RedirectParams {
-  canceled: 'true' | 'false';
-  flwref?: string;
-  txref?: string;
-  response?: string;
-}
-
-export interface FlutterwaveButtonProps {
-  style?: ViewStyle;
-  onComplete: (data: OnCompleteData) => void;
-  onWillInitialize?: () => void;
-  onDidInitialize?: () => void;
-  onInitializeError?: (error: FlutterwaveInitError) => void;
-  onAbort?: () => void;
+export type FlutterwaveButtonProps = FlutterwaveButtonPropsBase & {
+  onComplete: (data: RedirectParamsV2) => void;
   options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
-  customButton?: (params: CustomButtonProps) => React.ReactNode;
-  alignLeft?: 'alignLeft' | boolean;
 }
 
 interface FlutterwaveButtonState {
