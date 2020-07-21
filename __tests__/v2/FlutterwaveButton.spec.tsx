@@ -4,10 +4,12 @@ import {TouchableWithoutFeedback, Text, Alert} from 'react-native';
 import renderer from 'react-test-renderer';
 import FlutterwaveButton from '../../src/v2/FlutterwaveButton';
 import {FlutterwaveInitOptions} from '../../src/v2/FlutterwaveInit';
-import {STANDARD_URL_V2} from '../../src/configs';
+import {STANDARD_URL_V2, REDIRECT_URL} from '../../src/configs';
 import WebView from 'react-native-webview';
 import DefaultButton from '../../src/DefaultButton';
+import FlutterwaveInitError from '../../src/utils/FlutterwaveInitError';
 const BtnTestID = 'flw-default-button';
+
 const SuccessResponse = {
   status: 'success',
   message: 'Payment link generated.',
@@ -15,7 +17,8 @@ const SuccessResponse = {
     link: 'http://payment-link.com/checkout',
   },
 };
-const PaymentOptions: Omit<FlutterwaveInitOptions, 'redirect_url'> = {
+
+const PAYMENT_INFO: Omit<FlutterwaveInitOptions, 'redirect_url'> = {
   txref: '34h093h09h034034',
   customer_email: 'customer-email@example.com',
   PBFPubKey: '[Public Key]',
@@ -23,11 +26,16 @@ const PaymentOptions: Omit<FlutterwaveInitOptions, 'redirect_url'> = {
   currency: 'NGN',
 };
 
-describe('<FlutterwaveButton />', () => {
+const REQUEST_BODY = {...PAYMENT_INFO, redirect_url: REDIRECT_URL};
+
+const HEADERS = new Headers
+HEADERS.append('Content-Type', 'application/json');
+
+describe('<v2/FlutterwaveButton />', () => {
   it('renders component correctly', () => {
     const Renderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     expect(Renderer.toJSON()).toMatchSnapshot();
   });
@@ -36,7 +44,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const Renderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Renderer.root.findByProps({testID: BtnTestID}).props.onPress();
@@ -51,7 +59,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const Renderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Renderer.root.findByProps({testID: BtnTestID}).props.onPress();
@@ -68,7 +76,7 @@ describe('<FlutterwaveButton />', () => {
   it('renders custom button correctly', () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       customButton={({
         disabled,
         isInitializing,
@@ -87,7 +95,7 @@ describe('<FlutterwaveButton />', () => {
   it('renders webview loading correctly', () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // get webview
     const webView = TestRenderer.root.findByType(WebView);
@@ -97,10 +105,34 @@ describe('<FlutterwaveButton />', () => {
     expect(LoadingRenderer).toMatchSnapshot();
   });
 
-  it('renders webview error correctly', () => {
+  it('renders webview error correctly', (done) => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
+    />);
+    // mock next fetch request
+    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
+    // press button
+    TestRenderer.root.findByProps({testID: BtnTestID}).props.onPress();
+    // simulate animated animation
+    jest.useFakeTimers();
+    global.timeTravel();
+    jest.useRealTimers();
+    // checks
+    setTimeout(() => {
+      // get webview
+      const webView = TestRenderer.root.findByType(WebView);
+      // create error renderer
+      const ErrorRenderer = renderer.create(webView.props.renderError());
+      expect(ErrorRenderer).toMatchSnapshot();
+      done();
+    }, 50);
+  });
+
+  it('does not render webview error if there is no link', () => {
+    const TestRenderer = renderer.create(<FlutterwaveButton
+      onComplete={jest.fn()}
+      options={PAYMENT_INFO}
     />);
     // get webview
     const webView = TestRenderer.root.findByType(WebView);
@@ -114,11 +146,10 @@ describe('<FlutterwaveButton />', () => {
     const customButton = jest.fn();
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       customButton={customButton}
     />);
     TestRenderer.root.instance.handleInit();
-    expect(customButton).toHaveBeenCalledTimes(2);
     expect(customButton).toHaveBeenLastCalledWith({
       disabled: true,
       isInitializing: true,
@@ -131,12 +162,11 @@ describe('<FlutterwaveButton />', () => {
     const customButton = jest.fn();
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       customButton={customButton}
     />);
     TestRenderer.root.instance.handleInit();
     setTimeout(() => {
-      expect(customButton).toHaveBeenCalledTimes(4);
       expect(customButton).toHaveBeenLastCalledWith({
         disabled: true,
         isInitializing: false,
@@ -149,7 +179,7 @@ describe('<FlutterwaveButton />', () => {
   it('asks user to confirm abort when pressed backdrop', () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // get backdrop
     const Backdrop = TestRenderer.root.findByProps({testID: 'flw-backdrop'});
@@ -169,7 +199,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       onAbort={onAbort}
     />);
     // fire handle abort confirm
@@ -183,7 +213,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // fire handle abort confirm
     FlwButton.root.instance.handleAbortConfirm();
@@ -195,7 +225,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
 
     // mock next fetch request
@@ -216,14 +246,11 @@ describe('<FlutterwaveButton />', () => {
 
   it('makes call to standard endpoint when button is pressed', async () => {
     const Renderer = renderer.create(<FlutterwaveButton
-    onComplete={jest.fn()}
-    options={PaymentOptions}
+      onComplete={jest.fn()}
+      options={PAYMENT_INFO}
     />);
     const Button = Renderer.root.findByProps({testID: BtnTestID});
     const c = new AbortController;
-    const headers = new Headers
-      
-    headers.append('Content-Type', 'application/json');
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     Button.props.onPress();
 
@@ -232,10 +259,10 @@ describe('<FlutterwaveButton />', () => {
     global.timeTravel();
     jest.useRealTimers();
 
-    expect(global.fetch).toBeCalledTimes(1);
+    // run assertions
     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
-      body: JSON.stringify(PaymentOptions),
-      headers: headers,
+      body: JSON.stringify(REQUEST_BODY),
+      headers: HEADERS,
       method: 'POST',
       signal: c.signal,
     });
@@ -251,7 +278,7 @@ describe('<FlutterwaveButton />', () => {
     // create test renderer
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
 
     // spy on component methods
@@ -274,40 +301,12 @@ describe('<FlutterwaveButton />', () => {
     expect(setState).toHaveBeenCalledWith({buttonSize: onSizeChangeEv})
   });
 
-  it('initialized without a redirect url', () => {
-    // get create instance of flutterwave button
-    const FlwButton = renderer.create(<FlutterwaveButton
-      onComplete={jest.fn()}
-      options={PaymentOptions}
-    />);
-    const abortController = new AbortController
-    // default fetch header
-    const FetchHeader = new Headers();
-    FetchHeader.append('Content-Type', 'application/json');
-    // mock next fetch request
-    fetchMock.mockOnce(JSON.stringify(SuccessResponse));
-    // fire on press
-    FlwButton.root.findByProps({testID: BtnTestID}).props.onPress();
-    // simulate animated animation
-    jest.useFakeTimers();
-    global.timeTravel();
-    jest.useRealTimers();
-     // expect fetch to have been called
-     expect(global.fetch).toHaveBeenCalledTimes(1);
-     expect(global.fetch).toHaveBeenCalledWith(STANDARD_URL_V2, {
-       body: JSON.stringify({...PaymentOptions, redirect_url: undefined}),
-       headers: FetchHeader,
-       method: 'POST',
-       signal: abortController.signal
-     });
-  });
-
   it('fires onDidInitialize if available', (done) => {
     const onDidInitialize = jest.fn();
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       onDidInitialize={onDidInitialize}
     />);
     // mock next fetch request
@@ -331,7 +330,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       onWillInitialize={onWillInitialize}
     />);
     // mock next fetch request
@@ -356,7 +355,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
       onInitializeError={onInitializeError}
     />);
     // mock next fetch request
@@ -370,10 +369,10 @@ describe('<FlutterwaveButton />', () => {
     // wait for request to be made
     setTimeout(() => {
       expect(onInitializeError).toHaveBeenCalledTimes(1);
-      expect(onInitializeError).toHaveBeenCalledWith({
-        code: err.name.toUpperCase(),
+      expect(onInitializeError).toHaveBeenCalledWith(new FlutterwaveInitError({
+        code: 'STANDARD_INIT_ERROR',
         message: err.message
-      });
+      }));
       // end test
       done();
     }, 50);
@@ -383,7 +382,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const FlwButton = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // spy on set state
     const setState = jest.spyOn(FlwButton.root.instance, 'setState');
@@ -411,15 +410,12 @@ describe('<FlutterwaveButton />', () => {
       txref: 'nfeinr09erss',
     }
 
-    // define url
-    const url = "http://redirect-url.com/api/hosted_pay/undefined"
-
-    const urlWithParams = url + '?flwref=' + response.flwref + '&txref=' + response.txref;
+    const urlWithParams = REDIRECT_URL + '?flwref=' + response.flwref + '&txref=' + response.txref;
 
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
 
     // spy on getRedirectParams method
@@ -459,7 +455,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
 
     // spy on getRedirectParams method
@@ -500,18 +496,18 @@ describe('<FlutterwaveButton />', () => {
       txref: 'nfeinr09erss',
     }
 
+    // on complete
     const onComplete = jest.fn();
 
     // define url
-    const url = "http://redirect-url.com/api/hosted_pay/undefined?flwref=" +
-      response.flwref +
-      "&txref=" +
-      response.txref
+    const url = REDIRECT_URL + 
+      "?txref=" + response.txref +
+      "&flwref=" + response.flwref
 
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={onComplete}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
 
     // spy on getRedirectParams method
@@ -543,10 +539,7 @@ describe('<FlutterwaveButton />', () => {
       expect(handleComplete).toHaveBeenCalledTimes(1);
       expect(handleComplete).toHaveBeenCalledWith(response);
       expect(onComplete).toHaveBeenCalledTimes(1);
-      expect(onComplete).toHaveBeenCalledWith({
-        ...response,
-        canceled: false
-      });
+      expect(onComplete).toHaveBeenCalledWith(response);
 
       // end test
       done();
@@ -557,7 +550,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     TestRenderer
@@ -566,7 +559,7 @@ describe('<FlutterwaveButton />', () => {
       .props
       .onPress();
     // spy on abort method
-    const abort = jest.spyOn(TestRenderer.root.instance.canceller, 'abort');
+    const abort = jest.spyOn(TestRenderer.root.instance.abortController, 'abort');
     // call component will unmount
     TestRenderer.root.instance.componentWillUnmount();
     // run checks
@@ -578,21 +571,21 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     const willUnmount = jest.spyOn(TestRenderer.root.instance, 'componentWillUnmount');
     // call component will unmount
     TestRenderer.root.instance.componentWillUnmount();
     // run checks
     expect(willUnmount).toHaveBeenCalledTimes(1);
-    expect(TestRenderer.root.instance.canceller).toBeUndefined();
+    expect(TestRenderer.root.instance.abortController).toBeUndefined();
   });
 
   it('can reload webview if webview ref is set', (done) => {
     // create renderer
     const TestRender = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />); 
     // mock next fetch request
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
@@ -619,7 +612,7 @@ describe('<FlutterwaveButton />', () => {
     // create renderer
     const TestRender = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     Object.defineProperty(TestRender.root.instance, 'webviewRef', {value: null});
     const handleReload = jest.spyOn(TestRender.root.instance, 'handleReload');
@@ -631,7 +624,7 @@ describe('<FlutterwaveButton />', () => {
   it("handles DefaultButton onSizeChange", () => {
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     const size = {width: 1200, height: 0};
     const handleButtonResize = jest.spyOn(TestRenderer.root.instance, 'handleButtonResize');
@@ -647,7 +640,7 @@ describe('<FlutterwaveButton />', () => {
     const url = new String('http://example.com');
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     const split = jest.spyOn(url, 'split');
     TestRenderer.root.instance.getRedirectParams(url);;
@@ -658,7 +651,7 @@ describe('<FlutterwaveButton />', () => {
     const url = new String('http://example.com?foo=bar');
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     const split = jest.spyOn(url, 'split');
     TestRenderer.root.instance.getRedirectParams(url);;
@@ -669,21 +662,21 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
     // call component will unmount
     TestRenderer.root.instance.reset();
     // run checks
     expect(setState).toHaveBeenCalledTimes(1);
-    expect(TestRenderer.root.instance.canceller).toBeUndefined();
+    expect(TestRenderer.root.instance.abortController).toBeUndefined();
   });
   
   it("cancels fetch if reset is called and abort controller is set.", () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
     TestRenderer
@@ -692,7 +685,7 @@ describe('<FlutterwaveButton />', () => {
       .props
       .onPress();
     // spy on abort method
-    const abort = jest.spyOn(TestRenderer.root.instance.canceller, 'abort');
+    const abort = jest.spyOn(TestRenderer.root.instance.abortController, 'abort');
     // call component will unmount
     TestRenderer.root.instance.reset();
     // run checks
@@ -704,14 +697,14 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // spy on handleOptionsChanged method
     const handleOptionsChanged = jest.spyOn(TestRenderer.root.instance, 'handleOptionsChanged');
     // update component
     TestRenderer.update(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={{...PaymentOptions, txref: 'Updated txref'}}
+      options={{...PAYMENT_INFO, txref: 'Updated txref'}}
     />)
     // run checks
     expect(handleOptionsChanged).toHaveBeenCalledTimes(1);
@@ -722,14 +715,14 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // spy on setState method
     const setState = jest.spyOn(TestRenderer.root.instance, 'setState');
     // update component
     TestRenderer.update(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={{...PaymentOptions, txref: 'Updated txref'}}
+      options={{...PAYMENT_INFO, txref: 'Updated txref'}}
     />)
     // run checks
     expect(setState).toHaveBeenCalledTimes(0);
@@ -740,7 +733,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // mock next fetch
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
@@ -759,7 +752,7 @@ describe('<FlutterwaveButton />', () => {
       // update component
       TestRenderer.update(<FlutterwaveButton
         onComplete={jest.fn()}
-        options={{...PaymentOptions, txref: 'Updated txref'}}
+        options={{...PAYMENT_INFO, txref: 'Updated txref'}}
       />)
       // run checks
       expect(setState).toHaveBeenCalledTimes(1);
@@ -776,7 +769,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // mock next fetch
     fetchMock.mockOnce(JSON.stringify(SuccessResponse));
@@ -793,7 +786,7 @@ describe('<FlutterwaveButton />', () => {
       // update component
       TestRenderer.update(<FlutterwaveButton
         onComplete={jest.fn()}
-        options={{...PaymentOptions, txref: 'Updated txref'}}
+        options={{...PAYMENT_INFO, txref: 'Updated txref'}}
       />)
       // run checks
       expect(setState).toHaveBeenCalledTimes(1);
@@ -807,7 +800,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // set a payment link
     TestRenderer.root.instance.setState({link: 'http://payment-link.com'});
@@ -832,7 +825,7 @@ describe('<FlutterwaveButton />', () => {
     // get create instance of flutterwave button
     const TestRenderer = renderer.create(<FlutterwaveButton
       onComplete={jest.fn()}
-      options={PaymentOptions}
+      options={PAYMENT_INFO}
     />);
     // set a payment link
     TestRenderer.root.instance.setState({isPending: true});
