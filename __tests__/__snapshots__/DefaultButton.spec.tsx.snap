@@ -13,19 +13,26 @@ exports[`<DefaultButton /> renders overlay if busy 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignItems": "center",
-      "backgroundColor": "#f5a623",
-      "borderColor": "#FBDBA7",
-      "borderRadius": 6,
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "height": 52,
-      "justifyContent": "center",
-      "minWidth": 100,
-      "overflow": "hidden",
-      "paddingHorizontal": 16,
-    }
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#f5a623",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      },
+      Object {
+        "borderColor": "#FBDBA7",
+      },
+      Object {},
+      undefined,
+    ]
   }
   testID="flw-default-button"
 >
@@ -60,19 +67,24 @@ exports[`<DefaultButton /> renders primary button correctly 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignItems": "center",
-      "backgroundColor": "#f5a623",
-      "borderColor": "#f5a623",
-      "borderRadius": 6,
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "height": 52,
-      "justifyContent": "center",
-      "minWidth": 100,
-      "overflow": "hidden",
-      "paddingHorizontal": 16,
-    }
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#f5a623",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      },
+      Object {},
+      Object {},
+      undefined,
+    ]
   }
   testID="flw-default-button"
 >
@@ -95,19 +107,26 @@ exports[`<DefaultButton /> renders with align left style 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
-      "alignItems": "center",
-      "backgroundColor": "#f5a623",
-      "borderColor": "#f5a623",
-      "borderRadius": 6,
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "height": 52,
-      "justifyContent": "flex-start",
-      "minWidth": 100,
-      "overflow": "hidden",
-      "paddingHorizontal": 16,
-    }
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f5a623",
+        "borderColor": "#f5a623",
+        "borderRadius": 6,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "height": 52,
+        "justifyContent": "center",
+        "minWidth": 100,
+        "overflow": "hidden",
+        "paddingHorizontal": 16,
+      },
+      Object {},
+      Object {
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
   }
   testID="flw-default-button"
 >
