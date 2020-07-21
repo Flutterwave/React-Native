@@ -93,7 +93,12 @@ class FlutterwaveButton extends React.Component<
         phonenumber: PropTypes.string,
         email: PropTypes.string.isRequired,
       }).isRequired,
-      subaccounts: PropTypes.arrayOf(PropTypes.number),
+      subaccounts: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        transaction_split_ratio: PropTypes.number,
+        transaction_charge_type: PropTypes.string,
+        transaction_charge: PropTypes.number,
+      })),
       meta: PropTypes.arrayOf(PropTypes.object),
       customizations: PropTypes.shape({
         title: PropTypes.string,
