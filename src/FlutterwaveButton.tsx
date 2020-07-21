@@ -10,7 +10,7 @@ export interface RedirectParams {
 }
 
 export interface RedirectParamsV2 {
-  canceled: 'true' | 'false';
+  cancelled?: 'true' | 'false';
   flwref?: string;
   txref?: string;
 }

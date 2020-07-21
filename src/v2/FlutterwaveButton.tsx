@@ -154,8 +154,8 @@ class FlutterwaveButton extends React.Component<
     const {onComplete} = this.props;
     // reset payment link
     this.setState(({resetLink, txref}) => ({
-      txref: data.flwref && !data.canceled ? null : txref,
-      resetLink: data.flwref && !data.canceled ? true : resetLink
+      txref: data.flwref && !data.cancelled ? null : txref,
+      resetLink: data.flwref && !data.cancelled ? true : resetLink
     }),
       () => {
         // reset
@@ -164,7 +164,7 @@ class FlutterwaveButton extends React.Component<
         onComplete({
           flwref: data.flwref,
           txref: data.txref,
-          canceled: data.canceled,
+          cancelled: data.cancelled,
         });
       }
     );
