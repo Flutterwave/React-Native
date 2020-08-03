@@ -1,6 +1,6 @@
-import FlutterwaveInit, {FlutterwaveInitOptions} from '../../src/v3/FlutterwaveInit';
-import {STANDARD_URL} from '../../src/configs';
-import FlutterwaveInitError from '../../src/utils/FlutterwaveInitError';
+import FlutterwaveInit, {FlutterwaveInitOptions} from '../src/FlutterwaveInit';
+import {STANDARD_URL} from '../src/configs';
+import FlutterwaveInitError from '../src/utils/FlutterwaveInitError';
 
 const AUTHORIZATION = '[AUTHORIZATION]';
 
@@ -10,7 +10,7 @@ FETCH_HEADER.append('Content-Type', 'application/json');
 FETCH_HEADER.append('Authorization', `Bearer ${AUTHORIZATION}`);
 
 // fetch body
-const FETCH_BODY = {
+const FETCH_BODY: Omit<FlutterwaveInitOptions, 'authorization'> = {
   redirect_url: 'http://flutterwave.com',
   amount: 50,
   currency: 'NGN',
