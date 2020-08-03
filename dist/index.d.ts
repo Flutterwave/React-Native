@@ -1,8 +1,9 @@
 import FlutterwaveInit from './FlutterwaveInit';
-import FlutterwaveButton from './FlutterwaveButton';
-import FlutterwaveInitV2 from './v2/FlutterwaveInit';
-import FlutterwaveButtonV2 from './v2/FlutterwaveButton';
-import DefaultButton from './DefaultButton';
-export { FlutterwaveInit, FlutterwaveButton, FlutterwaveInitV2, FlutterwaveButtonV2, DefaultButton, };
-export default FlutterwaveButton;
+import FlutterwaveInitV2 from './FlutterwaveInitV2';
+import PayWithFlutterwave from './PayWithFlutterwave';
+import PayWithFlutterwaveV2 from './PayWithFlutterwaveV2';
+import FlwButton from './FlwButton';
+import FlwCheckout from './FlwCheckout';
+export { FlutterwaveInit, PayWithFlutterwave, FlutterwaveInitV2, PayWithFlutterwaveV2, FlwButton, FlwCheckout, };
+export default PayWithFlutterwave;
 //# sourceMappingURL=index.d.ts.map
