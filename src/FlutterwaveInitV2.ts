@@ -1,13 +1,35 @@
-import {STANDARD_URL_V2} from '../configs';
-import {FlutterwaveInitOptionsBase} from '../FlutterwaveInit';
-import FlutterwaveInitError from '../utils/FlutterwaveInitError';
+import FlutterwaveInitError from './utils/FlutterwaveInitError';
+import {STANDARD_URL_V2} from './configs';
+import {Currency, FlutterwaveInitSubAccount} from './FlutterwaveInit';
+
+export interface FlutterwaveInitOptionsBase {
+  amount: number;
+  currency?: Currency;
+  integrity_hash?: string;
+  payment_options?: string;
+  payment_plan?: number;
+  redirect_url: string;
+  subaccounts?: Array<FlutterwaveInitSubAccount>;
+}
+
+export interface FieldError {
+  field: string;
+  message: string;
+}
+
+interface FetchOptions {
+  method: 'POST';
+  body: string;
+  headers: Headers;
+  signal?: AbortSignal; 
+}
 
 interface FlutterwavePaymentMetaV2 {
   metaname: string;
   metavalue: string;
 }
 
-export type FlutterwaveInitOptions = FlutterwaveInitOptionsBase & {
+export type FlutterwaveInitV2Options = FlutterwaveInitOptionsBase & {
   txref: string;
   PBFPubKey: string;
   customer_firstname?: string;
@@ -32,13 +54,6 @@ interface ResponseJSON {
   };
 }
 
-interface FetchOptions {
-  method: 'POST' | 'GET' | 'PUT' | 'DELETE';
-  body: string;
-  headers: Headers;
-  signal?: AbortSignal; 
-}
-
 /**
  * This function is responsible for making the request to
  * initialize a Flutterwave payment.
@@ -51,8 +66,8 @@ interface FetchOptions {
  *  link?: string | null;
  * }>
  */
-export default async function FlutterwaveInit(
-  options: FlutterwaveInitOptions,
+export default async function FlutterwaveInitV2(
+  options: FlutterwaveInitV2Options,
   abortController?: AbortController,
 ): Promise<string> {
   try {
