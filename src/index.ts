@@ -1,8 +1,8 @@
 import FlutterwaveInit from './FlutterwaveInit';
 import FlutterwaveButton from './FlutterwaveButton';
-import FlutterwaveInitV2 from './v2/FlutterwaveInit';
 import FlutterwaveButtonV2 from './v2/FlutterwaveButton';
 import DefaultButton from './DefaultButton';
+import FlutterwaveInitV2 from './FlutterwaveInitV2';
 import FlwButton from './FlwButton';
 import FlwCheckout from './FlwCheckout';
 
