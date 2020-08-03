@@ -1,4 +1,3 @@
-
 export const PaymentOptionsPropRule = (options: Array<string>) => (props:{[k: string]: any}, propName: string) => {
   // skip check if payment options is not defined
   if (props[propName] === undefined) {
