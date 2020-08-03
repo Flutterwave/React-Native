@@ -4,8 +4,8 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 [![V2 API](https://img.shields.io/badge/API-V3-brightgreen)](https://developer.flutterwave.com/docs) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 <p align="center">
-  <img src=".github/images/github-preview-ios.gif" alt="ios-preview"/>
-  <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
+    <img src=".github/images/github-preview-ios.gif" alt="ios-preview"/>
+    <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
 ## Table Of Content
@@ -16,23 +16,23 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
   - [Important Information](#fire-important-information-fire)
 - Usage
-  - [PayWithFlutterwave ](#flutterwave-button)
-  - [PayWithFlutterwave (with custom render)](#flutterwave-button-with-custom-render)
-  - [FlwButton (Flutterwave styled button)](#flwbutton-flutterwave-styled-button)
-  - [FlutterwaveInit](#flutterwaveinit)
+  - [Flutterwave Button ](#flutterwave-button)
+  - [Flutterwave Button (with custom render)](#flutterwave-button-with-custom-render)
+  - [Default Button (Flutterwave styled button)](#defaultbutton-flutterwave-styled-button)
+  - [Flutterwave Standard Init](#flutterwave-standard-init)
   - [Aborting Payment Initialization](#aborting-payment-initialization)
 - Props
-  - [FlutterwaveInitOptions](#flutterwaveinitoptions)
-  - [PayWithFlutterwaveProps](#flutterwavebuttonprops)
-  - [FlwButtonProps](#flwbutton-props)
+  - [Flutterwave Button Props](#flutterwavebuttonprops)
+  - [Default Button Props](#defaultbuttonprops)
+  - [Flutterwave Init Options](#flutterwaveinitoptions)
 - Types
-  - [PayWithFlutterwaveProps](#paywithflutterwaveprops-interface)
-  - [FlwButtonProps](#flwbuttonprops-interface)
-  - [FlutterwaveInitCustomer](#flutterwaveinitcustomer)
-  - [FlutterwaveInitCustomization](#flutterwaveinitcustomization)
-  - [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount)
-  - [FlutterwaveInitOptions](#flutterwaveinitoptions-interface)
-  - [FlutterwaveInitError](#flutterwaveiniterror)
+  - [Flutterwave Button Props](#flutterwavebuttonprops-interface)
+  - [Default Button Props](#defaultbuttonprops-interface)
+  - [Flutterwave Init Customer](#flutterwaveinitcustomer)
+  - [Flutterwave Init Customization](#flutterwaveinitcustomization)
+  - [Flutterwave Init Sub Account](#flutterwaveinitsubaccount)
+  - [Flutterwave Init Options](#flutterwaveinitoptions-interface)
+  - [Flutterwave Init Error](#flutterwaveiniterror)
   - [FlutterwavePaymentMeta](#flutterwavepaymentmeta)
   - [RedirectParams](#redirectparams)
   - [CustomButtonProps](#custombuttonprops)
@@ -66,25 +66,25 @@ dependencies {
 ````
 
 ### :fire: IMPORTANT INFORMATION :fire:
-If the `options` property on [PayWithFlutterwave](#paywithflutterwaveprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
+If the `options` property on the [FlutterwaveButton](#flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
 
-Remember you cannot use the same transaction reference for two different payments, also remember to recreate the transaction reference before allowing the user initiate a new payment.
+Remember you cannot use the same transaction reference for two different payments, remember to recreate the transaction reference before allowing the user initiate a new payment.
 
 
 ## Usage
 Below are a few examples showcasing how you can use the library to implement payment in your React Native app.
 
-### PayWithFlutterwave 
+### Flutterwave Button 
 <img src=".github/images/pay-with-flutterwave.png" alt="preview" width="350"/>
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `PayWithFlutterwave` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {PayWithFlutterwave} from 'react-native-flutterwave';
-// or import PayWithFlutterwave from 'react-native-flutterwave';
+import {FlutterwaveButton} from 'react-native-flutterwave';
+// or import FlutterwaveButton from 'react-native-flutterwave';
 
-<PayWithFlutterwave
+<FlutterwaveButton
   ...
   onComplete={handleOnComplete}
   options={{
@@ -100,17 +100,17 @@ import {PayWithFlutterwave} from 'react-native-flutterwave';
 />
 ````
 
-### PayWithFlutterwave (with custom render)
+### Flutterwave Button (with custom render)
 <img src=".github/images/pay-with-flutterwave-custom.png" alt="preview" width="350"/>
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `PayWithFlutterwave` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {PayWithFlutterwave} from 'react-native-flutterwave';
-// or import PayWithFlutterwave from 'react-native-flutterwave';
+import {FlutterwaveButton} from 'react-native-flutterwave';
+// or import FlutterwaveButton from 'react-native-flutterwave';
 
-<PayWithFlutterwave
+<FlutterwaveButton
   ...
   onComplete={handleOnComplete}
   options={{...}}
@@ -126,24 +126,25 @@ import {PayWithFlutterwave} from 'react-native-flutterwave';
 />
 ````
 
-### FlwButton (Flutterwave styled button)
+### DefaultButton (Flutterwave styled button)
 <img src=".github/images/flutterwave-styled-button.png" alt="preview" width="350"/>
 
-[View All Props](#flwbuttonprops)
+[View All Props](#defaultbuttonprops)
 
-Import `FlwButton` from `react-native-flutterwave` and use it like so.
+Import `DefaultButton` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {FlwButton} from 'react-native-flutterwave';
+import {DefaultButton} from 'react-native-flutterwave';
 
-<FlwButton
+<DefaultButton
   style={styles.paymentButton}
   onPress={onPress}
+  isBusy={isInitializing}
   disabled={disabled}>
     <Text style={styles.paymentButtonText}>Pay $500</Text>
-</FlwButton>
+</DefaultButton>
 ````
 
-### FlutterwaveInit
+### Flutterwave Standard Init
 When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitoptions)
 
 Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
@@ -191,8 +192,8 @@ try {
 | meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This is an object that helps you include additional payment information to your request. `E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
 | customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This is an object that contains title, logo, and description you want to display on the modal `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
 
-### PayWithFlutterwaveProps
-[See Interface](#paywithflutterwaveprops-interface)
+### FlutterwaveButtonProps
+[See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | object | undefined | Used to apply styling to the button.|
@@ -205,13 +206,16 @@ try {
 | customButton | No | function | undefined | This is used to render a custom button. The function a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
-### FlwButton Props
-[See Interface](#flwbuttonprops-interface)
+### DefaultButtonProps
+[See Interface](#defaultbuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | ViewStyle | undefined | This component uses the same style properties that are applicable to react-native's View component style.|
-| onPress | Yes | function | undefined | This property receive a function that is called on button press. |
+| style | No | object | undefined | Used to apply styling to the button.|
+| onPress | Yes | function | undefined | This |
 | disabled | No | boolean | undefined | This disables button, and causes onPress not to be fired.|
+| isBusy | No | boolean | undefined | This puts the button in a busy state, making the content look faded.|
+| onSizeChange | No | (ev: {width: number; height: number}) => void | undefined | If provided this function is fired whenever the size(height or width) of the button changes |
+| children | Yes | ReactElement | undefined | This will be the content rendered within the button, if string is to be direct decendant, remember to put string in the Text component. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ## Types
@@ -296,9 +300,9 @@ export interface FlutterwaveInitOptions {
 }
 ````
 
-#### PayWithFlutterwaveProps Interface
+#### FlutterwaveButtonProps Interface
 ````typescript
-interface PayWithFlutterwaveProps {
+interface FlutterwaveButtonProps {
   style?: ViewStyle;
   onComplete: (data: RedirectParams) => void;
   onWillInitialize?: () => void;
@@ -311,13 +315,16 @@ interface PayWithFlutterwaveProps {
 }
 ````
 
-#### FlwButtonProps Interface
+#### DefaultButtonProps Interface
 ````typescript
-interface FlwButtonProps {
-  style?: StyleProp<ViewStyle>;
-  disabled?: boolean;
-  alignLeft?: boolean;
+interface DefaultButtonProps {
+  style?: ViewStyle;
   onPress?: () => void;
+  disabled?: boolean;
+  children: React.ReactElement;
+  isBusy?: boolean;
+  onSizeChange?: (ev: {width: number; height: number}) => void;
+  alignLeft?: 'alignLeft' | boolean,
 }
 ````
 
