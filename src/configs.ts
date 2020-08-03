@@ -13,6 +13,7 @@ export const REDIRECT_URL = 'https://flutterwave.com/rn-redirect';
  */
 export const colors = {
   primary: '#f5a623',
+  primaryLight: '#f9ce85',
   secondary: '#12122C',
   transparent: 'rgba(0,0,0,0)',
 };
