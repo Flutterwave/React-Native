@@ -188,7 +188,7 @@ try {
 | redirect_url | Yes | string | **REQUIRED** | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. **IMPORTANT** This only required when you are directly using [FlutterwaveInit](#flutterwave-standard-init) |
 | customer | Yes | [FlutterwaveInitCustomer](#flutterwaveinitcustomer) | **REQUIRED** | This is an object that can contains your customer details. `E.g.'customer': { 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs' }.` |
 | subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to split the payment into. Check out the [Split Payment page](https://developer.flutterwave.com/docs/split-payment) for more info |
-| meta | No | array of [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This is an object that helps you include additional payment information to your request. `E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
+| meta | No | [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This is an object that helps you include additional payment information to your request. `E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
 | customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This is an object that contains title, logo, and description you want to display on the modal `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
 
 ### PayWithFlutterwaveProps
