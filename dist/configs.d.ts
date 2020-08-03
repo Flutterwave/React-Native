@@ -11,6 +11,7 @@ export declare const REDIRECT_URL = "https://flutterwave.com/rn-redirect";
  */
 export declare const colors: {
     primary: string;
+    primaryLight: string;
     secondary: string;
     transparent: string;
 };
