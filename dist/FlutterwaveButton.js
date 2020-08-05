@@ -3,7 +3,7 @@ import { StyleSheet, Image, TouchableHighlight, View, } from 'react-native';
 import { colors } from './configs';
 var pryContent = require('./assets/pry-button-content.png');
 var contentSizeDimension = 8.2962962963;
-var FlwButton = function FlwButton(_a) {
+var FlutterwaveButton = function FlutterwaveButton(_a) {
     var style = _a.style, alignLeft = _a.alignLeft, children = _a.children, disabled = _a.disabled, onPress = _a.onPress;
     // render primary button
     return (<TouchableHighlight underlayColor={colors.primaryLight} disabled={disabled} onPress={onPress} style={[
@@ -56,4 +56,4 @@ var styles = StyleSheet.create({
     }
 });
 // export component as default
-export default FlwButton;
+export default FlutterwaveButton;

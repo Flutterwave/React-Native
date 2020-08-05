@@ -11,16 +11,16 @@ import {colors} from './configs';
 const pryContent = require('./assets/pry-button-content.png');
 const contentSizeDimension = 8.2962962963;
 
-interface FlwButtonProps {
+interface FlutterwaveButtonProps {
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
   alignLeft?: boolean;
   onPress?: () => void;
 }
 
-const FlwButton: React.FC<
-  FlwButtonProps
-> = function FlwButton({
+const FlutterwaveButton: React.FC<
+  FlutterwaveButtonProps
+> = function FlutterwaveButton({
   style,
   alignLeft,
   children,
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
 });
 
 // export component as default
-export default FlwButton;
+export default FlutterwaveButton;

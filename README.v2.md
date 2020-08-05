@@ -18,16 +18,16 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - Usage
   - [PayWithFlutterwaveV2 ](#paywithflutterwavev2)
   - [PayWithFlutterwaveV2 (with custom render)](#paywithflutterwavev2-with-custom-render)
-  - [FlwButton (Flutterwave styled button)](#flwbutton-flutterwave-styled-button)
+  - [FlutterwaveButton (Flutterwave styled button)](#flutterwavebutton-flutterwave-styled-button)
   - [FlutterwaveInitV2](#flutterwaveinitv2)
   - [Aborting Payment Initialization](#aborting-payment-initialization)
 - Props
   - [FlutterwaveInitV2Options](#flutterwaveinitv2options)
   - [PayWithFlutterwaveV2Props](#paywithflutterwavev2props)
-  - [FlwButton Props](#flwbutton-props)
+  - [FlutterwaveButton Props](#flutterwavebutton-props)
 - Types
   - [PayWithFlutterwaveV2Props](#paywithflutterwavev2props-interface)
-  - [FlwButtonProps](#flwbuttonprops-interface)
+  - [FlutterwaveButtonProps](#flutterwavebuttonprops-interface)
   - [FlutterwaveInitV2Options](#flutterwaveinitv2options-interface)
   - [FlutterwaveInitError](#flutterwaveiniterror)
   - [FlutterwavePaymentMetaV2](#flutterwavepaymentmetav2)
@@ -120,21 +120,21 @@ import {PayWithFlutterwaveV2} from 'react-native-flutterwave';
 />
 ````
 
-### FlwButton (Flutterwave styled button)
+### FlutterwaveButton (Flutterwave styled button)
 <img src=".github/images/flutterwave-styled-button.png" alt="preview" width="350"/>
 
-[View All Props](#flwbuttonprops)
+[View All Props](#flutterwavebuttonprops)
 
-Import `FlwButton` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
 ````jsx
-import {FlwButton} from 'react-native-flutterwave';
+import {FlutterwaveButton} from 'react-native-flutterwave';
 
-<FlwButton
+<FlutterwaveButton
   style={styles.paymentButton}
   onPress={onPress}
   disabled={disabled}>
     <Text style={styles.paymentButtonText}>Pay $500</Text>
-</FlwButton>
+</FlutterwaveButton>
 ````
 
 ### FlutterwaveInitV2
@@ -208,8 +208,8 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 | customButton | No | function | undefined | This is used to render a custom button. The function a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
-### FlwButton Props
-[See Interface](#flwbuttonprops-interface)
+### FlutterwaveButton Props
+[See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | ViewStyle | undefined | This component uses the same style properties that are applicable to react-native's View component style.|
@@ -301,9 +301,9 @@ interface PayWithFlutterwaveV2Props {
 }
 ````
 
-#### FlwButtonProps Interface
+#### FlutterwaveButtonProps Interface
 ````typescript
-interface FlwButton {
+interface FlutterwaveButton {
   style?: ViewStyle;
   onPress?: () => void;
   disabled?: boolean;

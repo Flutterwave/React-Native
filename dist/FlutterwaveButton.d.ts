@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-interface FlwButtonProps {
+interface FlutterwaveButtonProps {
     style?: StyleProp<ViewStyle>;
     disabled?: boolean;
     alignLeft?: boolean;
     onPress?: () => void;
 }
-declare const FlwButton: React.FC<FlwButtonProps>;
-export default FlwButton;
-//# sourceMappingURL=FlwButton.d.ts.map
+declare const FlutterwaveButton: React.FC<FlutterwaveButtonProps>;
+export default FlutterwaveButton;
+//# sourceMappingURL=FlutterwaveButton.d.ts.map

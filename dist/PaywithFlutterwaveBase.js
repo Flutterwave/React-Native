@@ -62,7 +62,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FlutterwaveInitError from './utils/FlutterwaveInitError';
 import FlwCheckout from './FlwCheckout';
-import FlwButton from './FlwButton';
+import FlutterwaveButton from './FlutterwaveButton';
 import { REDIRECT_URL } from './configs';
 export var PayWithFlutterwavePropTypesBase = {
     alignLeft: PropTypes.bool,
@@ -256,7 +256,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                 onPress: this.handleInit
             });
         }
-        return <FlwButton style={style} alignLeft={!!alignLeft} children={children} onPress={this.handleInit} disabled={isPending}/>;
+        return <FlutterwaveButton style={style} alignLeft={!!alignLeft} children={children} onPress={this.handleInit} disabled={isPending}/>;
     };
     return PayWithFlutterwaveBase;
 }(React.Component));

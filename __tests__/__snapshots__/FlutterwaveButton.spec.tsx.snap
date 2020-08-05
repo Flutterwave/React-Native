@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FlwButton/> applies left aligned style if alignLeft prop is present 1`] = `
+exports[`<FlutterwaveButton/> applies left aligned style if alignLeft prop is present 1`] = `
 <View
   accessible={true}
   focusable={false}
@@ -55,7 +55,7 @@ exports[`<FlwButton/> applies left aligned style if alignLeft prop is present 1`
 </View>
 `;
 
-exports[`<FlwButton/> renders pay with flutterwave by default 1`] = `
+exports[`<FlutterwaveButton/> renders pay with flutterwave by default 1`] = `
 <View
   accessible={true}
   focusable={false}
@@ -108,7 +108,7 @@ exports[`<FlwButton/> renders pay with flutterwave by default 1`] = `
 </View>
 `;
 
-exports[`<FlwButton/> renders with overlay and inactive style of button is disabled 1`] = `
+exports[`<FlutterwaveButton/> renders with overlay and inactive style of button is disabled 1`] = `
 <View
   accessible={true}
   focusable={false}
@@ -175,7 +175,7 @@ exports[`<FlwButton/> renders with overlay and inactive style of button is disab
 </View>
 `;
 
-exports[`<FlwButton/> replaces pay with flutterwave image with children 1`] = `
+exports[`<FlutterwaveButton/> replaces pay with flutterwave image with children 1`] = `
 <View
   accessible={true}
   focusable={false}

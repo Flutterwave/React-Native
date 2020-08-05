@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FlutterwaveInitError from './utils/FlutterwaveInitError';
 import FlwCheckout from './FlwCheckout';
-import FlwButton from './FlwButton';
+import FlutterwaveButton from './FlutterwaveButton';
 import {REDIRECT_URL} from './configs';
 import { StyleProp, ViewStyle } from 'react-native';
 
@@ -245,7 +245,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
         onPress: this.handleInit
       });
     }
-    return <FlwButton
+    return <FlutterwaveButton
       style={style}
       alignLeft={!!alignLeft}
       children={children}
