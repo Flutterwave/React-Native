@@ -61,7 +61,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import React from 'react';
 import PropTypes from 'prop-types';
 import FlutterwaveInitError from './utils/FlutterwaveInitError';
-import FlwCheckout from './FlwCheckout';
+import FlutterwaveCheckout from './FlutterwaveCheckout';
 import FlutterwaveButton from './FlutterwaveButton';
 import { REDIRECT_URL } from './configs';
 export var PayWithFlutterwavePropTypesBase = {
@@ -244,7 +244,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
         var _a = this.state, link = _a.link, showDialog = _a.showDialog;
         return (<>
         {this.renderButton()}
-        <FlwCheckout onAbort={this.handleAbort} onRedirect={this.handleRedirect} link={link || undefined} visible={showDialog}/>
+        <FlutterwaveCheckout onAbort={this.handleAbort} onRedirect={this.handleRedirect} link={link || undefined} visible={showDialog}/>
       </>);
     };
     PayWithFlutterwaveBase.prototype.renderButton = function () {

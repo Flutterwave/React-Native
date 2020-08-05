@@ -3,7 +3,7 @@ import FlutterwaveInitV2 from './FlutterwaveInitV2';
 import PayWithFlutterwave from './PayWithFlutterwave';
 import PayWithFlutterwaveV2 from './PayWithFlutterwaveV2';
 import FlutterwaveButton from './FlutterwaveButton';
-import FlwCheckout from './FlwCheckout';
+import FlutterwaveCheckout from './FlutterwaveCheckout';
 
 // export modules
 export {
@@ -12,7 +12,7 @@ export {
   FlutterwaveInitV2,
   PayWithFlutterwaveV2,
   FlutterwaveButton,
-  FlwCheckout,
+  FlutterwaveCheckout,
 };
 
 // export v3 PayWithFlutterwave as default

@@ -20,19 +20,19 @@ const loader = require('./assets/loader.gif');
 const borderRadiusDimension = 24 / 896;
 const windowHeight = Dimensions.get('window').height;
 
-export interface FlwCheckoutProps {
+export interface FlutterwaveCheckoutProps {
   onRedirect?: (data: any) => void;
   onAbort?: () => void;
   link?: string;
   visible?: boolean;
 }
 
-interface FlwCheckoutBackdropProps {
+interface FlutterwaveCheckoutBackdropProps {
   animation: Animated.Value,
   onPress?: () => void;
 }
 
-interface FlwCheckoutErrorProps {
+interface FlutterwaveCheckoutErrorProps {
   hasLink: boolean;
   onTryAgain: () => void;
 }
@@ -55,7 +55,7 @@ const getRedirectParams = (url: string): {[k: string]: string} => {
   return res;
 };
 
-const FlwCheckout: React.FC<FlwCheckoutProps> = function FlwCheckout(props) {
+const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function FlutterwaveCheckout(props) {
   const {link, visible, onRedirect, onAbort} = props;
   const [show, setShow] = React.useState<boolean>(false);
   const webviewRef = React.useRef<WebView | null>(null);
@@ -151,7 +151,7 @@ const FlwCheckout: React.FC<FlwCheckoutProps> = function FlwCheckout(props) {
       animated={false}
       hardwareAccelerated={false}
       visible={show}>
-      <FlwCheckoutBackdrop onPress={() => handleAbort()} animation={animation.current} />
+      <FlutterwaveCheckoutBackdrop onPress={() => handleAbort()} animation={animation.current} />
       <Animated.View
         style={[
           styles.webviewContainer,
@@ -170,17 +170,17 @@ const FlwCheckout: React.FC<FlwCheckoutProps> = function FlwCheckout(props) {
           scalesPageToFit={true}
           javaScriptEnabled={true}
           onNavigationStateChange={handleNavigationStateChange}
-          renderError={() => <FlwCheckoutError hasLink={!!link} onTryAgain={handleReload} />}
-          renderLoading={() => <FlwCheckoutLoader />}
+          renderError={() => <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload} />}
+          renderLoading={() => <FlutterwaveCheckoutLoader />}
         />
       </Animated.View>
     </Modal>
   )
 }
 
-const FlwCheckoutBackdrop: React.FC<
-  FlwCheckoutBackdropProps
-> = function FlwCheckoutBackdrop({
+const FlutterwaveCheckoutBackdrop: React.FC<
+  FlutterwaveCheckoutBackdropProps
+> = function FlutterwaveCheckoutBackdrop({
   animation,
   onPress
 }) {
@@ -196,7 +196,7 @@ const FlwCheckoutBackdrop: React.FC<
   );
 }
 
-export const FlwCheckoutError: React.FC<FlwCheckoutErrorProps> = ({
+export const FlutterwaveCheckoutError: React.FC<FlutterwaveCheckoutErrorProps> = ({
   hasLink,
   onTryAgain
 }): React.ReactElement => {
@@ -220,7 +220,7 @@ export const FlwCheckoutError: React.FC<FlwCheckoutErrorProps> = ({
   );
 }
 
-const FlwCheckoutLoader: React.FC<{}> = (): React.ReactElement => {
+const FlutterwaveCheckoutLoader: React.FC<{}> = (): React.ReactElement => {
   return (
     <View style={styles.loading} testID="flw-checkout-loader">
       <Image
@@ -296,4 +296,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlwCheckout;
+export default FlutterwaveCheckout;

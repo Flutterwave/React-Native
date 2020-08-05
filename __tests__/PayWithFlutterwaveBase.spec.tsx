@@ -6,7 +6,7 @@ import {FlutterwaveInitOptions} from '../src/FlutterwaveInit';
 import {REDIRECT_URL, STANDARD_URL} from '../src/configs';
 import {Modal, TouchableOpacity, Text} from 'react-native';
 import timeTravel, { setupTimeTravel } from '../timeTravel';
-import FlwCheckout from '../src/FlwCheckout';
+import FlutterwaveCheckout from '../src/FlutterwaveCheckout';
 import FlutterwaveInitError from '../src/utils/FlutterwaveInitError';
 import FlutterwaveInit from '../src/FlutterwaveInit';
 const BtnTestID = 'flw-button';
@@ -650,7 +650,7 @@ describe('PayWithFlutterwaveBase', () => {
     // simulate animated timeframe
     timeTravel();
     // get modal test renderer
-    const ModalTestRender = Tree.root.findByType(FlwCheckout);
+    const ModalTestRender = Tree.root.findByType(FlutterwaveCheckout);
     // run assertions
     expect(ModalTestRender.props.visible).toEqual(true);
   });

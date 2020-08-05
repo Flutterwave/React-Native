@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FlwCheckout/> renders with modal closed if visible prop is not true 1`] = `
+exports[`<FlutterwaveCheckout/> renders with modal closed if visible prop is not true 1`] = `
 <Modal
   animated={false}
   hardwareAccelerated={false}
@@ -131,7 +131,7 @@ exports[`<FlwCheckout/> renders with modal closed if visible prop is not true 1`
 </Modal>
 `;
 
-exports[`<FlwCheckout/> renders with modal open if visible props is true 1`] = `
+exports[`<FlutterwaveCheckout/> renders with modal open if visible props is true 1`] = `
 <Modal
   animated={false}
   hardwareAccelerated={false}

@@ -22,7 +22,7 @@ var getRedirectParams = function (url) {
     // return result
     return res;
 };
-var FlwCheckout = function FlwCheckout(props) {
+var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
     var link = props.link, visible = props.visible, onRedirect = props.onRedirect, onAbort = props.onAbort;
     var _a = React.useState(false), show = _a[0], setShow = _a[1];
     var webviewRef = React.useRef(null);
@@ -105,7 +105,7 @@ var FlwCheckout = function FlwCheckout(props) {
         outputRange: [0, 1, 1]
     });
     return (<Modal transparent={true} animated={false} hardwareAccelerated={false} visible={show}>
-      <FlwCheckoutBackdrop onPress={function () { return handleAbort(); }} animation={animation.current}/>
+      <FlutterwaveCheckoutBackdrop onPress={function () { return handleAbort(); }} animation={animation.current}/>
       <Animated.View style={[
         styles.webviewContainer,
         {
@@ -113,11 +113,11 @@ var FlwCheckout = function FlwCheckout(props) {
             opacity: opacity
         }
     ]} testID='flw-checkout-dialog'>
-        <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onNavigationStateChange={handleNavigationStateChange} renderError={function () { return <FlwCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlwCheckoutLoader />; }}/>
+        <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onNavigationStateChange={handleNavigationStateChange} renderError={function () { return <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
       </Animated.View>
     </Modal>);
 };
-var FlwCheckoutBackdrop = function FlwCheckoutBackdrop(_a) {
+var FlutterwaveCheckoutBackdrop = function FlutterwaveCheckoutBackdrop(_a) {
     var animation = _a.animation, onPress = _a.onPress;
     // Interpolation backdrop animation
     var backgroundColor = animation.interpolate({
@@ -128,7 +128,7 @@ var FlwCheckoutBackdrop = function FlwCheckoutBackdrop(_a) {
       <Animated.View style={Object.assign({}, styles.backdrop, { backgroundColor: backgroundColor })}/>
     </TouchableWithoutFeedback>);
 };
-export var FlwCheckoutError = function (_a) {
+export var FlutterwaveCheckoutError = function (_a) {
     var hasLink = _a.hasLink, onTryAgain = _a.onTryAgain;
     return (<View style={styles.error} testID="flw-checkout-error">
       {hasLink ? (<>
@@ -143,7 +143,7 @@ export var FlwCheckoutError = function (_a) {
         </Text>)}
     </View>);
 };
-var FlwCheckoutLoader = function () {
+var FlutterwaveCheckoutLoader = function () {
     return (<View style={styles.loading} testID="flw-checkout-loader">
       <Image source={loader} resizeMode="contain" style={styles.loadingImage}/>
     </View>);
@@ -211,4 +211,4 @@ var styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0)'
     }
 });
-export default FlwCheckout;
+export default FlutterwaveCheckout;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FlutterwaveInitError from './utils/FlutterwaveInitError';
-import FlwCheckout from './FlwCheckout';
+import FlutterwaveCheckout from './FlutterwaveCheckout';
 import FlutterwaveButton from './FlutterwaveButton';
 import {REDIRECT_URL} from './configs';
 import { StyleProp, ViewStyle } from 'react-native';
@@ -226,7 +226,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
     return (
       <>
         {this.renderButton()}
-        <FlwCheckout
+        <FlutterwaveCheckout
           onAbort={this.handleAbort}
           onRedirect={this.handleRedirect}
           link={link || undefined}

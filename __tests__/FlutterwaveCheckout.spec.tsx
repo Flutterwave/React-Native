@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import {TouchableOpacity, Alert} from 'react-native';
 import renderer from 'react-test-renderer';
-import FlwCheckout, {FlwCheckoutError} from '../src/FlwCheckout';
+import FlutterwaveCheckout, {FlutterwaveCheckoutError} from '../src/FlutterwaveCheckout';
 import timeTravel, {setupTimeTravel} from '../timeTravel';
 import {REDIRECT_URL} from '../src/configs';
 import WebView from 'react-native-webview';
@@ -10,11 +10,11 @@ const link = 'http://example.com';
 
 beforeEach(() => setupTimeTravel());
 afterEach(() => jest.useRealTimers());
-describe('<FlwCheckout/>', () => {
+describe('<FlutterwaveCheckout/>', () => {
   it('renders with modal closed if visible prop is not true', () => {
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} />
+      <FlutterwaveCheckout onRedirect={() => {}} />
     );
     // run assertions
     expect(TestRenderer.toJSON()).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('<FlwCheckout/>', () => {
   it('renders with modal open if visible props is true', () => {
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} visible />
+      <FlutterwaveCheckout onRedirect={() => {}} visible />
     );
     // simulate animation timeframes
     timeTravel();
@@ -36,7 +36,7 @@ describe('<FlwCheckout/>', () => {
     const url = REDIRECT_URL + '?foo=bar';
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={onRedirect} visible link={link} />
+      <FlutterwaveCheckout onRedirect={onRedirect} visible link={link} />
     );
     // fire on navigation state change
     TestRenderer.root.findByType(WebView).props.onNavigationStateChange({url});
@@ -58,7 +58,7 @@ describe('<FlwCheckout/>', () => {
     const url = 'http://example/com?foo=bar';
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={onRedirect} visible link={link} />
+      <FlutterwaveCheckout onRedirect={onRedirect} visible link={link} />
     );
     // fire on navigation state change
     TestRenderer.root.findByType(WebView).props.onNavigationStateChange({url});
@@ -76,7 +76,7 @@ describe('<FlwCheckout/>', () => {
   it('asks user to confirm abort when use taps on the backdrop', () => {
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} visible link={link} />
     );
     // call backdrop onPress
     TestRenderer.root.findByProps({testID: 'flw-checkout-backdrop'}).props.onPress();
@@ -93,7 +93,7 @@ describe('<FlwCheckout/>', () => {
     const onAbort = jest.fn();
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
     );
     // call backdrop onPress
     TestRenderer.root.findByProps({testID: 'flw-checkout-backdrop'}).props.onPress();
@@ -116,7 +116,7 @@ describe('<FlwCheckout/>', () => {
     const onAbort = jest.fn();
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
     );
     // create error test renderer
     const ErrorTestRenderer = renderer.create(
@@ -130,7 +130,7 @@ describe('<FlwCheckout/>', () => {
     const onAbort = jest.fn();
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} onAbort={onAbort} visible link={link} />
     );
     // create error test renderer
     const ErrorTestRenderer = renderer.create(
@@ -144,7 +144,7 @@ describe('<FlwCheckout/>', () => {
   //   const onAbort = jest.fn();
   //   // create test renderer
   //   const TestRenderer = renderer.create(
-  //     <FlwCheckout
+  //     <FlutterwaveCheckout
   //       onRedirect={() => {}}
   //       onAbort={onAbort}
   //       visible
@@ -172,7 +172,7 @@ describe('<FlwCheckout/>', () => {
     const split = jest.spyOn(url, 'split');
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} visible link={link} />
     );
     // fire on navigation state change
     TestRenderer.root.findByType(WebView).props.onNavigationStateChange({url});
@@ -194,7 +194,7 @@ describe('<FlwCheckout/>', () => {
     const split = jest.spyOn(url, 'split');
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckout onRedirect={() => {}} visible link={link} />
+      <FlutterwaveCheckout onRedirect={() => {}} visible link={link} />
     );
     // fire on navigation state change
     TestRenderer.root.findByType(WebView).props.onNavigationStateChange({url});
@@ -211,11 +211,11 @@ describe('<FlwCheckout/>', () => {
   });
 });
 
-describe('<FlwCheckoutError />', () => {
+describe('<FlutterwaveCheckoutError />', () => {
   it('has a retry button if hasLink prop is true', () => {
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckoutError hasLink onTryAgain={() => {}} />
+      <FlutterwaveCheckoutError hasLink onTryAgain={() => {}} />
     );
     // simulate animation timeframes
     timeTravel();
@@ -228,7 +228,7 @@ describe('<FlwCheckoutError />', () => {
   it('does not have a retry button if hasLink prop is false', () => {
     // create test renderer
     const TestRenderer = renderer.create(
-      <FlwCheckoutError hasLink={false} onTryAgain={() => {}} />
+      <FlutterwaveCheckoutError hasLink={false} onTryAgain={() => {}} />
     );
     // simulate animation timeframes
     timeTravel();
