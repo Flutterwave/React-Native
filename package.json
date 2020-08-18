@@ -1,5 +1,5 @@
 {
-  "name": "react-native-flutterwave",
+  "name": "flutterwave-react-native",
   "version": "0.0.0",
   "description": "Easily plug Flutterwave into your react-native app for payments.",
   "main": "dist/index.js",
