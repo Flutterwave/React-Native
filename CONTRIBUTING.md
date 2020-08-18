@@ -10,7 +10,7 @@ If you want to open a PR that fixes a bug or adds a feature, then we can't thank
 
 ## Submitting pull requests
 
-### Modifying react-native-flutterwave
+### Modifying flutterwave-react-native
 1. Fork this repository
 2. Clone your fork
 3. Make a branch for your feature or bug fix (i.e. `git checkout -b what-im-adding`)
@@ -20,12 +20,12 @@ If you want to open a PR that fixes a bug or adds a feature, then we can't thank
 Depending on the changes you make you might want to test to see if the feature/fix works correctly.
 Use the following steps to test your newly added feature/fix.
 1. Set up your react-native example project or use one you already have.
-2. Create a `.env` file in the root of the library (react-native-flutterwave).
+2. Create a `.env` file in the root of the library (flutterwave-react-native).
 3. Add **RN_FLW_EXAMPLE_PROJECT** to the `.env` file it's value should be an absolute path to the install destination in your example project.
 **E.g.** `RN_FLW_EXAMPLE_PROJECT="/Users/your-name/projects/example-project/src"`.
 4. Run the following command `npm run set-example`.
 
-Following these steps will result in you building and copy the built version of the library in the following directory `/Users/your-name/projects/example-project/src/react-native-flutterwave`, you can then go ahead an import the library from within your example project from the location the library has been copied to.
+Following these steps will result in you building and copy the built version of the library in the following directory `/Users/your-name/projects/example-project/src/flutterwave-react-native`, you can then go ahead an import the library from within your example project from the location the library has been copied to.
 
 ### Writting Tests
 We currently don't have strict rules for writting tests but when writting one be sure to make your tests and their captions clear and coincise, test only what you added, and then follow up with the dependencies if need be.

@@ -47,7 +47,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 This version of the library's docs focuses on use cases with the Version 3 of Flutterwaves API, if you are still using the Version 2 API please use [this documentation](./README.v2.md) instead.
 
 ## Installation
-This library is available on npm, you can install it by running `npm install --save react-native-flutterwave` or `yarn add react-native-flutterwave`
+This library is available on npm, you can install it by running `npm install --save flutterwave-react-native` or `yarn add flutterwave-react-native`
 
 ### Dependencies
 In order to render the Flutterwave checkout screen this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
@@ -79,10 +79,10 @@ Below are a few examples showcasing how you can use the library to implement pay
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `PayWithFlutterwave` from `react-native-flutterwave` and use it like so.
+Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
 ````jsx
-import {PayWithFlutterwave} from 'react-native-flutterwave';
-// or import PayWithFlutterwave from 'react-native-flutterwave';
+import {PayWithFlutterwave} from 'flutterwave-react-native';
+// or import PayWithFlutterwave from 'flutterwave-react-native';
 
 <PayWithFlutterwave
   ...
@@ -105,10 +105,10 @@ import {PayWithFlutterwave} from 'react-native-flutterwave';
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `PayWithFlutterwave` from `react-native-flutterwave` and use it like so.
+Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
 ````jsx
-import {PayWithFlutterwave} from 'react-native-flutterwave';
-// or import PayWithFlutterwave from 'react-native-flutterwave';
+import {PayWithFlutterwave} from 'flutterwave-react-native';
+// or import PayWithFlutterwave from 'flutterwave-react-native';
 
 <PayWithFlutterwave
   ...
@@ -131,9 +131,9 @@ import {PayWithFlutterwave} from 'react-native-flutterwave';
 
 [View All Props](#flutterwavebuttonprops)
 
-Import `FlutterwaveButton` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveButton` from `flutterwave-react-native` and use it like so.
 ````jsx
-import {FlutterwaveButton} from 'react-native-flutterwave';
+import {FlutterwaveButton} from 'flutterwave-react-native';
 
 <FlutterwaveButton
   style={styles.paymentButton}
@@ -146,9 +146,9 @@ import {FlutterwaveButton} from 'react-native-flutterwave';
 ### FlutterwaveInit
 When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitoptions)
 
-Import `FlutterwaveInit` from `react-native-flutterwave` and use it like so.
+Import `FlutterwaveInit` from `flutterwave-react-native` and use it like so.
 ````javascript
-import {FlutterwaveInit} from 'react-native-flutterwave';
+import {FlutterwaveInit} from 'flutterwave-react-native';
 
 try {
   // initialize payment

@@ -6,7 +6,7 @@
 ````jsx
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {FlutterwaveInit} from 'react-native-flutterwave';
+import {FlutterwaveInit} from 'flutterwave-react-native';
 
 class MyCart extends React.Component {
   abortController = null;
