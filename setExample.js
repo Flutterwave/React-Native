@@ -59,7 +59,7 @@ const logSuccess = (message) => {
   console.log(chalk.green.bold('Found Example Project'));
   logSuccess('Installing build...');
 
-  // create the react-native-flutterwave directory if it does not exist
+  // create the library directory if it does not exist
   if (!existsSync(DESTINATION)) {
     logSuccess('Creating destination directory...');
     mkdirSync(DESTINATION);

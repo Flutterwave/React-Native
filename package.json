@@ -1,5 +1,5 @@
 {
-  "name": "react-native-flutterwave",
+  "name": "flutterwave-react-native",
   "version": "0.0.0",
   "description": "Easily plug Flutterwave into your react-native app for payments.",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "lint": "eslint \"src/**/*.{ts, tsx}\"",
     "format": "prettier-standard --format",
     "test": "jest --coverage",
-    "copy-files": "copyfiles -u 1 src/*.gif src/*.png dist",
+    "copy-files": "copyfiles -u 1 src/assets/*.gif src/assets/*.png src/assets dist",
     "commit": "npx git-cz",
     "release": "./node_modules/.bin/semantic-release",
     "set-example": "npm run build && node setExample.js"

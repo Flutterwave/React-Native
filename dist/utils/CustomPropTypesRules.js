@@ -1,5 +1,4 @@
-import { PAYMENT_OPTIONS } from "../configs";
-export var PaymentOptionsPropRule = function (props, propName) {
+export var PaymentOptionsPropRule = function (options) { return function (props, propName) {
     // skip check if payment options is not defined
     if (props[propName] === undefined) {
         return null;
@@ -10,8 +9,8 @@ export var PaymentOptionsPropRule = function (props, propName) {
     }
     var paymentOptionsList = props[propName].split(',');
     var _loop_1 = function (i) {
-        if (PAYMENT_OPTIONS.findIndex(function (j) { return j.trim() === paymentOptionsList[i].trim(); }) === -1) {
-            return { value: new Error("\"payment_options\"(" + props[propName] + ") must be any of the following values.\n" + PAYMENT_OPTIONS.map(function (i, n) { return n + 1 + ". " + i + "\n"; }).join('')) };
+        if (options.findIndex(function (j) { return j.trim() === paymentOptionsList[i].trim(); }) === -1) {
+            return { value: new Error("\"payment_options\"(" + props[propName] + ") must be any of the following values.\n" + options.map(function (i, n) { return n + 1 + ". " + i + "\n"; }).join('')) };
         }
     };
     for (var i = 0; i < paymentOptionsList.length; i++) {
@@ -20,4 +19,4 @@ export var PaymentOptionsPropRule = function (props, propName) {
             return state_1.value;
     }
     return null;
-};
+}; };

@@ -1,69 +1,61 @@
 /// <reference types="react-native" />
-interface FlutterwavePaymentMeta {
-    metaname: string;
-    metavalue: string;
+export declare type Currency = 'GBP' | 'NGN' | 'USD' | 'GHS' | 'KES' | 'ZAR' | 'TZS';
+export interface FlutterwaveInitSubAccount {
+    id: string;
+    transaction_split_ratio?: number;
+    transaction_charge_type?: string;
+    transaction_charge?: number;
 }
-export interface FlutterwaveInitOptions {
-    txref: string;
-    PBFPubKey: string;
-    customer_firstname?: string;
-    customer_lastname?: string;
-    customer_phone?: string;
-    customer_email: string;
+export interface FlutterwaveInitOptionsBase {
     amount: number;
-    currency?: string;
-    redirect_url?: string;
+    currency?: Currency;
+    integrity_hash?: string;
     payment_options?: string;
     payment_plan?: number;
-    subaccounts?: Array<number>;
-    country?: string;
-    pay_button_text?: string;
-    custom_title?: string;
-    custom_description?: string;
-    custom_logo?: string;
-    meta?: Array<FlutterwavePaymentMeta>;
+    redirect_url: string;
+    subaccounts?: Array<FlutterwaveInitSubAccount>;
 }
-interface FlutterwaveInitConfig {
-    canceller?: AbortController;
+interface FlutterwavePaymentMeta {
+    [k: string]: any;
 }
-export interface FlutterwaveInitError {
-    code: string;
+export interface FlutterwaveInitCustomer {
+    email: string;
+    phonenumber?: string;
+    name?: string;
+}
+export interface FlutterwaveInitCustomizations {
+    title?: string;
+    logo?: string;
+    description?: string;
+}
+export declare type FlutterwaveInitOptions = FlutterwaveInitOptionsBase & {
+    authorization: string;
+    tx_ref: string;
+    customer: FlutterwaveInitCustomer;
+    meta?: FlutterwavePaymentMeta | null;
+    customizations?: FlutterwaveInitCustomizations;
+};
+export interface FieldError {
+    field: string;
     message: string;
 }
-interface FlutterwaveInitResult {
-    error?: FlutterwaveInitError | null;
-    link?: string | null;
+export interface ResponseData {
+    status?: 'success' | 'error';
+    message: string;
+    error_id?: string;
+    errors?: Array<FieldError>;
+    code?: string;
+    data?: {
+        link: string;
+    };
 }
 /**
  * This function is responsible for making the request to
  * initialize a Flutterwave payment.
  * @param options FlutterwaveInitOptions
- * @return Promise<{
- *  error: {
- *    code: string;
- *    message: string;
- *  } | null;
- *  link?: string | null;
- * }>
+ * @param abortController AbortController
+ * @return Promise<string>
  */
-export default function FlutterwaveInit(options: FlutterwaveInitOptions, config?: FlutterwaveInitConfig): Promise<FlutterwaveInitResult>;
-/**
- * Flutterwave Init Error
- */
-export declare class FlutterwaveInitException extends Error {
-    /**
-     * Error code
-     * @var string
-     */
-    code: string;
-    /**
-     * Constructor Method
-     * @param props {message?: string; code?: string}
-     */
-    constructor(props: {
-        message: string;
-        code: string;
-    });
-}
+export default function FlutterwaveInit(options: FlutterwaveInitOptions, abortController?: AbortController): Promise<string>;
 export {};
 //# sourceMappingURL=FlutterwaveInit.d.ts.map
