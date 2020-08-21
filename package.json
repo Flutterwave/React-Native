@@ -1,6 +1,6 @@
 {
   "name": "flutterwave-react-native",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "description": "Easily plug Flutterwave into your react-native app for payments.",
   "main": "dist/index.js",
   "scripts": {
@@ -11,14 +11,20 @@
     "test": "jest --coverage",
     "copy-files": "copyfiles -u 1 src/assets/*.gif src/assets/*.png src/assets dist",
     "commit": "npx git-cz",
-    "release": "./node_modules/.bin/semantic-release",
+    "release": "semantic-release",
     "set-example": "npm run build && node setExample.js"
   },
   "files": [
     "dist"
   ],
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Flutterwave",
+    "RavePay",
+    "React-native-payment",
+    "Payment",
+    "Payments"
+  ],
+  "author": "Flutterwave Developers",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -68,5 +74,16 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Flutterwave/flutterwave-react-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Flutterwave/flutterwave-react-native/issues"
+  },
+  "homepage": "https://github.com/Flutterwave/flutterwave-react-native#readme"
 }
