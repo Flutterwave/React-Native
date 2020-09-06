@@ -83,7 +83,7 @@ import {PayWithFlutterwaveV2} from 'flutterwave-react-native';
 
 <PayWithFlutterwaveV2
   ...
-  onComplete={handleOnComplete}
+  onRedirect={handleOnRedirect}
   options={{
     txref: txref,
     PBFPubKey: '[Your Flutterwave Public Key]',
@@ -106,7 +106,7 @@ import {PayWithFlutterwaveV2} from 'flutterwave-react-native';
 
 <PayWithFlutterwaveV2
   ...
-  onComplete={handleOnComplete}
+  onRedirect={handleOnRedirect}
   options={{...}}
   customButton={(props) => (
     <TouchableOpacity
@@ -199,7 +199,7 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | object | undefined | Used to apply styling to the button.|
-| onComplete | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [on complete data](#oncompletedata)|
+| onRedirect | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [on complete data](#oncompletedata)|
 | onWillInitialize | No | function | undefined | This will be called before a payment link is generated.|
 | onDidInitialize | No | function | undefined | This is called when a new payment link has been successfully initialized.|
 | onInitializeError | No | function | undefined | This is called if an error occurred while initializing a new pyment link. The function will receive [FlutterwaveInitError](#flutterwaveiniterror) |
@@ -290,7 +290,7 @@ export interface FlutterwaveInitV2Options {
 ````typescript
 interface PayWithFlutterwaveV2Props {
   style?: ViewStyle;
-  onComplete: (data: RedirectParamsV2) => void;
+  onRedirect: (data: RedirectParamsV2) => void;
   onWillInitialize?: () => void;
   onDidInitialize?: () => void;
   onInitializeError?: (error: FlutterwaveInitError) => void;
