@@ -1,7 +1,7 @@
 /**
  * V# API Standard initialization endpoint
  */
-export var STANDARD_URL = 'https://api.flutterwave.com/v3/payments';
+export var STANDARD_URL = 'https://api.flutterwave.com/v3/sdkcheckout/payments';
 /**
  * Redirect URL used in V3 FlutterwaveButton
  */
