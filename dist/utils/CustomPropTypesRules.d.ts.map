@@ -1,1 +1,1 @@
-{"version":3,"file":"CustomPropTypesRules.d.ts","sourceRoot":"","sources":["../../src/utils/CustomPropTypesRules.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,sBAAsB,YAAa,KAAK,CAAC,MAAM,CAAC;;aAA0C,MAAM,iBA4B5G,CAAA"}
+{"version":3,"file":"CustomPropTypesRules.d.ts","sourceRoot":"","sources":["../../src/utils/CustomPropTypesRules.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,sBAAsB;;oCA4BlC,CAAA"}
