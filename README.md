@@ -1,10 +1,11 @@
 <p align="center">
-    <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
+  <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
 </p>
 
 
 # React Native Flutterwave
-Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API
+Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API.
+:point_right:
 
 [![V2 API](https://img.shields.io/badge/API-V3-brightgreen)](https://developer.flutterwave.com/docs) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -19,6 +20,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
+  - [Merchant Piblic Key](#fire-merchant-public-key-fire)
   - [Important Information](#fire-important-information-fire)
 - Usage
   - [PayWithFlutterwave ](#flutterwave-button)
@@ -69,6 +71,9 @@ dependencies {
   implementation 'com.facebook.fresco:animated-gif:2.0.0'
 }
 ````
+
+### :fire: MERCHANT PUBLIC KEY :fire:
+In order to use this library you are required to use your merchant public key and not the secret key. See how to get your API Keys [here](https://developer.flutterwave.com/v3.0/docs/api-keys)
 
 ### :fire: IMPORTANT INFORMATION :fire:
 If the `options` property on [PayWithFlutterwave](#paywithflutterwaveprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
