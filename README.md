@@ -5,7 +5,6 @@
 
 # React Native Flutterwave
 Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API.
-:point_right:
 
 [![V2 API](https://img.shields.io/badge/API-V3-brightgreen)](https://developer.flutterwave.com/docs) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
