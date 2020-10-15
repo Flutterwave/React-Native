@@ -28,7 +28,7 @@ class MyCart extends React.Component {
         const paymentLink = await FlutterwaveInit(
           {
             tx_ref: generateTransactionRef(),
-            authorization: '[merchant secret key]',
+            authorization: '[merchant public key]',
             amount: 100,
             currency: 'USD',
             customer: {

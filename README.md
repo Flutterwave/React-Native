@@ -1,10 +1,10 @@
 <p align="center">
-    <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
+  <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
 </p>
 
 
 # React Native Flutterwave
-Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API
+Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API.
 
 [![V2 API](https://img.shields.io/badge/API-V3-brightgreen)](https://developer.flutterwave.com/docs) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -19,6 +19,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
+  - [Merchant Piblic Key](#fire-merchant-public-key-fire)
   - [Important Information](#fire-important-information-fire)
 - Usage
   - [PayWithFlutterwave ](#flutterwave-button)
@@ -70,6 +71,9 @@ dependencies {
 }
 ````
 
+### :fire: MERCHANT PUBLIC KEY :fire:
+In order to use this library you are required to use your merchant public key and not the secret key. See how to get your API Keys [here](https://developer.flutterwave.com/v3.0/docs/api-keys)
+
 ### :fire: IMPORTANT INFORMATION :fire:
 If the `options` property on [PayWithFlutterwave](#paywithflutterwaveprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
 
@@ -94,7 +98,7 @@ import {PayWithFlutterwave} from 'flutterwave-react-native';
   onRedirect={handleOnRedirect}
   options={{
     tx_ref: transactionReference,
-    authorization: '[merchant secret key]',
+    authorization: '[merchant public key]',
     customer: {
       email: 'customer-email@example.com'
     },
@@ -159,7 +163,7 @@ try {
   // initialize payment
   const paymentLink = await FlutterwaveInit({
     tx_ref: generateTransactionRef(),
-    authorization: '[your merchant secret Key]',
+    authorization: '[your merchant public Key]',
     amount: 100,
     currency: 'USD',
     customer: {
@@ -183,7 +187,7 @@ try {
 [See Interface](#flutterwaveinitoptions-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| authorization | Yes | string | **REQUIRED** | Your merchant secret key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
+| authorization | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
 | tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This MUST be unique for every transaction.|
 | amount | Yes | string | **REQUIRED** | Amount to charge the customer. |
 | currency | No | string | NGN | Currency to charge in. Defaults to NGN. |
