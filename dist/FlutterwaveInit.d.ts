@@ -1,5 +1,5 @@
 /// <reference types="react-native" />
-export declare type Currency = 'GBP' | 'NGN' | 'USD' | 'GHS' | 'KES' | 'ZAR' | 'TZS';
+export declare type Currency = 'AUD' | 'BIF' | 'CDF' | 'CAD' | 'CVE' | 'EUR' | 'GBP' | 'GHS' | 'GMD' | 'GNF' | 'KES' | 'LRD' | 'MWK' | 'MZN' | 'NGN' | 'RWF' | 'SLL' | 'STD' | 'TZS' | 'UGX' | 'USD' | 'XAF' | 'XOF' | 'ZAR' | 'ZMK' | 'ZMW' | 'ZWD';
 export interface FlutterwaveInitSubAccount {
     id: string;
     transaction_split_ratio?: number;
