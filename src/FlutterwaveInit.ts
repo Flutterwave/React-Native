@@ -2,7 +2,34 @@ import FlutterwaveInitError from './utils/FlutterwaveInitError';
 import ResponseParser from './utils/ResponseParser';
 import {STANDARD_URL} from './configs';
 
-export type Currency = 'GBP' | 'NGN' | 'USD' | 'GHS' | 'KES' | 'ZAR' | 'TZS';
+export type Currency =
+  'AUD' |
+  'BIF' |
+  'CDF' |
+  'CAD' |
+  'CVE' |
+  'EUR' |
+  'GBP' |
+  'GHS' |
+  'GMD' |
+  'GNF' |
+  'KES' |
+  'LRD' |
+  'MWK' |
+  'MZN' |
+  'NGN' |
+  'RWF' |
+  'SLL' |
+  'STD' |
+  'TZS' |
+  'UGX' |
+  'USD' |
+  'XAF' |
+  'XOF' |
+  'ZAR' |
+  'ZMK' |
+  'ZMW' |
+  'ZWD';
 
 export interface FlutterwaveInitSubAccount {
   id: string;
