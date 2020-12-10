@@ -190,7 +190,7 @@ try {
 | authorization | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
 | tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This MUST be unique for every transaction.|
 | amount | Yes | string | **REQUIRED** | Amount to charge the customer. |
-| currency | No | string | NGN | Currency to charge in. Defaults to NGN. |
+| currency | No | string | NGN | Currency to charge in. Defaults to NGN. [See accepted currencies here](https://support.flutterwave.com/en/articles/3632719-accepted-currencies)|
 | integrity_hash | No | string | undefined | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
 | payment_options | Yes | string | **REQUIRED** | This specifies the payment options to be displayed e.g - card, mobilemoney, ussd and so on. |
 | payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v3.0/docs/recurring-billing). |
