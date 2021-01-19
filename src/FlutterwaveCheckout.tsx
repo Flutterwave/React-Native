@@ -71,7 +71,7 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
     }).start();
   }, []);
 
-  const animateOut = React.useCallback(() => {
+  const animateOut = React.useCallback((): Promise<void> => {
     return new Promise(resolve => {
       Animated.timing(animation.current, {
         toValue: 0,
@@ -106,12 +106,12 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
     animateOut().then(onAbort);
   }, [onAbort, animateOut]);
 
-  const handleNavigationStateChange = React.useCallback((ev: WebViewNavigation) => {
+  const handleNavigationStateChange = React.useCallback((ev: WebViewNavigation): boolean => {
     // cregex to check if redirect has occured on completion/cancel
     const rx = /\/flutterwave\.com\/rn-redirect/;
     // Don't end payment if not redirected back
     if (!rx.test(ev.url)) {
-      return
+      return true;
     }
     // dismiss modal
     animateOut().then(() => {
@@ -119,6 +119,7 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
         onRedirect(getRedirectParams(ev.url))
       }
     });
+    return false;
   }, [onRedirect]);
 
   const doAnimate = React.useCallback(() => {
@@ -169,7 +170,7 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
           startInLoadingState={true}
           scalesPageToFit={true}
           javaScriptEnabled={true}
-          onNavigationStateChange={handleNavigationStateChange}
+          onShouldStartLoadWithRequest={handleNavigationStateChange}
           renderError={() => <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload} />}
           renderLoading={() => <FlutterwaveCheckoutLoader />}
         />

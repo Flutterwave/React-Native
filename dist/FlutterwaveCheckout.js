@@ -74,7 +74,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         var rx = /\/flutterwave\.com\/rn-redirect/;
         // Don't end payment if not redirected back
         if (!rx.test(ev.url)) {
-            return;
+            return true;
         }
         // dismiss modal
         animateOut().then(function () {
@@ -82,6 +82,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
                 onRedirect(getRedirectParams(ev.url));
             }
         });
+        return false;
     }, [onRedirect]);
     var doAnimate = React.useCallback(function () {
         if (visible === show) {
@@ -113,7 +114,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             opacity: opacity
         }
     ]} testID='flw-checkout-dialog'>
-        <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onNavigationStateChange={handleNavigationStateChange} renderError={function () { return <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
+        <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onShouldStartLoadWithRequest={handleNavigationStateChange} renderError={function () { return <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
       </Animated.View>
     </Modal>);
 };
