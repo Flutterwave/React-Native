@@ -89,15 +89,38 @@ Below are a few examples showcasing how you can use the library to implement pay
 [View All Props](#flutterwavebuttonprops)
 
 Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
-````jsx
+````tsx
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 // or import PayWithFlutterwave from 'flutterwave-react-native';
+
+interface RedirectParams {
+    status: 'successful' | 'cancelled';
+    transaction_id?: string;
+    tx_ref: string;
+  }
+
+ /* An example function called when transaction is completed successfully or canceled */
+  const handleOnRedirect = (data: RedirectParams) => {
+      console.log(data);
+    };
+
+/* An example function to generate a random transaction reference */
+  const generateTransactionRef = (length: number) => {
+    var result = '';
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return `flw_tx_ref_${result}`;
+  };
 
 <PayWithFlutterwave
   ...
   onRedirect={handleOnRedirect}
   options={{
-    tx_ref: transactionReference,
+    tx_ref: generateTransactionRef(10) 
     authorization: '[merchant public key]',
     customer: {
       email: 'customer-email@example.com'
@@ -115,9 +138,20 @@ import {PayWithFlutterwave} from 'flutterwave-react-native';
 [View All Props](#flutterwavebuttonprops)
 
 Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
-````jsx
+````tsx
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 // or import PayWithFlutterwave from 'flutterwave-react-native';
+
+interface RedirectParams {
+    status: 'successful' | 'cancelled';
+    transaction_id?: string;
+    tx_ref: string;
+  }
+
+ /* An example function called when transaction is completed successfully or canceled */
+  const handleOnRedirect = (data: RedirectParams) => {
+      console.log(data);
+    };
 
 <PayWithFlutterwave
   ...
