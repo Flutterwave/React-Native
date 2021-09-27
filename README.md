@@ -2,9 +2,9 @@
   <img title="Flutterwave" height="200" src="https://flutterwave.com/images/logo-colored.svg" width="50%"/>
 </p>
 
-
 # React Native Flutterwave
-Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS,  and use the Flutterwave's V3 API.
+
+Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS, and use the Flutterwave's V3 API.
 
 [![V2 API](https://img.shields.io/badge/API-V3-brightgreen)](https://developer.flutterwave.com/docs) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -14,6 +14,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 </p>
 
 ## Table Of Content
+
 - Getting Started
   - [V2 API](#warning-if-using-version-2-api-warning)
   - [Installation](#installation)
@@ -45,23 +46,29 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - [Contributing](./CONTRIBUTING.md)
 
 ## What's Inside?
+
 - Pay with Flutterwave button and checkout dialog.
 - Standard payment initialization function.
 - Flutterwave designed button.
 
 ## :warning: If Using Version 2 API :warning:
+
 This version of the library's docs focuses on use cases with the Version 3 of Flutterwaves API, if you are still using the Version 2 API please use [this documentation](./README.v2.md) instead.
 
 ## Installation
+
 This library is available on npm, you can install it by running `npm install --save flutterwave-react-native` or `yarn add flutterwave-react-native`
 
 ### Dependencies
+
 In order to render the Flutterwave checkout screen this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
 
 ### Activity Indicator (only needed for android)
+
 To display the Flutterwave styled activity indicator when the checkout screen is being loaded on Android you will need to add some modules in `android/app/build.gradle`.
-***Skip this if you already have setup your app to support gif images.***
-````javascript
+**_Skip this if you already have setup your app to support gif images._**
+
+```javascript
 dependencies {
   // If your app supports Android versions before Ice Cream Sandwich (API level 14)
   implementation 'com.facebook.fresco:animated-base-support:1.3.0'
@@ -69,27 +76,31 @@ dependencies {
   // For animated GIF support
   implementation 'com.facebook.fresco:animated-gif:2.0.0'
 }
-````
+```
 
 ### :fire: MERCHANT PUBLIC KEY :fire:
+
 In order to use this library you are required to use your merchant public key and not the secret key. See how to get your API Keys [here](https://developer.flutterwave.com/v3.0/docs/api-keys)
 
 ### :fire: IMPORTANT INFORMATION :fire:
+
 If the `options` property on [PayWithFlutterwave](#paywithflutterwaveprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
 
 Remember you cannot use the same transaction reference for two different payments, also remember to recreate the transaction reference before allowing the user initiate a new payment.
 
-
 ## Usage
+
 Below are a few examples showcasing how you can use the library to implement payment in your React Native app.
 
-### PayWithFlutterwave 
+### PayWithFlutterwave
+
 <img src=".github/images/pay-with-flutterwave.png" alt="preview" width="350"/>
 
 [View All Props](#flutterwavebuttonprops)
 
 Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
-````tsx
+
+```tsx
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 // or import PayWithFlutterwave from 'flutterwave-react-native';
 
@@ -120,7 +131,7 @@ interface RedirectParams {
   ...
   onRedirect={handleOnRedirect}
   options={{
-    tx_ref: generateTransactionRef(10) 
+    tx_ref: generateTransactionRef(10)
     authorization: '[merchant public key]',
     customer: {
       email: 'customer-email@example.com'
@@ -130,15 +141,17 @@ interface RedirectParams {
     payment_options: 'card'
   }}
 />
-````
+```
 
 ### PayWithFlutterwave (with custom render)
+
 <img src=".github/images/pay-with-flutterwave-custom.png" alt="preview" width="350"/>
 
 [View All Props](#flutterwavebuttonprops)
 
 Import `PayWithFlutterwave` from `flutterwave-react-native` and use it like so.
-````tsx
+
+```tsx
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 // or import PayWithFlutterwave from 'flutterwave-react-native';
 
@@ -167,30 +180,34 @@ interface RedirectParams {
     </TouchableOpacity>
   )}
 />
-````
+```
 
 ### FlutterwaveButton (Flutterwave styled button)
+
 <img src=".github/images/flutterwave-styled-button.png" alt="preview" width="350"/>
 
 [View All Props](#flutterwavebuttonprops)
 
 Import `FlutterwaveButton` from `flutterwave-react-native` and use it like so.
-````jsx
+
+```jsx
 import {FlutterwaveButton} from 'flutterwave-react-native';
 
 <FlutterwaveButton
   style={styles.paymentButton}
   onPress={onPress}
   disabled={disabled}>
-    <Text style={styles.paymentButtonText}>Pay $500</Text>
-</FlutterwaveButton>
-````
+  <Text style={styles.paymentButtonText}>Pay $500</Text>
+</FlutterwaveButton>;
+```
 
 ### FlutterwaveInit
+
 When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitoptions)
 
 Import `FlutterwaveInit` from `flutterwave-react-native` and use it like so.
-````javascript
+
+```javascript
 import {FlutterwaveInit} from 'flutterwave-react-native';
 
 try {
@@ -201,9 +218,9 @@ try {
     amount: 100,
     currency: 'USD',
     customer: {
-      email: 'customer-email@example.com'
+      email: 'customer-email@example.com',
     },
-    payment_options: 'card'
+    payment_options: 'card',
   });
   // use payment link
   usePaymentLink(paymentLink);
@@ -211,15 +228,18 @@ try {
   // handle payment error
   displayError(error.message);
 }
-````
+```
+
 ### Aborting Payment Initialization
+
 :wave: Hi, so there are cases where you have already initialized a payment with `FlutterwaveInit` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/AbortingPaymentInitialization.md)
 
 ## Props
 
 ### FlutterwaveInitOptions
+
 [See Interface](#flutterwaveinitoptions-interface)
-| Name     | Required | Type | Default | Description |
+| Name | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | authorization | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0/docs/api-keys)|
 | tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This MUST be unique for every transaction.|
@@ -235,8 +255,9 @@ try {
 | customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This is an object that contains title, logo, and description you want to display on the modal `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
 
 ### PayWithFlutterwaveProps
+
 [See Interface](#paywithflutterwaveprops-interface)
-| Name     | Required | Type | Default | Description |
+| Name | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | object | undefined | Used to apply styling to the button.|
 | onRedirect | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [redirect params](#redirectparams) as an argument.|
@@ -249,8 +270,9 @@ try {
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ### FlutterwaveButton Props
+
 [See Interface](#flutterwavebuttonprops-interface)
-| Name     | Required | Type | Default | Description |
+| Name | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
 | style | No | ViewStyle | undefined | This component uses the same style properties that are applicable to react-native's View component style.|
 | onPress | Yes | function | undefined | This property receive a function that is called on button press. |
@@ -258,42 +280,48 @@ try {
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ## Types
+
 #### CustomButtonProps
-````typescript
+
+```typescript
 interface CustomButtonProps {
   disabled: boolean;
   isInitializing: boolean;
   onPress: () => void;
 }
-````
+```
 
 #### RedirectParams
-````typescript
+
+```typescript
 interface RedirectParams {
-  status: 'successful' | 'cancelled',
+  status: 'successful' | 'cancelled';
   transaction_id?: string;
   tx_ref: string;
 }
-````
+```
 
 #### FlutterwaveInitError
-````typescript
+
+```typescript
 interface FlutterwaveInitError {
   code: string;
   message: string;
   errorId?: string;
   errors?: Array<string>;
 }
-````
+```
 
 #### FlutterwavePaymentMeta
-````typescript
+
+```typescript
 interface FlutterwavePaymentMeta {
   [k: string]: any;
 }
-````
+```
 
 ### FlutterwaveInitCustomer
+
 ```typescript
 interface FlutterwaveInitCustomer {
   email: string;
@@ -303,6 +331,7 @@ interface FlutterwaveInitCustomer {
 ```
 
 ### FlutterwaveInitCustomizations
+
 ```typescript
 interface FlutterwaveInitCustomizations {
   title?: string;
@@ -312,6 +341,7 @@ interface FlutterwaveInitCustomizations {
 ```
 
 ### FlutterwaveInitSubAccount
+
 ```typescript
 interface FlutterwaveInitSubAccount {
   id: string;
@@ -322,7 +352,8 @@ interface FlutterwaveInitSubAccount {
 ```
 
 #### FlutterwaveInitOptions Interface
-````typescript
+
+```typescript
 export interface FlutterwaveInitOptions {
   authorization: string;
   tx_ref: string;
@@ -334,13 +365,14 @@ export interface FlutterwaveInitOptions {
   redirect_url: string;
   customer: FlutterwaveInitCustomer;
   subaccounts?: Array<FlutterwaveInitSubAccount>;
-  meta?: Array<FlutterwavePaymentMeta>;
+  meta?: FlutterwavePaymentMeta;
   customizations?: FlutterwaveInitCustomizations;
 }
-````
+```
 
 #### PayWithFlutterwaveProps Interface
-````typescript
+
+```typescript
 interface PayWithFlutterwaveProps {
   style?: ViewStyle;
   onRedirect: (data: RedirectParams) => void;
@@ -352,19 +384,21 @@ interface PayWithFlutterwaveProps {
   customButton?: (props: CustomButtonProps) => React.ReactNode;
   alignLeft?: 'alignLeft' | boolean;
 }
-````
+```
 
 #### FlutterwaveButtonProps Interface
-````typescript
+
+```typescript
 interface FlutterwaveButtonProps {
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
   alignLeft?: boolean;
   onPress?: () => void;
 }
-````
+```
 
 ## Contributing
+
 For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
 
 With love from Flutterwave. :yellow_heart:
