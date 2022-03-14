@@ -20,7 +20,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Activity Indicator (Android)](#activity-indicator-only-needed-for-android)
-  - [Merchant Piblic Key](#fire-merchant-public-key-fire)
+  - [Merchant Public Key](#fire-merchant-public-key-fire)
   - [Important Information](#fire-important-information-fire)
 - Usage
   - [PayWithFlutterwave ](#flutterwave-button)
