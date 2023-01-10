@@ -1,7 +1,7 @@
 {
   "name": "flutterwave-react-native",
-  "version": "1.0.4",
-  "description": "Easily plug Flutterwave into your react-native app for payments.",
+  "version": "1.0.5",
+  "description": "The official React-Native library for Flutterwave for business v2 and v3 APIs.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
