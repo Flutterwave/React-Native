@@ -206,7 +206,7 @@ export const FlutterwaveCheckoutError: React.FC<FlutterwaveCheckoutErrorProps> =
       {hasLink ? (
         <>
           <Text style={styles.errorText}>
-            An error occurred, please tab below to try again.
+            An error occurred, please tap below to try again.
           </Text>
           <TouchableOpacity style={styles.errorActionButton} onPress={onTryAgain}>
             <Text style={styles.errorActionButtonText}>Try Again</Text>
