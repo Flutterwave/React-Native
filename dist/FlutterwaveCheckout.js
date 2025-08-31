@@ -67,7 +67,8 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             return;
         }
         // remove tx_ref and dismiss
-        animateOut().then(onAbort);
+        // animateOut().then(onAbort);
+      setShow(false);
     }, [onAbort, animateOut]);
     var handleNavigationStateChange = React.useCallback(function (ev) {
         // cregex to check if redirect has occured on completion/cancel
