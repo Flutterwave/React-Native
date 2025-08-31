@@ -59,7 +59,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             Alert.alert('', 'Are you sure you want to cancel this payment?', [
                 { text: 'No' },
                 {
-                    text: 'Yes, Cancel',
+                    text: 'Yes',
                     style: 'destructive',
                     onPress: function () { return handleAbort(true); }
                 },
