@@ -68,7 +68,15 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         }
         // remove tx_ref and dismiss
         // animateOut().then(onAbort);
-      setShow(false);
+        if (webviewRef.current) {
+    webviewRef.current.stopLoading();
+  }
+  
+  // Stop animations
+  animation.current.stopAnimation();
+  
+  // Close modal after cleanup
+  setTimeout(() => setShow(false), 50);
     }, [onAbort, animateOut]);
     var handleNavigationStateChange = React.useCallback(function (ev) {
         // cregex to check if redirect has occured on completion/cancel
