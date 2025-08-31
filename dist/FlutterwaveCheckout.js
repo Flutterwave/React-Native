@@ -59,7 +59,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             Alert.alert('', 'Are you sure you want to cancel this payment?', [
                 { text: 'No' },
                 {
-                    text: 'Yes, Cancel',
+                    text: 'Yes',
                     style: 'destructive',
                     onPress: function () { return handleAbort(true); }
                 },
@@ -67,7 +67,16 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             return;
         }
         // remove tx_ref and dismiss
-        animateOut().then(onAbort);
+        // animateOut().then(onAbort);
+        if (webviewRef.current) {
+    webviewRef.current.stopLoading();
+  }
+  
+  // Stop animations
+  animation.current.stopAnimation();
+  
+  // Close modal after cleanup
+  setTimeout(() => setShow(false), 50);
     }, [onAbort, animateOut]);
     var handleNavigationStateChange = React.useCallback(function (ev) {
         // cregex to check if redirect has occured on completion/cancel

@@ -95,7 +95,7 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
       Alert.alert('', 'Are you sure you want to cancel this payment?', [
         {text: 'No'},
         {
-          text: 'Yes, Cancel',
+          text: 'Yes',
           style: 'destructive',
           onPress: () => handleAbort(true),
         },
@@ -103,7 +103,22 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
       return;
     }
     // remove tx_ref and dismiss
-    animateOut().then(onAbort);
+   // animateOut()
+
+  //   if(onAbort){
+  //    setTimeout(() => {
+  //   onAbort();
+  // }, 500);
+  //   }
+  if (webviewRef.current) {
+    webviewRef.current.stopLoading();
+  }
+  
+  // Stop animations
+  animation.current.stopAnimation();
+  
+  // Close modal after cleanup
+  setTimeout(() => setShow(false), 50);
   }, [onAbort, animateOut]);
 
   const handleNavigationStateChange = React.useCallback((ev: WebViewNavigation): boolean => {
