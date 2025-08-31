@@ -110,7 +110,15 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
   //   onAbort();
   // }, 500);
   //   }
-    setShow(false);
+  if (webviewRef.current) {
+    webviewRef.current.stopLoading();
+  }
+  
+  // Stop animations
+  animation.current.stopAnimation();
+  
+  // Close modal after cleanup
+  setTimeout(() => setShow(false), 50);
   }, [onAbort, animateOut]);
 
   const handleNavigationStateChange = React.useCallback((ev: WebViewNavigation): boolean => {
