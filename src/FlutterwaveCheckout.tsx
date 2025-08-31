@@ -105,11 +105,12 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
     // remove tx_ref and dismiss
    // animateOut()
 
-    if(onAbort){
-     setTimeout(() => {
-    onAbort();
-  }, 500);
-    }
+  //   if(onAbort){
+  //    setTimeout(() => {
+  //   onAbort();
+  // }, 500);
+  //   }
+    setShow(false);
   }, [onAbort, animateOut]);
 
   const handleNavigationStateChange = React.useCallback((ev: WebViewNavigation): boolean => {
