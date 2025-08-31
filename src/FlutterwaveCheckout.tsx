@@ -103,7 +103,7 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> = function Flutter
       return;
     }
     // remove tx_ref and dismiss
-    animateOut()
+   // animateOut()
 
     if(onAbort){
      setTimeout(() => {
