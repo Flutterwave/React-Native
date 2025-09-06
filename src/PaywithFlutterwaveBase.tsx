@@ -283,7 +283,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
         {this.renderButton()}
         <FlutterwaveCheckout
           onAbort={this.handleAbort}
-          onRedirect={this.handleRedirect}
+          onRedirect={() => {}}
           link={link || undefined}
           visible={showDialog}
         />

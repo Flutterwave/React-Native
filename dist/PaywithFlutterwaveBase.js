@@ -277,7 +277,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
         var _a = this.state, link = _a.link, showDialog = _a.showDialog;
         return (<>
         {this.renderButton()}
-        <FlutterwaveCheckout onAbort={this.handleAbort} onRedirect={this.handleRedirect} link={link || undefined} visible={showDialog}/>
+        <FlutterwaveCheckout onAbort={this.handleAbort} onRedirect={function () { }} link={link || undefined} visible={showDialog}/>
       </>);
     };
     PayWithFlutterwaveBase.prototype.renderButton = function () {
