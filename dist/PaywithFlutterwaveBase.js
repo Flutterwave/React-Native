@@ -219,7 +219,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                         switch (_a.label) {
                             case 0:
                                 _a.trys.push([0, 2, , 3]);
-                                return [4 /*yield*/, init(__assign(__assign({}, options), { redirect_url: REDIRECT_URL }), this.abortController)];
+                                return [4 /*yield*/, init(__assign(__assign({}, options), { redirect_url: REDIRECT_URL }))];
                             case 1:
                                 paymentLink = _a.sent();
                                 // set payment link

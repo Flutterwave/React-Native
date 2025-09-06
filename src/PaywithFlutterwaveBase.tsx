@@ -226,10 +226,10 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
         // handle init
         try {
           // initialize payment
-          const paymentLink = await init(
-            {...options, redirect_url: REDIRECT_URL},
-            this.abortController,
-          );
+          const paymentLink = await init({
+            ...options,
+            redirect_url: REDIRECT_URL,
+          });
           // set payment link
           this.setState(
             {
