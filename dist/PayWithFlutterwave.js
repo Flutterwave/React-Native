@@ -38,11 +38,11 @@ PayWithFlutterwave.propTypes = __assign(__assign({}, PayWithFlutterwavePropTypes
     options: PropTypes.shape(__assign(__assign({}, OptionsPropTypeBase), { authorization: PropTypes.string.isRequired, tx_ref: PropTypes.string.isRequired, payment_options: PaymentOptionsPropRule(PAYMENT_OPTIONS), customer: PropTypes.shape({
             name: PropTypes.string,
             phonenumber: PropTypes.string,
-            email: PropTypes.string.isRequired
+            email: PropTypes.string.isRequired,
         }).isRequired, meta: PropTypes.object, customizations: PropTypes.shape({
             title: PropTypes.string,
             logo: PropTypes.string,
-            description: PropTypes.string
+            description: PropTypes.string,
         }) })).isRequired });
 // export component as default
 export default PayWithFlutterwave;

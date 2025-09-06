@@ -32,8 +32,8 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         Animated.timing(animation.current, {
             toValue: 1,
             duration: 700,
-            easing: Easing["in"](Easing.elastic(0.72)),
-            useNativeDriver: false
+            easing: Easing.in(Easing.elastic(0.72)),
+            useNativeDriver: false,
         }).start();
     }, []);
     var animateOut = React.useCallback(function () {
@@ -41,7 +41,7 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             Animated.timing(animation.current, {
                 toValue: 0,
                 duration: 400,
-                useNativeDriver: false
+                useNativeDriver: false,
             }).start(function () {
                 setShow(false);
                 resolve();
@@ -61,22 +61,28 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
                 {
                     text: 'Yes',
                     style: 'destructive',
-                    onPress: function () { return handleAbort(true); }
+                    onPress: function () { return handleAbort(true); },
                 },
             ]);
             return;
         }
         // remove tx_ref and dismiss
-        // animateOut().then(onAbort);
+        // animateOut()
+        //   if(onAbort){
+        //    setTimeout(() => {
+        //   onAbort();
+        // }, 500);
+        //   }
         if (webviewRef.current) {
-    webviewRef.current.stopLoading();
-  }
-  
-  // Stop animations
-  animation.current.stopAnimation();
-  
-  // Close modal after cleanup
-  setTimeout(() => setShow(false), 50);
+            webviewRef.current.stopLoading();
+        }
+        // Stop animations
+        animation.current.stopAnimation();
+        // Close modal after cleanup
+        setTimeout(function () { return setShow(false); }, 50);
+        if (onAbort) {
+            onAbort();
+        }
     }, [onAbort, animateOut]);
     var handleNavigationStateChange = React.useCallback(function (ev) {
         // cregex to check if redirect has occured on completion/cancel
@@ -108,21 +114,21 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
     }, [doAnimate]);
     var marginTop = animation.current.interpolate({
         inputRange: [0, 1],
-        outputRange: [windowHeight, 0]
+        outputRange: [windowHeight, 0],
     });
     var opacity = animation.current.interpolate({
         inputRange: [0, 0.3, 1],
-        outputRange: [0, 1, 1]
+        outputRange: [0, 1, 1],
     });
     return (<Modal transparent={true} animated={false} hardwareAccelerated={false} visible={show}>
       <FlutterwaveCheckoutBackdrop onPress={function () { return handleAbort(); }} animation={animation.current}/>
       <Animated.View style={[
-        styles.webviewContainer,
-        {
-            marginTop: marginTop,
-            opacity: opacity
-        }
-    ]} testID='flw-checkout-dialog'>
+            styles.webviewContainer,
+            {
+                marginTop: marginTop,
+                opacity: opacity
+            }
+        ]} testID='flw-checkout-dialog'>
         <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onShouldStartLoadWithRequest={handleNavigationStateChange} renderError={function () { return <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
       </Animated.View>
     </Modal>);
@@ -132,7 +138,7 @@ var FlutterwaveCheckoutBackdrop = function FlutterwaveCheckoutBackdrop(_a) {
     // Interpolation backdrop animation
     var backgroundColor = animation.interpolate({
         inputRange: [0, 0.3, 1],
-        outputRange: [colors.transparent, colors.transparent, 'rgba(0,0,0,0.5)']
+        outputRange: [colors.transparent, colors.transparent, 'rgba(0,0,0,0.5)'],
     });
     return (<TouchableWithoutFeedback testID='flw-checkout-backdrop' onPress={onPress}>
       <Animated.View style={Object.assign({}, styles.backdrop, { backgroundColor: backgroundColor })}/>
@@ -162,17 +168,17 @@ var styles = StyleSheet.create({
     errorActionButtonText: {
         textAlign: 'center',
         color: colors.primary,
-        fontSize: 16
+        fontSize: 16,
     },
     errorActionButton: {
         paddingHorizontal: 16,
-        paddingVertical: 16
+        paddingVertical: 16,
     },
     errorText: {
         color: colors.secondary,
         textAlign: 'center',
         marginBottom: 32,
-        fontSize: 18
+        fontSize: 18,
     },
     error: {
         position: 'absolute',
@@ -183,19 +189,19 @@ var styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 56
+        paddingHorizontal: 56,
     },
     backdrop: {
         position: 'absolute',
         left: 0,
         right: 0,
         bottom: 0,
-        top: 0
+        top: 0,
     },
     loadingImage: {
         width: 64,
         height: 64,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     loading: {
         position: 'absolute',
@@ -205,20 +211,20 @@ var styles = StyleSheet.create({
         left: 0,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     webviewContainer: {
-        top: Platform.select({ ios: 96, android: 64 }),
+        top: Platform.select({ ios: 96, android: 64 }), // status bar height aware for ios
         flex: 1,
         backgroundColor: '#efefef',
-        paddingBottom: Platform.select({ ios: 96, android: 64 }),
+        paddingBottom: Platform.select({ ios: 96, android: 64 }), // status bar height aware for ios
         overflow: 'hidden',
         borderTopLeftRadius: windowHeight * borderRadiusDimension,
-        borderTopRightRadius: windowHeight * borderRadiusDimension
+        borderTopRightRadius: windowHeight * borderRadiusDimension,
     },
     webview: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0)'
-    }
+        backgroundColor: 'rgba(0,0,0,0)',
+    },
 });
 export default FlutterwaveCheckout;

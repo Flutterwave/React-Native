@@ -3,33 +3,33 @@ import ResponseParser from './utils/ResponseParser';
 import {STANDARD_URL} from './configs';
 
 export type Currency =
-  'AUD' |
-  'BIF' |
-  'CDF' |
-  'CAD' |
-  'CVE' |
-  'EUR' |
-  'GBP' |
-  'GHS' |
-  'GMD' |
-  'GNF' |
-  'KES' |
-  'LRD' |
-  'MWK' |
-  'MZN' |
-  'NGN' |
-  'RWF' |
-  'SLL' |
-  'STD' |
-  'TZS' |
-  'UGX' |
-  'USD' |
-  'XAF' |
-  'XOF' |
-  'ZAR' |
-  'ZMK' |
-  'ZMW' |
-  'ZWD';
+  | 'AUD'
+  | 'BIF'
+  | 'CDF'
+  | 'CAD'
+  | 'CVE'
+  | 'EUR'
+  | 'GBP'
+  | 'GHS'
+  | 'GMD'
+  | 'GNF'
+  | 'KES'
+  | 'LRD'
+  | 'MWK'
+  | 'MZN'
+  | 'NGN'
+  | 'RWF'
+  | 'SLL'
+  | 'STD'
+  | 'TZS'
+  | 'UGX'
+  | 'USD'
+  | 'XAF'
+  | 'XOF'
+  | 'ZAR'
+  | 'ZMK'
+  | 'ZMW'
+  | 'ZWD';
 
 export interface FlutterwaveInitSubAccount {
   id: string;
@@ -92,7 +92,7 @@ interface FetchOptions {
   method: 'POST';
   body: string;
   headers: Headers;
-  signal?: AbortSignal; 
+  signal?: AbortSignal;
 }
 
 /**
@@ -110,19 +110,19 @@ export default async function FlutterwaveInit(
     // get request body and authorization
     const {authorization, ...body} = options;
     // make request headers
-    const headers = new Headers;
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('Authorization',  `Bearer ${authorization}`);
+    headers.append('Authorization', `Bearer ${authorization}`);
     // make fetch options
     const fetchOptions: FetchOptions = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: headers,
-    }
+    };
     // add abortController if defined
     if (abortController) {
-      fetchOptions.signal = abortController.signal
-    };
+      fetchOptions.signal = abortController.signal;
+    }
     // initialize payment
     const response = await fetch(STANDARD_URL, fetchOptions);
     // get response data
@@ -131,9 +131,26 @@ export default async function FlutterwaveInit(
     return Promise.resolve(await ResponseParser(responseData));
   } catch (e) {
     // always return a flutterwave init error
-    const error = e instanceof FlutterwaveInitError
-      ? e
-      : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
+    let error: FlutterwaveInitError;
+    if (e instanceof FlutterwaveInitError) {
+      error = e;
+    } else if (
+      typeof e === 'object' &&
+      e !== null &&
+      'message' in e &&
+      'name' in e
+    ) {
+      const errObj = e as {message: string; name: string};
+      error = new FlutterwaveInitError({
+        message: errObj.message,
+        code: errObj.name.toUpperCase(),
+      });
+    } else {
+      error = new FlutterwaveInitError({
+        message: 'Unknown error',
+        code: 'UNKNOWN',
+      });
+    }
     // resolve with error
     return Promise.reject(error);
   }

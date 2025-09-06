@@ -5,6 +5,7 @@ interface FlutterwaveButtonProps {
     disabled?: boolean;
     alignLeft?: boolean;
     onPress?: () => void;
+    children?: React.ReactNode;
 }
 declare const FlutterwaveButton: React.FC<FlutterwaveButtonProps>;
 export default FlutterwaveButton;

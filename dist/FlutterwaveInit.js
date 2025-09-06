@@ -8,12 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -57,25 +57,24 @@ import { STANDARD_URL } from './configs';
  */
 export default function FlutterwaveInit(options, abortController) {
     return __awaiter(this, void 0, void 0, function () {
-        var authorization, body, headers, fetchOptions, response, responseData, _a, _b, e_1, error;
+        var authorization, body, headers, fetchOptions, response, responseData, _a, _b, e_1, error, errObj;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _c.trys.push([0, 4, , 5]);
                     authorization = options.authorization, body = __rest(options, ["authorization"]);
-                    headers = new Headers;
+                    headers = new Headers();
                     headers.append('Content-Type', 'application/json');
-                    headers.append('Authorization', "Bearer " + authorization);
+                    headers.append('Authorization', "Bearer ".concat(authorization));
                     fetchOptions = {
                         method: 'POST',
                         body: JSON.stringify(body),
-                        headers: headers
+                        headers: headers,
                     };
                     // add abortController if defined
                     if (abortController) {
                         fetchOptions.signal = abortController.signal;
                     }
-                    ;
                     return [4 /*yield*/, fetch(STANDARD_URL, fetchOptions)];
                 case 1:
                     response = _c.sent();
@@ -89,9 +88,26 @@ export default function FlutterwaveInit(options, abortController) {
                 return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 case 4:
                     e_1 = _c.sent();
-                    error = e_1 instanceof FlutterwaveInitError
-                        ? e_1
-                        : new FlutterwaveInitError({ message: e_1.message, code: e_1.name.toUpperCase() });
+                    error = void 0;
+                    if (e_1 instanceof FlutterwaveInitError) {
+                        error = e_1;
+                    }
+                    else if (typeof e_1 === 'object' &&
+                        e_1 !== null &&
+                        'message' in e_1 &&
+                        'name' in e_1) {
+                        errObj = e_1;
+                        error = new FlutterwaveInitError({
+                            message: errObj.message,
+                            code: errObj.name.toUpperCase(),
+                        });
+                    }
+                    else {
+                        error = new FlutterwaveInitError({
+                            message: 'Unknown error',
+                            code: 'UNKNOWN',
+                        });
+                    }
                     // resolve with error
                     return [2 /*return*/, Promise.reject(error)];
                 case 5: return [2 /*return*/];

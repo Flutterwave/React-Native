@@ -7,18 +7,16 @@ var FlutterwaveButton = function FlutterwaveButton(_a) {
     var style = _a.style, alignLeft = _a.alignLeft, children = _a.children, disabled = _a.disabled, onPress = _a.onPress;
     // render primary button
     return (<TouchableHighlight underlayColor={colors.primaryLight} disabled={disabled} onPress={onPress} style={[
-        styles.button,
-        disabled ? styles.buttonBusy : {},
-        alignLeft ? styles.buttonAlignLeft : {},
-        style
-    ]} activeOpacity={1} testID='flw-button'>
+            styles.button,
+            disabled ? styles.buttonBusy : {},
+            alignLeft ? styles.buttonAlignLeft : {},
+            style,
+        ]} activeOpacity={1} testID="flw-button">
         <>
-          {children ? children : (<Image source={pryContent} resizeMode="contain" resizeMethod="resize" style={styles.buttonContent} fadeDuration={0}/>)}
-          {disabled
-        ? (<View style={styles.buttonBusyOvelay}/>)
-        : null}
+          {children ? (children) : (<Image source={pryContent} resizeMode="contain" resizeMethod="resize" style={styles.buttonContent} fadeDuration={0}/>)}
+          {disabled ? <View style={styles.buttonBusyOvelay}/> : null}
         </>
-    </TouchableHighlight>);
+      </TouchableHighlight>);
 };
 // component UI styles
 var styles = StyleSheet.create({
@@ -28,13 +26,13 @@ var styles = StyleSheet.create({
         top: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.6)'
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
     },
     buttonBusy: {
-        borderColor: colors.primaryLight
+        borderColor: colors.primaryLight,
     },
     buttonAlignLeft: {
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
     },
     button: {
         paddingHorizontal: 16,
@@ -47,13 +45,13 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     buttonContent: {
         resizeMode: 'contain',
         width: 187.3,
-        height: 187.3 / contentSizeDimension
-    }
+        height: 187.3 / contentSizeDimension,
+    },
 });
 // export component as default
 export default FlutterwaveButton;

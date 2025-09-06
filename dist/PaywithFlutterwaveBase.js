@@ -2,10 +2,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -32,12 +34,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -71,7 +73,7 @@ export var PayWithFlutterwavePropTypesBase = {
     onWillInitialize: PropTypes.func,
     onDidInitialize: PropTypes.func,
     onInitializeError: PropTypes.func,
-    customButton: PropTypes.func
+    customButton: PropTypes.func,
 };
 export var OptionsPropTypeBase = {
     amount: PropTypes.number.isRequired,
@@ -102,16 +104,16 @@ export var OptionsPropTypeBase = {
         'ZAR',
         'ZMK',
         'ZMW',
-        'ZWD'
+        'ZWD',
     ]),
     payment_plan: PropTypes.number,
     subaccounts: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         transaction_split_ratio: PropTypes.number,
         transaction_charge_type: PropTypes.string,
-        transaction_charge: PropTypes.number
+        transaction_charge: PropTypes.number,
     })),
-    integrity_hash: PropTypes.string
+    integrity_hash: PropTypes.string,
 };
 var PayWithFlutterwaveBase = /** @class */ (function (_super) {
     __extends(PayWithFlutterwaveBase, _super);
@@ -122,7 +124,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
             link: null,
             resetLink: false,
             showDialog: false,
-            reference: null
+            reference: null,
         };
         _this.reset = function () {
             if (_this.abortController) {
@@ -135,7 +137,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                     isPending: false,
                     link: resetLink ? null : link,
                     resetLink: false,
-                    showDialog: false
+                    showDialog: false,
                 });
             });
         };
@@ -147,17 +149,18 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
             if (!showDialog) {
                 return _this.setState({
                     link: null,
-                    reference: null
+                    reference: null,
                 });
             }
             _this.setState({ resetLink: true });
         };
         _this.handleAbort = function () {
-            var onAbort = _this.props.onAbort;
-            if (onAbort) {
-                onAbort();
-            }
-            _this.reset();
+            _this.setState({ showDialog: true });
+            // const {onAbort} = this.props;
+            // if (onAbort) {
+            //   onAbort();
+            // }
+            // this.reset();
         };
         _this.handleRedirect = function (params) {
             var onRedirect = _this.props.onRedirect;
@@ -167,7 +170,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                 return ({
                     reference: params.flwref || params.status === 'successful' ? null : reference,
                     resetLink: params.flwref || params.status === 'successful' ? true : resetLink,
-                    showDialog: false
+                    showDialog: false,
                 });
             }, function () {
                 onRedirect(params);
@@ -190,7 +193,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                     if (onInitializeError) {
                         onInitializeError(new FlutterwaveInitError({
                             message: 'Please generate a new transaction reference.',
-                            code: 'SAME_TXREF'
+                            code: 'SAME_TXREF',
                         }));
                     }
                     return [2 /*return*/];
@@ -200,7 +203,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                     return [2 /*return*/];
                 }
                 // initialize abort controller if not set
-                this.abortController = new AbortController;
+                this.abortController = new AbortController();
                 // fire will initialize handler if available
                 if (onWillInitialize) {
                     onWillInitialize();
@@ -209,7 +212,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                     isPending: true,
                     link: null,
                     reference: this.props.reference,
-                    showDialog: false
+                    showDialog: false,
                 }, function () { return __awaiter(_this, void 0, void 0, function () {
                     var paymentLink, error_1;
                     return __generator(this, function (_a) {
@@ -223,7 +226,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                                 this.setState({
                                     link: paymentLink,
                                     isPending: false,
-                                    showDialog: true
+                                    showDialog: true,
                                 }, function () {
                                     // fire did initialize handler if available
                                     if (onDidInitialize) {
@@ -234,17 +237,23 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                             case 2:
                                 error_1 = _a.sent();
                                 // stop if request was canceled
-                                if (error_1 && /aborterror/i.test(error_1.code)) {
+                                if (error_1 && /aborterror/i.test(error_1 === null || error_1 === void 0 ? void 0 : error_1.code)) {
                                     return [2 /*return*/];
                                 }
                                 // call onInitializeError handler if an error occured
                                 if (onInitializeError) {
-                                    onInitializeError(error_1);
+                                    onInitializeError(error_1 instanceof FlutterwaveInitError
+                                        ? error_1
+                                        : new FlutterwaveInitError({
+                                            message: (error_1 === null || error_1 === void 0 ? void 0 : error_1.message) ||
+                                                'An unknown error occurred during initialization.',
+                                            code: (error_1 === null || error_1 === void 0 ? void 0 : error_1.code) || 'INIT_ERROR',
+                                        }));
                                 }
                                 // set payment link to reset
                                 this.setState({
                                     resetLink: true,
-                                    reference: null
+                                    reference: null,
                                 }, this.reset);
                                 return [3 /*break*/, 3];
                             case 3: return [2 /*return*/];
@@ -281,10 +290,10 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
         if (customButton) {
             return customButton({
                 disabled: isPending,
-                onPress: this.handleInit
+                onPress: this.handleInit,
             });
         }
-        return <FlutterwaveButton style={style} alignLeft={!!alignLeft} children={children} onPress={this.handleInit} disabled={isPending}/>;
+        return (<FlutterwaveButton style={style} alignLeft={!!alignLeft} children={children} onPress={this.handleInit} disabled={isPending}/>);
     };
     return PayWithFlutterwaveBase;
 }(React.Component));

@@ -6,7 +6,7 @@ export interface RedirectParams {
     transaction_id?: string;
     tx_ref: string;
 }
-export declare type PayWithFlutterwaveProps = PayWithFlutterwavePropsBase & {
+export type PayWithFlutterwaveProps = PayWithFlutterwavePropsBase & {
     onRedirect: (data: RedirectParams) => void;
     options: Omit<FlutterwaveInitOptions, 'redirect_url'>;
 };

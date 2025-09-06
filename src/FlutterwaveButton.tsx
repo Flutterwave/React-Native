@@ -16,33 +16,29 @@ interface FlutterwaveButtonProps {
   disabled?: boolean;
   alignLeft?: boolean;
   onPress?: () => void;
+  children?: React.ReactNode;
 }
 
-const FlutterwaveButton: React.FC<
-  FlutterwaveButtonProps
-> = function FlutterwaveButton({
-  style,
-  alignLeft,
-  children,
-  disabled,
-  onPress
-}) {
-  // render primary button
-  return (
-    <TouchableHighlight
-      underlayColor={colors.primaryLight}
-      disabled={disabled}
-      onPress={onPress}
-      style={[
-        styles.button,
-        disabled ? styles.buttonBusy : {},
-        alignLeft ? styles.buttonAlignLeft : {},
-        style
-      ]}
-      activeOpacity={1}
-      testID='flw-button'>
+const FlutterwaveButton: React.FC<FlutterwaveButtonProps> =
+  function FlutterwaveButton({style, alignLeft, children, disabled, onPress}) {
+    // render primary button
+    return (
+      <TouchableHighlight
+        underlayColor={colors.primaryLight}
+        disabled={disabled}
+        onPress={onPress}
+        style={[
+          styles.button,
+          disabled ? styles.buttonBusy : {},
+          alignLeft ? styles.buttonAlignLeft : {},
+          style,
+        ]}
+        activeOpacity={1}
+        testID="flw-button">
         <>
-          {children ? children : (
+          {children ? (
+            children
+          ) : (
             <Image
               source={pryContent}
               resizeMode="contain"
@@ -51,13 +47,11 @@ const FlutterwaveButton: React.FC<
               fadeDuration={0}
             />
           )}
-          {disabled
-            ? (<View style={styles.buttonBusyOvelay} />)
-            : null}
+          {disabled ? <View style={styles.buttonBusyOvelay} /> : null}
         </>
-    </TouchableHighlight>
-  );
-}
+      </TouchableHighlight>
+    );
+  };
 
 // component UI styles
 const styles = StyleSheet.create({
@@ -91,7 +85,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     resizeMode: 'contain',
     width: 187.3,
-    height: 187.3 / contentSizeDimension
+    height: 187.3 / contentSizeDimension,
   },
 });
 
