@@ -155,7 +155,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
             _this.setState({ resetLink: true });
         };
         _this.handleAbort = function () {
-            _this.setState({ showDialog: true });
+            _this.setState({ showDialog: false });
             // const {onAbort} = this.props;
             // if (onAbort) {
             //   onAbort();

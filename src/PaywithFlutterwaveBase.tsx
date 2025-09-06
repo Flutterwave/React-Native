@@ -152,7 +152,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
   };
 
   handleAbort = () => {
-    this.setState({showDialog: true});
+    this.setState({showDialog: false});
     // const {onAbort} = this.props;
     // if (onAbort) {
     //   onAbort();
