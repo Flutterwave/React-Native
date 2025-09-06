@@ -250,11 +250,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                                             code: (error_1 === null || error_1 === void 0 ? void 0 : error_1.code) || 'INIT_ERROR',
                                         }));
                                 }
-                                // set payment link to reset
-                                this.setState({
-                                    resetLink: true,
-                                    reference: null,
-                                }, this.reset);
+                                this.handleAbort();
                                 return [3 /*break*/, 3];
                             case 3: return [2 /*return*/];
                         }

@@ -262,14 +262,15 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
                   }),
             );
           }
+          this.handleAbort();
           // set payment link to reset
-          this.setState(
-            {
-              resetLink: true,
-              reference: null,
-            },
-            this.reset,
-          );
+          // this.setState(
+          //   {
+          //     resetLink: true,
+          //     reference: null,
+          //   },
+          //   this.reset,
+          // );
         }
       },
     );
