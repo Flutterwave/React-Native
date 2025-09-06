@@ -174,7 +174,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                 });
             }, function () {
                 onRedirect(params);
-                _this.reset();
+                // this.reset();
             });
         };
         _this.handleInit = function () { return __awaiter(_this, void 0, void 0, function () {

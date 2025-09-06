@@ -174,7 +174,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
       }),
       () => {
         onRedirect(params);
-        this.reset();
+        // this.reset();
       },
     );
   };
