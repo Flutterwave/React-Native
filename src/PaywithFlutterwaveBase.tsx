@@ -162,6 +162,10 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
   };
 
   handleRedirect = (params: any) => {
+    if (!params || params?.status !== 'successful') {
+      this.handleAbort();
+      return;
+    }
     const {onRedirect} = this.props;
     // reset payment link
     this.setState(
@@ -262,15 +266,15 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
                   }),
             );
           }
-          this.handleAbort();
+
           // set payment link to reset
-          // this.setState(
-          //   {
-          //     resetLink: true,
-          //     reference: null,
-          //   },
-          //   this.reset,
-          // );
+          this.setState(
+            {
+              resetLink: true,
+              reference: null,
+            },
+            this.reset,
+          );
         }
       },
     );
@@ -283,7 +287,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
         {this.renderButton()}
         <FlutterwaveCheckout
           onAbort={this.handleAbort}
-          onRedirect={() => {}}
+          onRedirect={this.handleRedirect}
           link={link || undefined}
           visible={showDialog}
         />

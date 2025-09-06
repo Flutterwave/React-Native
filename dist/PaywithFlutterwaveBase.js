@@ -163,6 +163,10 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
             // this.reset();
         };
         _this.handleRedirect = function (params) {
+            if (!params || (params === null || params === void 0 ? void 0 : params.status) !== 'successful') {
+                _this.handleAbort();
+                return;
+            }
             var onRedirect = _this.props.onRedirect;
             // reset payment link
             _this.setState(function (_a) {
@@ -250,7 +254,11 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
                                             code: (error_1 === null || error_1 === void 0 ? void 0 : error_1.code) || 'INIT_ERROR',
                                         }));
                                 }
-                                this.handleAbort();
+                                // set payment link to reset
+                                this.setState({
+                                    resetLink: true,
+                                    reference: null,
+                                }, this.reset);
                                 return [3 /*break*/, 3];
                             case 3: return [2 /*return*/];
                         }
@@ -277,7 +285,7 @@ var PayWithFlutterwaveBase = /** @class */ (function (_super) {
         var _a = this.state, link = _a.link, showDialog = _a.showDialog;
         return (<>
         {this.renderButton()}
-        <FlutterwaveCheckout onAbort={this.handleAbort} onRedirect={function () { }} link={link || undefined} visible={showDialog}/>
+        <FlutterwaveCheckout onAbort={this.handleAbort} onRedirect={this.handleRedirect} link={link || undefined} visible={showDialog}/>
       </>);
     };
     PayWithFlutterwaveBase.prototype.renderButton = function () {
