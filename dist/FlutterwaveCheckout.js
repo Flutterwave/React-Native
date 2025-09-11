@@ -94,7 +94,14 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         // dismiss modal
         animateOut().then(function () {
             if (onRedirect) {
-                onRedirect(getRedirectParams(ev.url));
+                var a = getRedirectParams(ev.url);
+                var url = JSON.stringify(ev.url);
+                Alert.alert(url);
+                if (onAbort) {
+                    onAbort();
+                    return;
+                }
+                onRedirect(a);
             }
         });
         return false;
@@ -121,17 +128,17 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         outputRange: [0, 1, 1],
     });
     return (<Modal transparent={true} animated={false} hardwareAccelerated={false} visible={show}>
-      <FlutterwaveCheckoutBackdrop onPress={function () { return handleAbort(); }} animation={animation.current}/>
-      <Animated.View style={[
+        <FlutterwaveCheckoutBackdrop onPress={function () { return handleAbort(); }} animation={animation.current}/>
+        <Animated.View style={[
             styles.webviewContainer,
             {
                 marginTop: marginTop,
-                opacity: opacity
-            }
-        ]} testID='flw-checkout-dialog'>
-        <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onShouldStartLoadWithRequest={handleNavigationStateChange} renderError={function () { return <FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>; }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
-      </Animated.View>
-    </Modal>);
+                opacity: opacity,
+            },
+        ]} testID="flw-checkout-dialog">
+          <WebView ref={webviewRef} source={{ uri: link || '' }} style={styles.webview} startInLoadingState={true} scalesPageToFit={true} javaScriptEnabled={true} onShouldStartLoadWithRequest={handleNavigationStateChange} renderError={function () { return (<FlutterwaveCheckoutError hasLink={!!link} onTryAgain={handleReload}/>); }} renderLoading={function () { return <FlutterwaveCheckoutLoader />; }}/>
+        </Animated.View>
+      </Modal>);
 };
 var FlutterwaveCheckoutBackdrop = function FlutterwaveCheckoutBackdrop(_a) {
     var animation = _a.animation, onPress = _a.onPress;
@@ -140,9 +147,9 @@ var FlutterwaveCheckoutBackdrop = function FlutterwaveCheckoutBackdrop(_a) {
         inputRange: [0, 0.3, 1],
         outputRange: [colors.transparent, colors.transparent, 'rgba(0,0,0,0.5)'],
     });
-    return (<TouchableWithoutFeedback testID='flw-checkout-backdrop' onPress={onPress}>
-      <Animated.View style={Object.assign({}, styles.backdrop, { backgroundColor: backgroundColor })}/>
-    </TouchableWithoutFeedback>);
+    return (<TouchableWithoutFeedback testID="flw-checkout-backdrop" onPress={onPress}>
+        <Animated.View style={Object.assign({}, styles.backdrop, { backgroundColor: backgroundColor })}/>
+      </TouchableWithoutFeedback>);
 };
 export var FlutterwaveCheckoutError = function (_a) {
     var hasLink = _a.hasLink, onTryAgain = _a.onTryAgain;
