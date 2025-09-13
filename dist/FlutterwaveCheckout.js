@@ -5,23 +5,23 @@ import { colors } from './configs';
 var loader = require('./assets/loader.gif');
 var borderRadiusDimension = 24 / 896;
 var windowHeight = Dimensions.get('window').height;
-var getRedirectParams = function (url) {
-    // initialize result container
-    var res = {};
-    // if url has params
-    if (url.split('?').length > 1) {
-        // get query params in an array
-        var params = url.split('?')[1].split('&');
-        // add url params to result
-        for (var i = 0; i < params.length; i++) {
-            var param = params[i].split('=');
-            var val = decodeURIComponent(param[1]).trim();
-            res[param[0]] = String(val);
-        }
-    }
-    // return result
-    return res;
-};
+// const getRedirectParams = (url: string): {[k: string]: string} => {
+//   // initialize result container
+//   const res: any = {};
+//   // if url has params
+//   if (url.split('?').length > 1) {
+//     // get query params in an array
+//     const params = url.split('?')[1].split('&');
+//     // add url params to result
+//     for (let i = 0; i < params.length; i++) {
+//       const param: Array<string> = params[i].split('=');
+//       const val = decodeURIComponent(param[1]).trim();
+//       res[param[0]] = String(val);
+//     }
+//   }
+//   // return result
+//   return res;
+// };
 var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
     var link = props.link, visible = props.visible, onRedirect = props.onRedirect, onAbort = props.onAbort;
     var _a = React.useState(false), show = _a[0], setShow = _a[1];
@@ -94,14 +94,14 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
         // dismiss modal
         animateOut().then(function () {
             if (onRedirect) {
-                var a = getRedirectParams(ev.url);
+                // let a = getRedirectParams(ev.url);
                 var url = JSON.stringify(ev.url);
                 Alert.alert(url);
                 if (onAbort) {
                     onAbort();
                     return;
                 }
-                onRedirect(a);
+                // onRedirect(a);
             }
         });
         return false;
