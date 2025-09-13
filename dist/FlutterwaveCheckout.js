@@ -92,18 +92,24 @@ var FlutterwaveCheckout = function FlutterwaveCheckout(props) {
             return true;
         }
         // dismiss modal
-        animateOut().then(function () {
-            if (onRedirect) {
-                // let a = getRedirectParams(ev.url);
-                var url = JSON.stringify(ev.url);
-                Alert.alert(url);
-                if (onAbort) {
-                    onAbort();
-                    return;
-                }
-                // onRedirect(a);
-            }
-        });
+        // animateOut().then(() => {
+        //   if (onRedirect) {
+        //     // let a = getRedirectParams(ev.url);
+        //     let url = JSON.stringify(ev.url);
+        //     Alert.alert(url);
+        //     if (onAbort) {
+        //       onAbort();
+        //       return;
+        //     }
+        //     // onRedirect(a);
+        //   }
+        // });
+        animation.current.stopAnimation();
+        // Close modal after cleanup
+        setTimeout(function () { return setShow(false); }, 50);
+        if (onAbort) {
+            onAbort();
+        }
         return false;
     }, [onRedirect]);
     var doAnimate = React.useCallback(function () {
