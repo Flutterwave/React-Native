@@ -17,6 +17,7 @@ export interface PayWithFlutterwavePropsBase {
     alignLeft?: 'alignLeft' | boolean;
     meta?: Array<any>;
     currency?: string;
+    children?: React.ReactNode;
 }
 export declare const PayWithFlutterwavePropTypesBase: {
     alignLeft: PropTypes.Requireable<boolean>;
@@ -46,7 +47,7 @@ interface PayWithFlutterwaveState {
     reference: string | null;
     resetLink: boolean;
 }
-export declare type PayWithFlutterwaveBaseProps = PayWithFlutterwavePropsBase & {
+export type PayWithFlutterwaveBaseProps = PayWithFlutterwavePropsBase & {
     options: any;
     init: (options: any, abortController?: AbortController) => Promise<string>;
     reference: string;
@@ -63,8 +64,8 @@ declare class PayWithFlutterwaveBase<P = {}> extends React.Component<PayWithFlut
     handleAbort: () => void;
     handleRedirect: (params: any) => void;
     handleInit: () => Promise<void>;
-    render(): JSX.Element;
-    renderButton(): {} | null | undefined;
+    render(): React.JSX.Element;
+    renderButton(): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
 }
 export default PayWithFlutterwaveBase;
 //# sourceMappingURL=PaywithFlutterwaveBase.d.ts.map

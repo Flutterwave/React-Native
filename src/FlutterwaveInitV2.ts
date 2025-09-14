@@ -21,7 +21,7 @@ interface FetchOptions {
   method: 'POST';
   body: string;
   headers: Headers;
-  signal?: AbortSignal; 
+  signal?: AbortSignal;
 }
 
 interface FlutterwavePaymentMetaV2 {
@@ -42,7 +42,7 @@ export type FlutterwaveInitV2Options = FlutterwaveInitOptionsBase & {
   custom_description?: string;
   custom_logo?: string;
   meta?: Array<FlutterwavePaymentMetaV2>;
-}
+};
 
 interface ResponseJSON {
   status: 'success' | 'error';
@@ -74,18 +74,18 @@ export default async function FlutterwaveInitV2(
     // make request body
     const body = {...options};
     // make request headers
-    const headers = new Headers;
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     // make fetch options
     const fetchOptions: FetchOptions = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: headers,
-    }
+    };
     // add abort controller if defined
     if (abortController) {
-      fetchOptions.signal = abortController.signal
-    };
+      fetchOptions.signal = abortController.signal;
+    }
     // make http request
     const response = await fetch(STANDARD_URL_V2, fetchOptions);
     // get response json
@@ -108,9 +108,25 @@ export default async function FlutterwaveInitV2(
     return Promise.resolve(responseJSON.data.link);
   } catch (e) {
     // always return a flutterwave init error
-    const error = e instanceof FlutterwaveInitError
-     ? e
-     : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
+    let error: FlutterwaveInitError;
+    if (e instanceof FlutterwaveInitError) {
+      error = e;
+    } else if (
+      typeof e === 'object' &&
+      e !== null &&
+      'message' in e &&
+      'name' in e
+    ) {
+      error = new FlutterwaveInitError({
+        message: String((e as {message: unknown}).message),
+        code: String((e as {name: unknown}).name).toUpperCase(),
+      });
+    } else {
+      error = new FlutterwaveInitError({
+        message: 'An unknown error occurred',
+        code: 'UNKNOWN',
+      });
+    }
     // resolve with error
     return Promise.reject(error);
   }

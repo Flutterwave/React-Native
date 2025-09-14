@@ -4,7 +4,7 @@ import FlutterwaveInitError from './utils/FlutterwaveInitError';
 import FlutterwaveCheckout from './FlutterwaveCheckout';
 import FlutterwaveButton from './FlutterwaveButton';
 import {REDIRECT_URL} from './configs';
-import { StyleProp, ViewStyle } from 'react-native';
+import {StyleProp, ViewStyle} from 'react-native';
 
 export interface CustomButtonProps {
   disabled: boolean;
@@ -22,6 +22,7 @@ export interface PayWithFlutterwavePropsBase {
   alignLeft?: 'alignLeft' | boolean;
   meta?: Array<any>;
   currency?: string;
+  children?: React.ReactNode;
 }
 
 export const PayWithFlutterwavePropTypesBase = {
@@ -63,15 +64,17 @@ export const OptionsPropTypeBase = {
     'ZAR',
     'ZMK',
     'ZMW',
-    'ZWD'
+    'ZWD',
   ]),
   payment_plan: PropTypes.number,
-  subaccounts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    transaction_split_ratio: PropTypes.number,
-    transaction_charge_type: PropTypes.string,
-    transaction_charge: PropTypes.number,
-  })),
+  subaccounts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      transaction_split_ratio: PropTypes.number,
+      transaction_charge_type: PropTypes.string,
+      transaction_charge: PropTypes.number,
+    }),
+  ),
   integrity_hash: PropTypes.string,
 };
 
@@ -93,7 +96,6 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
   PayWithFlutterwaveBaseProps & P,
   PayWithFlutterwaveState
 > {
-
   state: PayWithFlutterwaveState = {
     isPending: false,
     link: null,
@@ -112,7 +114,7 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
     const prevOptions = JSON.stringify(prevProps.options);
     const options = JSON.stringify(this.props.options);
     if (prevOptions !== options) {
-      this.handleOptionsChanged()
+      this.handleOptionsChanged();
     }
   }
 
@@ -144,34 +146,42 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
       return this.setState({
         link: null,
         reference: null,
-      })
+      });
     }
-    this.setState({resetLink: true})
-  }
+    this.setState({resetLink: true});
+  };
 
   handleAbort = () => {
-    const {onAbort} = this.props;
-    if (onAbort) {
-      onAbort();
-    }
-    this.reset();
-  }
+    this.setState({showDialog: false});
+    // const {onAbort} = this.props;
+    // if (onAbort) {
+    //   onAbort();
+    // }
+
+    // this.reset();
+  };
 
   handleRedirect = (params: any) => {
+    if (!params || params?.status !== 'successful') {
+      this.handleAbort();
+      return;
+    }
     const {onRedirect} = this.props;
     // reset payment link
     this.setState(
       ({resetLink, reference}) => ({
-        reference: params.flwref || params.status === 'successful' ? null : reference,
-        resetLink: params.flwref || params.status === 'successful' ? true : resetLink,
+        reference:
+          params.flwref || params.status === 'successful' ? null : reference,
+        resetLink:
+          params.flwref || params.status === 'successful' ? true : resetLink,
         showDialog: false,
       }),
       () => {
-        onRedirect(params)
-        this.reset();
-      }
+        onRedirect(params);
+        // this.reset();
+      },
     );
-  }
+  };
 
   handleInit = async () => {
     const {
@@ -190,10 +200,12 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
     if (reference === this.props.reference) {
       // fire oninitialize error handler if available
       if (onInitializeError) {
-        onInitializeError(new FlutterwaveInitError({
-          message: 'Please generate a new transaction reference.',
-          code: 'SAME_TXREF',
-        }))
+        onInitializeError(
+          new FlutterwaveInitError({
+            message: 'Please generate a new transaction reference.',
+            code: 'SAME_TXREF',
+          }),
+        );
       }
       return;
     }
@@ -202,51 +214,70 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
       return;
     }
     // initialize abort controller if not set
-    this.abortController = new AbortController;
+    this.abortController = new AbortController();
     // fire will initialize handler if available
     if (onWillInitialize) {
       onWillInitialize();
     }
-    this.setState({
-      isPending: true,
-      link: null,
-      reference: this.props.reference,
-      showDialog: false,
-    }, async () => {
-      // handle init
-      try {
-        // initialize payment
-        const paymentLink = await init(
-          {...options, redirect_url: REDIRECT_URL},
-          this.abortController
-        );
-        // set payment link
-        this.setState({
-          link: paymentLink,
-          isPending: false,
-          showDialog: true,
-        }, () => {
-          // fire did initialize handler if available
-          if (onDidInitialize) {
-            onDidInitialize();
+    this.setState(
+      {
+        isPending: true,
+        link: null,
+        reference: this.props.reference,
+        showDialog: false,
+      },
+      async () => {
+        // handle init
+        try {
+          // initialize payment
+          const paymentLink = await init({
+            ...options,
+            redirect_url: REDIRECT_URL,
+          });
+          // set payment link
+          this.setState(
+            {
+              link: paymentLink,
+              isPending: false,
+              showDialog: true,
+            },
+            () => {
+              // fire did initialize handler if available
+              if (onDidInitialize) {
+                onDidInitialize();
+              }
+            },
+          );
+        } catch (error) {
+          // stop if request was canceled
+          if (error && /aborterror/i.test((error as any)?.code)) {
+            return;
           }
-        });
-      } catch (error) {
-        // stop if request was canceled
-        if (error && /aborterror/i.test(error.code)) {
-          return;
+          // call onInitializeError handler if an error occured
+          if (onInitializeError) {
+            onInitializeError(
+              error instanceof FlutterwaveInitError
+                ? error
+                : new FlutterwaveInitError({
+                    message:
+                      (error as Error)?.message ||
+                      'An unknown error occurred during initialization.',
+                    code: (error as any)?.code || 'INIT_ERROR',
+                  }),
+            );
+          }
+
+          // set payment link to reset
+          this.setState(
+            {
+              resetLink: true,
+              reference: null,
+            },
+            this.reset,
+          );
         }
-        // call onInitializeError handler if an error occured
-        if (onInitializeError) {
-          onInitializeError(error);
-        }
-        // set payment link to reset
-        this.setState({
-          resetLink: true,
-          reference: null,
-        }, this.reset);
-      }
-    })
+      },
+    );
   };
 
   render() {
@@ -270,16 +301,18 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
     if (customButton) {
       return customButton({
         disabled: isPending,
-        onPress: this.handleInit
+        onPress: this.handleInit,
       });
     }
-    return <FlutterwaveButton
-      style={style}
-      alignLeft={!!alignLeft}
-      children={children}
-      onPress={this.handleInit}
-      disabled={isPending}
-    />;
+    return (
+      <FlutterwaveButton
+        style={style}
+        alignLeft={!!alignLeft}
+        children={children}
+        onPress={this.handleInit}
+        disabled={isPending}
+      />
+    );
   }
 }
 

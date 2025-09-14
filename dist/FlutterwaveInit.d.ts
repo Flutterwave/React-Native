@@ -1,5 +1,4 @@
-/// <reference types="react-native" />
-export declare type Currency = 'AUD' | 'BIF' | 'CDF' | 'CAD' | 'CVE' | 'EUR' | 'GBP' | 'GHS' | 'GMD' | 'GNF' | 'KES' | 'LRD' | 'MWK' | 'MZN' | 'NGN' | 'RWF' | 'SLL' | 'STD' | 'TZS' | 'UGX' | 'USD' | 'XAF' | 'XOF' | 'ZAR' | 'ZMK' | 'ZMW' | 'ZWD';
+export type Currency = 'AUD' | 'BIF' | 'CDF' | 'CAD' | 'CVE' | 'EUR' | 'GBP' | 'GHS' | 'GMD' | 'GNF' | 'KES' | 'LRD' | 'MWK' | 'MZN' | 'NGN' | 'RWF' | 'SLL' | 'STD' | 'TZS' | 'UGX' | 'USD' | 'XAF' | 'XOF' | 'ZAR' | 'ZMK' | 'ZMW' | 'ZWD';
 export interface FlutterwaveInitSubAccount {
     id: string;
     transaction_split_ratio?: number;
@@ -28,7 +27,7 @@ export interface FlutterwaveInitCustomizations {
     logo?: string;
     description?: string;
 }
-export declare type FlutterwaveInitOptions = FlutterwaveInitOptionsBase & {
+export type FlutterwaveInitOptions = FlutterwaveInitOptionsBase & {
     authorization: string;
     tx_ref: string;
     customer: FlutterwaveInitCustomer;
