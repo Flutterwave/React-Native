@@ -37,23 +37,23 @@ interface FlutterwaveCheckoutErrorProps {
   onTryAgain: () => void;
 }
 
-// const getRedirectParams = (url: string): {[k: string]: string} => {
-//   // initialize result container
-//   const res: any = {};
-//   // if url has params
-//   if (url.split('?').length > 1) {
-//     // get query params in an array
-//     const params = url.split('?')[1].split('&');
-//     // add url params to result
-//     for (let i = 0; i < params.length; i++) {
-//       const param: Array<string> = params[i].split('=');
-//       const val = decodeURIComponent(param[1]).trim();
-//       res[param[0]] = String(val);
-//     }
-//   }
-//   // return result
-//   return res;
-// };
+const getRedirectParams = (url: string): {[k: string]: string} => {
+  // initialize result container
+  const res: any = {};
+  // if url has params
+  if (url.split('?').length > 1) {
+    // get query params in an array
+    const params = url.split('?')[1].split('&');
+    // add url params to result
+    for (let i = 0; i < params.length; i++) {
+      const param: Array<string> = params[i].split('=');
+      const val = decodeURIComponent(param[1]).trim();
+      res[param[0]] = String(val);
+    }
+  }
+  // return result
+  return res;
+};
 
 const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> =
   function FlutterwaveCheckout(props) {
@@ -155,9 +155,13 @@ const FlutterwaveCheckout: React.FC<FlutterwaveCheckoutProps> =
         // Close modal after cleanup
         setTimeout(() => setShow(false), 50);
 
-        if (onAbort) {
-          onAbort();
+        let a = getRedirectParams(ev.url);
+        if (onRedirect) {
+          onRedirect(a);
         }
+        // if (onAbort) {
+        //   onAbort();
+        // }
         return false;
       },
       [onRedirect],
