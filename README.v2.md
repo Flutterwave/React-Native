@@ -184,7 +184,7 @@ handlePaymentError(
 [See Interface](#flutterwaveinitv2options-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key. Learn how to retrieve your keys [here](https://flutterwave.com/gh/support/my-account/getting-your-api-keys).|
+| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key. Learn how to retrieve your key [here](https://flutterwave.com/gh/support/my-account/getting-your-api-keys).|
 | txref | Yes | string | **REQUIRED** | Your Unique transaction reference.|
 | customer_email | Yes | string | **REQUIRED** | The customer's email address. |
 | customer_phone | No | string | undefined | The customer's phone number. |

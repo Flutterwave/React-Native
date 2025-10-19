@@ -248,7 +248,7 @@ try {
 [See Interface](#flutterwaveinitoptions-interface)
 | Name | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| authorization | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v3.0.0/docs/authentication#get-your-api-keys).|
+| authorization | Yes | string | **REQUIRED** | Your merchant public key. Learn how to retrieve your key [here](https://developer.flutterwave.com/v3.0.0/docs/authentication#get-your-api-keys).|
 | tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This must be unique for each transaction.|
 | amount | Yes | string | **REQUIRED** | The amount to charge your customer. |
 | currency | No | string | NGN | The currency to charge in. Defaults to NGN. [See accepted currencies here](https://flutterwave.com/tz/support/general/what-are-the-currencies-accepted-on-flutterwave)|
