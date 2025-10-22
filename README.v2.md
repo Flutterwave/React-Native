@@ -1,5 +1,5 @@
 # React Native Flutterwave
-Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS, and use the Flutterwave's V2 API.
+Easily integrate Flutterwave for payment collection in your React Native application. This library is compatible with both Android and iOS and utilizes Flutterwave's V2 API.
 
 [![V2 API](https://img.shields.io/badge/API-V2-brightgreen)](https://developer.flutterwave.com/v2.0/docs/getting-started) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -8,7 +8,7 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
   <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
-## Table Of Content
+## Table Of Contents
 - Getting Started
   - [V3 API](#warning-if-using-version-3-api-warning)
   - [Installation](#installation)
@@ -36,40 +36,48 @@ Easily implement Flutterwave for payments in your React Native appliction. This 
 - [Contributing](./CONTRIBUTING.md)
 
 ## What's Inside?
-- Pay with Flutterwave button and checkout dialog.
+- Pay with the Flutterwave button and checkout dialog.
 - Standard payment initialization function.
 - Flutterwave designed button.
 
 ## :warning: If Using Version 3 API :warning:
-This version of the library's docs focuses on use cases with the Version 2 of Flutterwaves API, if you are using the Version 3 API please use [this documentation](./README.md) instead.
+This section of the documentation focuses on use cases for Version 2 of the Flutterwave API. If you are using Version 3 of the API, please refer to [this documentation](./README.md) instead.
 
 ## Installation
-This library is available on npm, you can install it by running `npm install --save flutterwave-react-native` or `yarn add flutterwave-react-native`
+This library is available on npm. You can install it by running the following command:
+
+`npm install --save flutterwave-react-native` 
+
+or
+
+`yarn add flutterwave-react-native`
 
 ### Dependencies
-In order to render the Flutterwave checkout screen this library depends on [react-native-webview](https://github.com/react-native-community/react-native-webview) ensure you properly install this library before continuing.
+To render the Flutterwave checkout screen, this library requires the installation of [react-native-webview](https://github.com/react-native-community/react-native-webview). Please ensure that this library is installed correctly before proceeding.
 
-### Activity Indicator (only needed for android)
-To display the Flutterwave styled activity indicator when the checkout screen is being loaded on Android you will need to add some modules in `android/app/build.gradle`.
-***Skip this if you already have setup your app to support gif images.***
+### Activity Indicator (only needed for Android)
+To display the Flutterwave-styled activity indicator when the checkout screen is loading on Android, you will need to add a few modules to your `android/app/build.gradle` file.
+**_Skip this step if your app is already set up to support GIF images._**
+
 ````javascript
 dependencies {
-  // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+  // Include this if your app supports Android versions before Ice Cream Sandwich (API level 14)
   implementation 'com.facebook.fresco:animated-base-support:1.3.0'
 
-  // For animated GIF support
+  // Add this for animated GIF support
   implementation 'com.facebook.fresco:animated-gif:2.0.0'
 }
 ````
 
 ### :fire: IMPORTANT INFORMATION :fire:
-If the `options` property on the [PayWithFlutterwaveV2](flutterwavebuttonprops-interface) changes, when next the user taps on the button a new payment will be initialized whether the last one was successful or not.
+If the `options` property on [PayWithFlutterwaveV2](#paywithflutterwaveprops-interface) changes, the next time your customer taps on the button, a new payment will be initialized regardless of whether the previous transaction was successful or not.
 
-Remember you cannot use the same transaction reference for two different payments, remember to recreate the transaction reference before allowing the user initiate a new payment.
+Keep in mind that you cannot use the same transaction reference for two different payments. Make sure you generate a new transaction reference before allowing your customer to start a new payment.
 
 
 ## Usage
-Below are a few examples showcasing how you can use the library to implement payment in your React Native app.
+
+Below are some examples demonstrating how to implement payment features in your React Native application.
 
 ### PayWithFlutterwaveV2 
 <img src=".github/images/pay-with-flutterwave.png" alt="preview" width="350"/>
@@ -138,7 +146,8 @@ import {FlutterwaveButton} from 'flutterwave-react-native';
 ````
 
 ### FlutterwaveInitV2
-When called, this function returns a Promise which resolves to a string on success and rejects if an error occurs. [See all config options](#flutterwaveinitv2options)
+
+When called, this function returns a Promise that either resolves to a string on success or rejects if an error occurs. [See all config options](#flutterwaveinitv2options).
 
 Import `FlutterwaveInitV2` from `flutterwave-react-native` and use it like so.
 ````javascript
@@ -153,7 +162,7 @@ const payment = await FlutterwaveInitV2({
   currency: 'USD',
 });
 
-// link is available if payment initialized successfully
+// link is available if payment is initialized successfully,
 if (payment.link) {
   // use payment link
   return usePaymentLink(payment.link);
@@ -167,7 +176,7 @@ handlePaymentError(
 );
 ````
 ### Aborting Payment Initialization
-Hi :wave:, so there are cases where you have already initialized a payment with `FlutterwaveInitV2` but might also want to be able to cancel the payment initialization should in case your component is being unmounted or you want to allow users cancel the action before the payment is initialized, we have provided a way for you to do this... [continue reading](./docs/v2/AbortingPaymentInitialization.md)
+:wave: Hi! There may be cases where you've already initiated a payment using `FlutterwaveInitV2` but you might want the option of canceling the payment initiation. This could be necessary if your component is being unmounted or if you want to allow customers to cancel the action before the payment process begins. We have provided a method for you to accomplish this. [continue reading](./docs/v2/AbortingPaymentInitialization.md).
 
 ## Props
 
@@ -175,46 +184,46 @@ Hi :wave:, so there are cases where you have already initialized a payment with 
 [See Interface](#flutterwaveinitv2options-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key, see how to get your [API Keys](https://developer.flutterwave.com/v2.0/docs/api-keys)|
+| PBFPubKey | Yes | string | **REQUIRED** | Your merchant public key. Learn how to retrieve your key [here](https://flutterwave.com/gh/support/my-account/getting-your-api-keys).|
 | txref | Yes | string | **REQUIRED** | Your Unique transaction reference.|
 | customer_email | Yes | string | **REQUIRED** | The customer's email address. |
 | customer_phone | No | string | undefined | The customer's phone number. |
 | customer_firstname | No | string | undefined | The customer's first name. |
 | customer_lastname | No | string | undefined | The customer's last name. |
-| amount | Yes | number | undefined | Amount to charge the customer.|
-| currency | No | string | NGN | Currency to charge in. Defaults to NGN. Check our [International Payments](https://developer.flutterwave.com/v2.0/docs/multicurrency-payments) section for more on international currencies.|
-| redirect_url | No | string | undefined | URL to redirect to when a transaction is completed. This is useful for 3DSecure payments so we can redirect your customer back to a custom page you want to show them. |
-| payment_options | No | string | undefined | This allows you to select the payment option you want for your users, see [Choose Payment Methods](https://developer.flutterwave.com/v2.0/docs/splitting-payment-methods) for more info. |
-| payment_plan | No | number | undefined | This is the payment plan ID used for [Recurring billing](https://developer.flutterwave.com/v2.0/docs/recurring-billing). |
-| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs to [split the payment](https://developer.flutterwave.com/v2.0/docs/split-payment) into. |
+| amount | Yes | number | undefined | The amount to charge the customer.|
+| currency | No | string | NGN | The currency to charge in. Defaults to NGN. Check our [International Payments](https://flutterwave.com/tz/support/general/what-are-the-currencies-accepted-on-flutterwave) section for more on international currencies.|
+| redirect_url | No | string | undefined | The URL where you want to redirect customers after a completed transaction. This is useful for 3DSecure payments, allowing us to send your customer to a custom page you wish to display.  |
+| payment_options | No | string | undefined | This specifies the payment options displayed to your customers see [Choose Payment Methods](https://flutterwave.com/zm/support/payment-methods) for more info. |
+| payment_plan | No | number | undefined | This is the payment plan ID used for recurring payments. You can learn more by visiting [here](https://flutterwave.com/tz/support/payments/how-recurring-payments-work). |
+| subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined |  This is an array of objects containing the subaccount IDs for splitting payments. Find more information, visit our [split payment page](https://flutterwave.com/us/support/payments/split-payments-with-sub-accounts). |
 | country | No | string | NG | Route country. Defaults to NG |
-| pay_button_text | No | string | undefined | Text to be displayed on the Rave Checkout Button. |
+| pay_button_text | No | string | undefined | Text to be displayed on the Checkout Button. |
 | custom_title | No | string | undefined | Text to be displayed as the title of the payment modal. |
 | custom_description | No | string | undefined | Text to be displayed as a short modal description. |
 | custom_logo | No | string | undefined | Link to the Logo image. |
-| meta | No | array of [FlutterwavePaymentMetaV2](#flutterwavepaymentmetav2) | undefined | Any other custom data you wish to pass. |
+| meta | No | array of [FlutterwavePaymentMetaV2](#flutterwavepaymentmetav2) | undefined | This object is used to include additional payment information for your request.|
 
 ### PayWithFlutterwaveV2Props
 [See Interface](#paywithflutterwavev2props-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | object | undefined | Used to apply styling to the button.|
-| onRedirect | Yes | function | **REQUIRED** | Called when a payment is completed successfully or is canceled. The function will receive [on complete data](#oncompletedata)|
-| onWillInitialize | No | function | undefined | This will be called before a payment link is generated.|
-| onDidInitialize | No | function | undefined | This is called when a new payment link has been successfully initialized.|
-| onInitializeError | No | function | undefined | This is called if an error occurred while initializing a new pyment link. The function will receive [FlutterwaveInitError](#flutterwaveiniterror) |
-| onAbort | No | function | undefined | This is called if a user aborts a transaction, a user can abort a transaction when they click on the dialog's backdrop and choose cancel when prompted to cancel transaction. |
+| style | No | object | undefined | This property is used to apply styling to the button.|
+| onRedirect | Yes | function | **REQUIRED** | This function is called when a payment is either completed successfully or canceled. It receives [on complete data](#oncompletedata).|
+| onWillInitialize | No | function | undefined | This function is called before a payment link is generated.|
+| onDidInitialize | No | function | undefined | This function is called when a new payment link has been successfully initialized.|
+| onInitializeError | No | function | undefined | This function is called when an error occurs while initializing a new payment link, and it will receive a [FlutterwaveInitError](#flutterwaveiniterror). |
+| onAbort | No | function | undefined | This function is called If a customer aborts a transaction, they can do so by clicking on the dialog's backdrop and selecting cancel when prompted. |
 | options | Yes | **[FlutterwaveInitOptions](#flutterwaveinitv2options)** | **REQUIRED** | The option passed here is used to initialize a payment. |
-| customButton | No | function | undefined | This is used to render a custom button. The function a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
-| alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
+| customButton | No | function | undefined | This function renders a custom button and takes a prop argument structured like [CustomButtonProps](#custombuttonprops). It should return a valid React node. |
+| alignLeft | No | boolean | undefined | This property aligns the content of the button to the left. |
 
 ### FlutterwaveButton Props
 [See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | ViewStyle | undefined | This component uses the same style properties that are applicable to react-native's View component style.|
-| onPress | Yes | function | undefined | This property receive a function that is called on button press. |
-| disabled | No | boolean | undefined | This disables button, and causes onPress not to be fired.|
+| style | No | ViewStyle | undefined | This component accepts the same style properties applicable to the React-Native View component.|
+| onPress | Yes | function | undefined | This property receives a function that is called when the button is pressed. |
+| disabled | No | boolean | undefined | This disables the button, preventing the onPress function from being triggered.|
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
 ## Types
