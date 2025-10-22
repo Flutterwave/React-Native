@@ -8,7 +8,7 @@ Easily integrate Flutterwave for payment collection in your React Native applica
   <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
-## Table Of Content
+## Table Of Contents
 - Getting Started
   - [V3 API](#warning-if-using-version-3-api-warning)
   - [Installation](#installation)
@@ -36,7 +36,7 @@ Easily integrate Flutterwave for payment collection in your React Native applica
 - [Contributing](./CONTRIBUTING.md)
 
 ## What's Inside?
-- Pay with Flutterwave button and checkout dialog.
+- Pay with the Flutterwave button and checkout dialog.
 - Standard payment initialization function.
 - Flutterwave designed button.
 
@@ -55,9 +55,9 @@ or
 ### Dependencies
 To render the Flutterwave checkout screen, this library requires the installation of [react-native-webview](https://github.com/react-native-community/react-native-webview). Please ensure that this library is installed correctly before proceeding.
 
-### Activity Indicator (only needed for android)
-To display the Flutterwave styled activity indicator when the checkout screen is loading on Android, you will need to add a few modules to your `android/app/build.gradle` file.
-**_Skip this step if your app is already setup to support gif images._**
+### Activity Indicator (only needed for Android)
+To display the Flutterwave-styled activity indicator when the checkout screen is loading on Android, you will need to add a few modules to your `android/app/build.gradle` file.
+**_Skip this step if your app is already set up to support GIF images._**
 
 ````javascript
 dependencies {
@@ -70,9 +70,9 @@ dependencies {
 ````
 
 ### :fire: IMPORTANT INFORMATION :fire:
-If the `options` property on [PayWithFlutterwaveV2](#paywithflutterwaveprops-interface) changes, the next time your customer taps on the button a new payment will be initialized regardless of whether the previous transaction was successful or not.
+If the `options` property on [PayWithFlutterwaveV2](#paywithflutterwaveprops-interface) changes, the next time your customer taps on the button, a new payment will be initialized regardless of whether the previous transaction was successful or not.
 
-Keep in mind that you cannot use the same transaction reference for two different payments. Make sure you generate a new transaction reference before allowing your customer start a new payment.
+Keep in mind that you cannot use the same transaction reference for two different payments. Make sure you generate a new transaction reference before allowing your customer to start a new payment.
 
 
 ## Usage
@@ -162,7 +162,7 @@ const payment = await FlutterwaveInitV2({
   currency: 'USD',
 });
 
-// link is available if payment initialized successfully
+// link is available if payment is initialized successfully,
 if (payment.link) {
   // use payment link
   return usePaymentLink(payment.link);
@@ -221,8 +221,8 @@ handlePaymentError(
 [See Interface](#flutterwavebuttonprops-interface)
 | Name     | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | ViewStyle | undefined | This component accepts the same style properties applicable to React-Native View component.|
-| onPress | Yes | function | undefined | This property receive a function that is called when the button is pressed. |
+| style | No | ViewStyle | undefined | This component accepts the same style properties applicable to the React-Native View component.|
+| onPress | Yes | function | undefined | This property receives a function that is called when the button is pressed. |
 | disabled | No | boolean | undefined | This disables the button, preventing the onPress function from being triggered.|
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
