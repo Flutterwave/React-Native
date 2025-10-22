@@ -13,7 +13,7 @@ Easily integrate Flutterwave for payment collection in your React Native applica
   <img src=".github/images/github-preview-android.gif" alt="android-preview"/>
 </p>
 
-## Table Of Content
+## Table Of Contents
 
 - Getting Started
   - [V2 API](#warning-if-using-version-2-api-warning)
@@ -47,7 +47,7 @@ Easily integrate Flutterwave for payment collection in your React Native applica
 
 ## What's Inside?
 
-- Pay with Flutterwave button and checkout dialog.
+- Pay with the Flutterwave button and checkout dialog.
 - Standard payment initialization function.
 - Flutterwave designed button.
 
@@ -70,10 +70,10 @@ or
 
 To render the Flutterwave checkout screen, this library requires the installation of [react-native-webview](https://github.com/react-native-community/react-native-webview). Please ensure that this library is installed correctly before proceeding.
 
-### Activity Indicator (only needed for android)
+### Activity Indicator (only needed for Android)
 
-To display the Flutterwave styled activity indicator when the checkout screen is loading on Android, you will need to add a few modules to your `android/app/build.gradle` file.
-**_Skip this step if your app is already setup to support gif images._**
+To display the Flutterwave-styled activity indicator when the checkout screen is loading on Android, you will need to add a few modules to your `android/app/build.gradle` file.
+**_Skip this step if your app is already set up to support GIF images._**
 
 ```javascript
 dependencies {
@@ -93,7 +93,7 @@ To use this library, you are required to use your merchant public key instead of
 
 If the `options` property on [PayWithFlutterwave](#paywithflutterwaveprops-interface) changes, the next time your customer taps on the button, a new payment will be initialized, regardless of whether the previous transaction was successful or not.
 
-Keep in mind that you cannot use the same transaction reference for two different payments. Make sure you generate a new transaction reference before allowing your customer start a new payment.
+Kindly note that you cannot use the same transaction reference for two different payments. Make sure you generate a new transaction reference before allowing your customer to start a new payment.
 
 ## Usage
 
@@ -117,7 +117,7 @@ interface RedirectParams {
     tx_ref: string;
   }
 
- /* An example function called when transaction is completed successfully or canceled */
+ /* An example function called when the transaction is completed successfully or canceled */
   const handleOnRedirect = (data: RedirectParams) => {
       console.log(data);
     };
@@ -168,7 +168,7 @@ interface RedirectParams {
     tx_ref: string;
   }
 
- /* An example function called when transaction is completed successfully or canceled */
+ /* An example function called when the transaction is completed successfully or canceled */
   const handleOnRedirect = (data: RedirectParams) => {
       console.log(data);
     };
@@ -214,7 +214,7 @@ When called, this function returns a Promise that either resolves to a string on
 
 Import `FlutterwaveInit` from `flutterwave-react-native` and use it as follows:
 
-```javascript
+```JavaScript
 import {FlutterwaveInit} from 'flutterwave-react-native';
 
 try {
@@ -239,7 +239,7 @@ try {
 
 ### Aborting Payment Initialization
 
-:wave: Hi! There may be cases where you've already initiated a payment using `FlutterwaveInit`, but you might want the option of cancelling the payment initiation. This could be necessary if your component is being unmounted or if you want to allow customers cancel the action before the payment is initialized. We have provided a method for you to accomplish this. [Continue reading here](./docs/AbortingPaymentInitialization.md).
+:wave: Hi! There may be cases where you've already initiated a payment using `FlutterwaveInit`, but you might want the option of cancelling the payment initiation. This could be necessary if your component is being unmounted or if you want to allow customers to cancel the action before the payment is initialized. We have provided a method for you to accomplish this. [Continue reading here](./docs/AbortingPaymentInitialization.md).
 
 ## Props
 
@@ -252,14 +252,14 @@ try {
 | tx_ref | Yes | string | **REQUIRED** | Your transaction reference. This must be unique for each transaction.|
 | amount | Yes | string | **REQUIRED** | The amount to charge your customer. |
 | currency | No | string | NGN | The currency to charge in. Defaults to NGN. [See accepted currencies here](https://flutterwave.com/tz/support/general/what-are-the-currencies-accepted-on-flutterwave)|
-| integrity_hash | No | string | undefined | This is a sha256 hash of your FlutterwaveCheckout values, it is used for passing secured values to the payment gateway. |
-| payment_options | Yes | string | **REQUIRED** | This specifies the payment options displayed to your customers e.g - card, mobilemoney, ussd and so on. |
+| integrity_hash | No | string | undefined | This is a sha256 hash of your FlutterwaveCheckout values. It is used for passing secured values to the payment gateway. |
+| payment_options | Yes | string | **REQUIRED** | This specifies the payment options displayed to your customers e.g - card, mobilemoney, ussd, and so on. |
 | payment_plan | No | number | undefined | This is the payment plan ID used for recurring payments. You can learn more by visiting [here](https://developer.flutterwave.com/v3.0.0/docs/payment-plans-1). |
 | redirect_url | Yes | string | **REQUIRED** | The URL where you want to redirect customers after a completed transaction. This is useful for 3DSecure payments, allowing us to send your customer to a custom page you wish to display. **IMPORTANT** This is only required when you are directly using [FlutterwaveInit](#flutterwave-standard-init). |
-| customer | Yes | [FlutterwaveInitCustomer](#flutterwaveinitcustomer) | **REQUIRED** | This is an object that contains your customer details. `E.g.'customer': { 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs' }.` |
+| customer | Yes | [FlutterwaveInitCustomer](#flutterwaveinitcustomer) | **REQUIRED** | This is an object that contains your customer details. `E.g.' customer': { 'email': 'example@example.com', 'phonenumber': '08012345678', 'name': 'Takeshi Kovacs' }.
 | subaccounts | No | array of [FlutterwaveInitSubAccount](#flutterwaveinitsubaccount) | undefined | This is an array of objects containing the subaccount IDs for splitting payments. Find more information by visiting our [Split Payment Page](https://developer.flutterwave.com/v3.0.0/docs/split-payments).|
-| meta | No | [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This object is used to include additional payment information for your request.`E.g. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
-| customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This object contains a title, logo, and description to display on the modal. `E.g. {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'}` |
+| meta | No | [FlutterwavePaymentMeta](#flutterwavepaymentmeta) | undefined | This object is used to include additional payment information for your request.` E.g.. { 'consumer_id': 23, 'consumer_mac': '92a3-912ba-1192a' }` |
+| customizations | No | [FlutterwaveInitCustomizations](#flutterwaveinitcustomizations) | undefined | This object contains a title, logo, and description to display on the modal. `E.g... {'title': 'Pied Piper Payments', 'description': 'Middleout isn't free. Pay the price', 'logo': 'https://assets.piedpiper.com/logo.png'} |
 
 ### PayWithFlutterwaveProps
 
@@ -271,9 +271,9 @@ try {
 | onWillInitialize | No | function | undefined | This function is called before a payment link is generated.|
 | onDidInitialize | No | function | undefined | This function is called when a new payment link has been successfully initialized.|
 | onInitializeError | No | function | undefined | This function is called if an error occurs while initializing a new payment link. It will receive [FlutterwaveInitError](#flutterwaveiniterror). |
-| onAbort | No | function | undefined | This function is called if a customer aborts a transaction, a customer can abort a transaction when they click on the dialog's backdrop and choose cancel when prompted to cancel transaction. |
+| onAbort | No | function | undefined | This function is called if a customer aborts a transaction. A customer can abort a transaction when they click on the dialog's backdrop and choose cancel when prompted to cancel the transaction. |
 | options | Yes | [FlutterwaveInitOptions](#flutterwaveinitoptions) | **REQUIRED** | The option passed here is used to initialize a payment. |
-| customButton | No | function | undefined | This function is used to render a custom button. It accepts a prop argument structured like [CustomButtonProps](#custombuttonprops), this function should return a valid React node. |
+| customButton | No | function | undefined | This function is used to render a custom button. It accepts a prop argument structured like [CustomButtonProps](#custombuttonprops). This function should return a valid React node. |
 | alignLeft | No | boolean | undefined | This property aligns the content of the button to the left. |
 
 ### FlutterwaveButton Props
@@ -281,8 +281,8 @@ try {
 [See Interface](#flutterwavebuttonprops-interface)
 | Name | Required | Type | Default | Description |
 | --------- | --------- | ---- | ------- | ----------- |
-| style | No | ViewStyle | undefined | This component accepts the same style properties applicable to React-Native View component.|
-| onPress | Yes | function | undefined | This property receive a function that is called when the button is pressed. |
+| style | No | ViewStyle | undefined | This component accepts the same style properties applicable to the React-Native View component.|
+| onPress | Yes | function | undefined | This property receives a function that is called when the button is pressed. |
 | disabled | No | boolean | undefined | This disables the button, preventing the onPress function from being triggered.|
 | alignLeft | No | boolean | undefined | This aligns the content of the button to the left. |
 
@@ -406,6 +406,6 @@ interface FlutterwaveButtonProps {
 
 ## Contributing
 
-For information on how you can contribute to this repo, simply [go here](./CONTRIBUTING.md), all contributions are greatly appreciated.
+For information on how to contribute to this repo, [visit here](./CONTRIBUTING.md). All contributions are greatly appreciated.
 
 With love from Flutterwave. :yellow_heart:
