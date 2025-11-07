@@ -107,10 +107,11 @@ export default async function FlutterwaveInitV2(
     // resolve with the payment link
     return Promise.resolve(responseJSON.data.link);
   } catch (e) {
-    // always return a flutterwave init error
-    const error = e instanceof FlutterwaveInitError
-     ? e
-     : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
+    const errorObject = e as Error;
+        // always return a flutterwave init error
+        const error = e instanceof FlutterwaveInitError
+          ? errorObject
+          : new FlutterwaveInitError({message: errorObject.message, code: errorObject.name.toUpperCase()})
     // resolve with error
     return Promise.reject(error);
   }
