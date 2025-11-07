@@ -15,7 +15,7 @@ export default function ResponseParser(_a) {
             if (!data || !data.link) {
                 return reject(new FlutterwaveInitError({
                     code: 'MALFORMED_RESPONSE',
-                    message: message
+                    message: message,
                 }));
             }
             // return the payment link
@@ -25,14 +25,14 @@ export default function ResponseParser(_a) {
         if (/authorization/i.test(message) && /required/i.test(message)) {
             reject(new FlutterwaveInitError({
                 code: 'AUTH_MISSING',
-                message: message
+                message: message,
             }));
         }
         // invalid authorization
         if (/authorization/i.test(message) && /invalid/i.test(message)) {
             reject(new FlutterwaveInitError({
                 code: 'AUTH_INVALID',
-                message: message
+                message: message,
             }));
         }
         // field errors
@@ -40,7 +40,7 @@ export default function ResponseParser(_a) {
             reject(new FlutterwaveInitError({
                 code: 'INVALID_OPTIONS',
                 message: message,
-                errors: errors.map(function (i) { return i.message; })
+                errors: errors.map(function (i) { return i.message; }),
             }));
         }
         // defaults to the initially passed message

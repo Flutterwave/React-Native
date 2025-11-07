@@ -19,12 +19,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -61,7 +61,7 @@ import { STANDARD_URL_V2 } from './configs';
  */
 export default function FlutterwaveInitV2(options, abortController) {
     return __awaiter(this, void 0, void 0, function () {
-        var body, headers, fetchOptions, response, responseJSON, e_1, error;
+        var body, headers, fetchOptions, response, responseJSON, e_1, errorObject, error;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -72,7 +72,7 @@ export default function FlutterwaveInitV2(options, abortController) {
                     fetchOptions = {
                         method: 'POST',
                         body: JSON.stringify(body),
-                        headers: headers
+                        headers: headers,
                     };
                     // add abort controller if defined
                     if (abortController) {
@@ -89,23 +89,24 @@ export default function FlutterwaveInitV2(options, abortController) {
                     if (!responseJSON.data) {
                         throw new FlutterwaveInitError({
                             code: 'STANDARD_INIT_ERROR',
-                            message: responseJSON.message || 'An unknown error occured!'
+                            message: responseJSON.message || 'An unknown error occured!',
                         });
                     }
                     // check if the link is missing in data
                     if (!responseJSON.data.link) {
                         throw new FlutterwaveInitError({
                             code: responseJSON.data.code || 'MALFORMED_RESPONSE',
-                            message: responseJSON.data.message || 'An unknown error occured!'
+                            message: responseJSON.data.message || 'An unknown error occured!',
                         });
                     }
                     // resolve with the payment link
                     return [2 /*return*/, Promise.resolve(responseJSON.data.link)];
                 case 3:
                     e_1 = _a.sent();
+                    errorObject = e_1;
                     error = e_1 instanceof FlutterwaveInitError
-                        ? e_1
-                        : new FlutterwaveInitError({ message: e_1.message, code: e_1.name.toUpperCase() });
+                        ? errorObject
+                        : new FlutterwaveInitError({ message: errorObject.message, code: errorObject.name.toUpperCase() });
                     // resolve with error
                     return [2 /*return*/, Promise.reject(error)];
                 case 4: return [2 /*return*/];

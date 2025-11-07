@@ -37,7 +37,7 @@ PayWithFlutterwaveV2.propTypes = __assign(__assign({}, PayWithFlutterwavePropTyp
     // @ts-ignore
     options: PropTypes.shape(__assign(__assign({}, OptionsPropTypeBase), { payment_options: PaymentOptionsPropRule(PAYMENT_OPTIONS_V2), txref: PropTypes.string.isRequired, PBFPubKey: PropTypes.string.isRequired, customer_firstname: PropTypes.string, customer_lastname: PropTypes.string, customer_email: PropTypes.string.isRequired, customer_phone: PropTypes.string, country: PropTypes.string, pay_button_text: PropTypes.string, custom_title: PropTypes.string, custom_description: PropTypes.string, custom_logo: PropTypes.string, meta: PropTypes.arrayOf(PropTypes.shape({
             metaname: PropTypes.string,
-            metavalue: PropTypes.string
+            metavalue: PropTypes.string,
         })) })).isRequired });
 // export component as default
 export default PayWithFlutterwaveV2;

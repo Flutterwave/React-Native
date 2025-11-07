@@ -10,7 +10,7 @@ export var PaymentOptionsPropRule = function (options) { return function (props,
     var paymentOptionsList = props[propName].split(',');
     var _loop_1 = function (i) {
         if (options.findIndex(function (j) { return j.trim() === paymentOptionsList[i].trim(); }) === -1) {
-            return { value: new Error("\"payment_options\"(" + props[propName] + ") must be any of the following values.\n" + options.map(function (i, n) { return n + 1 + ". " + i + "\n"; }).join('')) };
+            return { value: new Error("\"payment_options\"(".concat(props[propName], ") must be any of the following values.\n").concat(options.map(function (i, n) { return "".concat(n + 1, ". ").concat(i, "\n"); }).join(''))) };
         }
     };
     for (var i = 0; i < paymentOptionsList.length; i++) {

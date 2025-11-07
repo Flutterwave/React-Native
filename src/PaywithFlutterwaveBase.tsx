@@ -37,33 +37,13 @@ export const PayWithFlutterwavePropTypesBase = {
 export const OptionsPropTypeBase = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf([
-    'AUD',
-    'BIF',
-    'CDF',
-    'CAD',
-    'CVE',
-    'EUR',
-    'GBP',
-    'GHS',
-    'GMD',
-    'GNF',
-    'KES',
-    'LRD',
-    'MWK',
-    'MZN',
-    'NGN',
-    'RWF',
-    'SLL',
-    'STD',
-    'TZS',
-    'UGX',
-    'USD',
-    'XAF',
-    'XOF',
-    'ZAR',
-    'ZMK',
-    'ZMW',
-    'ZWD'
+    'AED', 'ALL', 'ARS', 'AUD', 'BGN', 'BHD', 'BIF', 'BND', 'BRL', 'BWP', 'CAD', 'CDF', 'CFA', 'CHF',
+  'CLP', 'CNY', 'COP', 'CRC', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ETB', 'EUR', 'GBP',
+  'GHS', 'GMD', 'GNF', 'GTQ', 'HKD', 'HNL', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'ISK', 'JOD', 'JPY',
+  'KES', 'KHR', 'KMF', 'KRW', 'KWD', 'LBP', 'LKR', 'LRD', 'LYD', 'MAD', 'MOP', 'MUR', 'MWK', 'MXN',
+  'MYR', 'MZN', 'NGN', 'NOK', 'NZD', 'OMR', 'PAB', 'PEN', 'PHP', 'PLN', 'PYG', 'QAR', 'RUB', 'RWF',
+  'SAR', 'SDD', 'SEK', 'SGD', 'SLL', 'STD', 'SVC', 'SYP', 'THB', 'TND', 'TRY', 'TWD', 'TZS', 'UGX',
+  'USD', 'UYI', 'VEF', 'VND', 'VUV', 'XAF', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMK', 'ZMW', 'ZWD'
   ]),
   payment_plan: PropTypes.number,
   subaccounts: PropTypes.arrayOf(PropTypes.shape({
@@ -232,13 +212,14 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
           }
         });
       } catch (error) {
+        const errorObject = error as FlutterwaveInitError;
         // stop if request was canceled
-        if (error && /aborterror/i.test(error.code)) {
+        if (errorObject && /aborterror/i.test(errorObject.code)) {
           return;
         }
         // call onInitializeError handler if an error occured
         if (onInitializeError) {
-          onInitializeError(error);
+          onInitializeError(errorObject);
         }
         // set payment link to reset
         this.setState({
