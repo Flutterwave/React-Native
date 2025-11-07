@@ -3,33 +3,13 @@ import ResponseParser from './utils/ResponseParser';
 import {STANDARD_URL} from './configs';
 
 export type Currency =
-  'AUD' |
-  'BIF' |
-  'CDF' |
-  'CAD' |
-  'CVE' |
-  'EUR' |
-  'GBP' |
-  'GHS' |
-  'GMD' |
-  'GNF' |
-  'KES' |
-  'LRD' |
-  'MWK' |
-  'MZN' |
-  'NGN' |
-  'RWF' |
-  'SLL' |
-  'STD' |
-  'TZS' |
-  'UGX' |
-  'USD' |
-  'XAF' |
-  'XOF' |
-  'ZAR' |
-  'ZMK' |
-  'ZMW' |
-  'ZWD';
+  'AED'| 'ALL'| 'ARS'| 'AUD'| 'BGN'| 'BHD'| 'BIF'| 'BND'| 'BRL'| 'BWP'| 'CAD'| 'CDF'| 'CFA'| 'CHF'|
+  'CLP'| 'CNY'| 'COP'| 'CRC'| 'CVE'| 'CZK'| 'DJF'| 'DKK'| 'DOP'| 'DZD'| 'EGP'| 'ETB'| 'EUR'| 'GBP'|
+  'GHS'| 'GMD'| 'GNF'| 'GTQ'| 'HKD'| 'HNL'| 'HUF'| 'IDR'| 'ILS'| 'INR'| 'IQD'| 'ISK'| 'JOD'| 'JPY'|
+  'KES'| 'KHR'| 'KMF'| 'KRW'| 'KWD'| 'LBP'| 'LKR'| 'LRD'| 'LYD'| 'MAD'| 'MOP'| 'MUR'| 'MWK'| 'MXN'|
+  'MYR'| 'MZN'| 'NGN'| 'NOK'| 'NZD'| 'OMR'| 'PAB'| 'PEN'| 'PHP'| 'PLN'| 'PYG'| 'QAR'| 'RUB'| 'RWF'|
+  'SAR'| 'SDD'| 'SEK'| 'SGD'| 'SLL'| 'STD'| 'SVC'| 'SYP'| 'THB'| 'TND'| 'TRY'| 'TWD'| 'TZS'| 'UGX'|
+  'USD'| 'UYI'| 'VEF'| 'VND'| 'VUV'| 'XAF'| 'XOF'| 'XPF'| 'YER'| 'ZAR'| 'ZMK'| 'ZMW'| 'ZWD';
 
 export interface FlutterwaveInitSubAccount {
   id: string;
@@ -130,10 +110,11 @@ export default async function FlutterwaveInit(
     // resolve with the payment link
     return Promise.resolve(await ResponseParser(responseData));
   } catch (e) {
+    const errorObject = e as Error;
     // always return a flutterwave init error
     const error = e instanceof FlutterwaveInitError
-      ? e
-      : new FlutterwaveInitError({message: e.message, code: e.name.toUpperCase()})
+      ? errorObject
+      : new FlutterwaveInitError({message: errorObject.message, code: errorObject.name.toUpperCase()})
     // resolve with error
     return Promise.reject(error);
   }
