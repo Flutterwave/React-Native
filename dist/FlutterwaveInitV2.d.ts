@@ -1,4 +1,3 @@
-/// <reference types="react-native" />
 import { Currency, FlutterwaveInitSubAccount } from './FlutterwaveInit';
 export interface FlutterwaveInitOptionsBase {
     amount: number;
@@ -17,7 +16,7 @@ interface FlutterwavePaymentMetaV2 {
     metaname: string;
     metavalue: string;
 }
-export declare type FlutterwaveInitV2Options = FlutterwaveInitOptionsBase & {
+export type FlutterwaveInitV2Options = FlutterwaveInitOptionsBase & {
     txref: string;
     PBFPubKey: string;
     customer_firstname?: string;
