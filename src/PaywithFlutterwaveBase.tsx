@@ -232,13 +232,14 @@ class PayWithFlutterwaveBase<P = {}> extends React.Component<
           }
         });
       } catch (error) {
+        const errorObject = error as FlutterwaveInitError;
         // stop if request was canceled
-        if (error && /aborterror/i.test(error.code)) {
+        if (errorObject && /aborterror/i.test(errorObject.code)) {
           return;
         }
         // call onInitializeError handler if an error occured
         if (onInitializeError) {
-          onInitializeError(error);
+          onInitializeError(errorObject);
         }
         // set payment link to reset
         this.setState({
